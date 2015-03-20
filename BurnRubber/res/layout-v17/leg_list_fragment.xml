@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/messageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/msg_button_text" />
+        <Button
+            android:id="@+id/directionsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/messageButton"
+            android:layout_toEndOf="@id/messageButton"
+            android:text="@string/directions_button_text" />
+        <Button
+            android:id="@+id/startFileButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/directionsButton"
+            android:layout_toEndOf="@id/directionsButton"
+            android:text="@string/start_file_button_text" />
+        <Button
+            android:id="@+id/orderImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/startFileButton"
+            android:layout_toEndOf="@id/startFileButton"
+            android:text="@string/order_image_button_text" />
+        <Button
+            android:id="@+id/returnButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:text="@string/return_button_text" />
+	</RelativeLayout>
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:orientation="vertical"
+        android:background="@color/wallet_holo_blue_light" />
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    android:layout_marginTop="10dp"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginRight="10dp"
+	    android:layout_marginBottom="5dp">
+	    <RelativeLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content">
+	        <LinearLayout
+		        android:id="@+id/fileNoLayout"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:layout_alignParentLeft="true"
+		        android:layout_alignParentStart="true">
+				<TextView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:paddingLeft="0dp"
+				    android:paddingStart="0dp"
+				    android:paddingRight="1dp"
+				    android:paddingEnd="1dp"
+				    android:text="@string/file_no_label_text" />
+				<TextView
+				    android:id="@+id/fileNoText"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content" />
+		 	</LinearLayout>
+		 	<LinearLayout
+		        android:id="@+id/hazmatLayout"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:layout_toRightOf="@id/fileNoLayout"
+		        android:layout_toEndOf="@id/fileNoLayout">
+		        <TextView
+		            android:id="@+id/hazmatText"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/hazmat_flag_text"
+		            android:textColor="@color/red" />
+		    </LinearLayout>
+		    <LinearLayout
+		    	android:id="@+id/apptTimeLayout"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:gravity="end"
+		        android:orientation="horizontal"
+		        android:layout_alignParentRight="true"
+		        android:layout_alignParentEnd="true">
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:paddingStart="0dp"
+		            android:paddingLeft="0dp"
+		            android:paddingRight="1dp"
+		            android:paddingEnd="1dp"
+		            android:text="@string/appt_time_label_text" />
+		        <TextView
+		            android:id="@+id/apptTimeText"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content" />
+		    </LinearLayout>
+	    </RelativeLayout>
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal">
+		   <TextView
+		       android:id="@+id/voyageNoText"
+		       android:layout_width="wrap_content"
+		       android:layout_height="wrap_content" />
+	    </LinearLayout>
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:baselineAligned="false">
+		   <LinearLayout
+		       android:layout_width="match_parent"
+		       android:layout_height="wrap_content"
+		       android:layout_weight="2"
+		       android:orientation="horizontal">
+		        <TextView
+		            android:id="@+id/moveTypeText"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content" />
+	        </LinearLayout>
+	        <LinearLayout
+		    	android:layout_width="match_parent"
+		       	android:layout_height="wrap_content"
+		       	android:layout_weight="1"
+		       	android:gravity="end"
+		    	android:orientation="horizontal">
+		    	<TextView
+		        	android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/container_no_label_text" />
+		        <EditText
+		            android:id="@+id/containerNoEditText"
+		            android:layout_width="200dp"
+		            android:layout_height="wrap_content"
+		            android:inputType="textVisiblePassword" />
+		    </LinearLayout>
+	    </LinearLayout>
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="end"
+	        android:orientation="horizontal">
+	        <TextView 
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/chassis_no_label_text" />
+	        <EditText
+	            android:id="@+id/chassisNoEditText"
+	            android:layout_width="200dp"
+	            android:layout_height="wrap_content"
+	            android:inputType="textVisiblePassword" />
+	    </LinearLayout>
+	    <LinearLayout
+	        android:id="@+id/flagsLayout"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical" />
+	</LinearLayout>
+	<ExpandableListView
+	    android:id="@+id/legList"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_marginTop="10dp" />
+</LinearLayout>

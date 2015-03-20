@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/returnButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/return_button_text"
+            android:textColor="@color/green" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:orientation="vertical"
+        android:background="@color/wallet_holo_blue_light" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal">
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/pieces_label_text" />
+        <EditText
+            android:id="@+id/piecesEditText"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:inputType="number" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/weight_label_text" />
+        <EditText
+            android:id="@+id/weightEditText"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:inputType="number" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/seal_label_text" />
+        <EditText
+            android:id="@+id/sealEditText"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:inputType="textVisiblePassword" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/destination_label_text" />
+        <EditText
+            android:id="@+id/destinationEditText"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:inputType="textVisiblePassword" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/bol_label_text" />
+        <EditText
+            android:id="@+id/bolEditText"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:inputType="textVisiblePassword" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/pages_of_bol_label_text" />
+        <EditText
+            android:id="@+id/bolPagesEditText"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:inputType="number" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/pallets_label_text" />
+        <EditText
+            android:id="@+id/palletsEditText"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:inputType="number" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/commodity_label_text" />
+        <EditText
+            android:id="@+id/commodityEditText"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:inputType="textVisiblePassword" />
+    </LinearLayout>
+</LinearLayout>

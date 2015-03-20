@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/messageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="@string/msg_button_text" />
+        <Button
+            android:id="@+id/tripHistoryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/messageButton"
+            android:text="@string/trip_history_button_text"
+            android:visibility="gone" />
+        <Button
+            android:id="@+id/onlineButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tripHistoryButton"
+            android:text="@string/offline" />
+        <Button
+            android:id="@+id/formsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/onlineButton"
+            android:text="@string/forms_button_text" />
+        <Button
+            android:id="@+id/returnButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/formsButton"
+            android:text="@string/return_button_text" />
+        <TextView
+            android:id="@+id/driverNumberText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:textSize="20sp" />
+        <Button
+            android:id="@+id/logoffButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/driverNumberText"
+            android:text="@string/logoff_button_text" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:orientation="vertical"
+        android:background="@color/wallet_holo_blue_light" />
+	<ListView
+	    android:id="@id/android:list"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:descendantFocusability="blocksDescendants" />
+</LinearLayout>
