@@ -224,7 +224,7 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
 		if (value) {
 			if (system.equals("Crossdock")) {
 				_onlineButton.setText(getString(R.string.online_xdock));
-			} else if (system.equals("Drayage")) {
+			} else if (system.equals("Intermodal")) {
 				_onlineButton.setText(getString(R.string.online_drayage));
 			} else {
 				_onlineButton.setText(getString(R.string.online));
@@ -238,7 +238,7 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
 	}
 	
 	private void setUserOnline(String system) {
-		Utils.setUserOnline(_activity, true);
+        Utils.setUserOnline(_activity, true);
 		Utils.setDriverOnlineSystem(_activity, system);
 		setUserButtonOnline(true, system);
 		Utils.sendUserOnlineToServer(_activity, true, system);
@@ -265,7 +265,7 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
 					if (Utils.isUserOnline(_activity)) {
 						setUserOffline();
 					} else {				
-						final CharSequence[] choiceItems = new CharSequence[] { "Drayage", "Crossdock" };
+						final CharSequence[] choiceItems = new CharSequence[] { "Intermodal", "Crossdock" };
 						
 						AlertDialog.Builder alertBuilder = new AlertDialog.Builder(_activity);
 						alertBuilder.setTitle("Select System");
@@ -374,7 +374,6 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
 		}
 		
 		return new CursorLoader(_activity, uri, projection, selection, null, sortOrder);
-		
 	}
 
 	@Override

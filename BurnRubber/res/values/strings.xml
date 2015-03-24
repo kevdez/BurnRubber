@@ -57,8 +57,8 @@
 	<string name="cancel_form_button_text">Cancel</string>
 	<string name="send_form_button_text">Send</string>
 	<string name="online">ONLINE</string>
-	<string name="online_drayage">ONLINE DRAY</string>
-	<string name="online_xdock">ONLINE XDOCK</string>
+	<string name="online_drayage">ONLINE INTERMODAL</string>
+	<string name="online_xdock">ONLINE CROSSDOCK</string>
 	<string name="offline">OFFLINE</string>
 	<string name="yes">Yes</string>
 	<string name="no">No</string>

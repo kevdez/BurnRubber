@@ -22,8 +22,7 @@ public class DeleteMessageAsyncTask extends AsyncTask<ArrayList<Long>, Void, Voi
 	protected Void doInBackground(ArrayList<Long>... params) {
 		
 		ArrayList<Long> messageIds = params[0];
-		
-		//for (int i=0; i<messageIds.size(); i++) {
+
 		for (long id : messageIds) {
 			_context.getContentResolver().delete(Uri.withAppendedPath(Message.CONTENT_URI, String.valueOf(id)), null, null);
 		}

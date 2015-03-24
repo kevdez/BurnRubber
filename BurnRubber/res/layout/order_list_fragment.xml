@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/messageButton"
             android:text="@string/trip_history_button_text"
-            android:visibility="gone" />
+            android:visibility="invisible" />
         <Button
             android:id="@+id/onlineButton"
             android:layout_width="wrap_content"
