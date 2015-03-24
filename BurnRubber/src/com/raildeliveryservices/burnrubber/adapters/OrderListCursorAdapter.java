@@ -48,7 +48,8 @@ public class OrderListCursorAdapter extends SimpleCursorAdapter {
 		final TextView fileNoText = (TextView) view.findViewById(com.raildeliveryservices.burnrubber.R.id.fileNoText);
 		final TextView voyageNoText = (TextView) view.findViewById(R.id.voyageNoText);
 		final TextView hazmatText = (TextView) view.findViewById(R.id.hazmatText);
-		final TextView apptTimeText = (TextView) view.findViewById(R.id.apptTimeText);
+		final TextView apptDateText = (TextView) view.findViewById(R.id.apptDateText);
+        final TextView apptTimeText = (TextView) view.findViewById(R.id.apptTimeText);
 		final TextView moveTypeText = (TextView) view.findViewById(R.id.moveTypeText);
 		final Button confirmButton = (Button) view.findViewById(R.id.confirmButton);
 		final Button rejectButton = (Button) view.findViewById(R.id.rejectButton);
@@ -65,7 +66,8 @@ public class OrderListCursorAdapter extends SimpleCursorAdapter {
 			hazmatText.setVisibility(View.GONE);
 		}
 		
-		apptTimeText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.APPT_DATE_TIME)));
+		apptDateText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.APPT_DATE_TIME)));
+        apptTimeText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.APPT_TIME)));
 		moveTypeText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.MOVE_TYPE)));
 		
 		confirmButton.setTag(orderId);

@@ -2,7 +2,8 @@
     <string name="app_name">Burn Rubber</string>
     <string name="file_no_label_text">File #:</string>
     <string name="hazmat_flag_text">HAZMAT</string>
-    <string name="appt_time_label_text">Appt.:</string>
+    <string name="appt_date_label_text">Appointment Date:</string>
+    <string name="appt_time_label">Appointment Time:</string>
     <string name="container_no_label_text">Container #:</string>
     <string name="chassis_no_label_text">Chassis #:</string>
     <string name="leg_no_label_text">Leg #</string>
@@ -32,7 +33,8 @@
 	<string name="return_button_text">Return</string>
 	<string name="arrive_button_text">Arrive</string>
 	<string name="depart_button_text">Depart</string>
-	<string name="outbound_form_button_text">Outbound Form</string>
+    <string name="endFile_button_text">Done</string>
+    <string name="outbound_form_button_text">Outbound Form</string>
 	<string name="auth_progress_title">User Login</string>
 	<string name="auth_progress_message">Authenticating user&#8230;</string>
 	<string name="logout_progress_title">User Logoff</string>
@@ -43,13 +45,13 @@
 	<string name="edit_arrive_date_time_title">Edit Arrive Date &amp; Time</string>
 	<string name="edit_depart_date_time_title">Edit Depart Date &amp; Time</string>
 	<string name="container_chassis_error_title">Data Required</string>
-	<string name="container_chassis_error_message">You must enter the container no &amp; chassis no to continue.</string>
+	<string name="container_chassis_error_message">You must enter the Container # &amp; Chassis # to continue.</string>
 	<string name="user_name_label">Driver #:</string>
 	<string name="password_label">Password:</string>
 	<string name="login_button_text">Login</string>
 	<string name="send_message_button_text">Send</string>
 	<string name="canned_message_button_text">Canned</string>
-	<string name="purge_message_button_text">Purge</string>
+	<string name="purge_message_button_text">Delete</string>
 	<string name="cancel_message_button_text">Back</string>
 	<string name="message_edittext_hint">Type message</string>
 	<string name="cancel_form_button_text">Cancel</string>

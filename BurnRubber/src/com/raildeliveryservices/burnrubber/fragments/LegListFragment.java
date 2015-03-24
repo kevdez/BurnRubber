@@ -14,7 +14,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +42,6 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class LegListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -63,7 +61,8 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 	private Button _returnButton;
 	private TextView _fileNoText;
 	private TextView _hazmatText;
-	private TextView _apptTimeText;
+	private TextView _apptDateText;
+    private TextView _apptTimeText;
 	private TextView _voyageNoText;
 	private TextView _moveTypeText;
 	private EditText _containerNoEditText;
@@ -96,7 +95,8 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 		
 		_fileNoText = (TextView) _activity.findViewById(R.id.fileNoText);
 		_hazmatText = (TextView) _activity.findViewById(R.id.hazmatText);
-		_apptTimeText = (TextView) _activity.findViewById(R.id.apptTimeText);
+		_apptDateText = (TextView) _activity.findViewById(R.id.apptDateText);
+        _apptTimeText = (TextView) _activity.findViewById(R.id.apptTimeText);
 		_voyageNoText = (TextView) _activity.findViewById(R.id.voyageNoText);
 		_moveTypeText = (TextView) _activity.findViewById(R.id.moveTypeText);
 		_containerNoEditText = (EditText) _activity.findViewById(R.id.containerNoEditText);
@@ -175,7 +175,7 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
             requestJson.accumulate(WebServiceConstants.FIELD_LABEL, "START FILE");
             requestJson.accumulate(WebServiceConstants.FIELD_FORM_NAME, "CANNED");
             requestJson.accumulate(WebServiceConstants.FIELD_MESSAGE_TEXT, _fileNoText.getText());
-            requestJson.accumulate(WebServiceConstants.FIELD_CLIENT_DATETIME, Utils.getCurrentDateTime(Constants.ServerDateFormat));
+            requestJson.accumulate(WebServiceConstants.FIELD_CLIENT_DATETIME, Utils.getCurrentDateTime(Constants.ClientDateFormat));
 
             Utils.sendMessageToServer(_activity, WebServiceConstants.URL_CREATE_MESSAGE, requestJson);
         } catch (Exception e) {
@@ -196,15 +196,16 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 	}
 
     /*
-    Driver cannot Arrive/Depart if Container or Chassis information are missing.t
+    Driver cannot Arrive/Depart if Container or Chassis information are missing.
      */
 	private boolean canArriveDepart() {
-		if (TextUtils.isEmpty(_containerNoEditText.getText()) ||
-				TextUtils.isEmpty(_chassisNoEditText.getText())) {
-			return false;
-		} else {
-			return true;
-		}
+        return true;
+//		if (TextUtils.isEmpty(_containerNoEditText.getText()) ||
+//				TextUtils.isEmpty(_chassisNoEditText.getText())) {
+//			return false;
+//		} else {
+//			return true;
+//		}
 	}
 	
 	private LegListCursorAdapter.AdapterCallbacks _listAdapterButtonListener = new LegListCursorAdapter.AdapterCallbacks() {
@@ -235,21 +236,31 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 			switch (v.getId()) {
 				case R.id.arriveFromButton:
 					values.put(Leg.Columns.ARRIVE_FROM_DATE_TIME, dateTime.format(new Date()));
-                    sendArriveToServer(legId);
+                    Log.d(LOG_TAG, "ARRIVE FROM Button was pressed....");
+                    sendUpdateToServer(legId, "ARRIVE");
 					break;
 				case R.id.departFromButton:
 					values.put(Leg.Columns.DEPART_FROM_DATE_TIME, dateTime.format(new Date()));
-                    sendDepartToServer(legId);
+                    Log.d(LOG_TAG, "DEPART FROM Button was pressed.... ");
+                    sendUpdateToServer(legId, "DEPART");
 					break;
 				case R.id.arriveToButton:
 					values.put(Leg.Columns.ARRIVE_TO_DATE_TIME, dateTime.format(new Date()));
-                    sendArriveToServer(legId);
+                    Log.d(LOG_TAG, "ARRIVE TO Button was pressed....");
+                    sendUpdateToServer(legId, "ARRIVE");
 					break;
 				case R.id.departToButton:
 					values.put(Leg.Columns.DEPART_TO_DATE_TIME, dateTime.format(new Date()));
-                    sendEndFileToServer();
+                    Log.d(LOG_TAG, "DEPART TO Button was pressed....");
+                    sendUpdateToServer(legId, "DEPART");
 					values.put(Leg.Columns.COMPLETED_FLAG, true);
 					break;
+                case R.id.endFileButton:
+                    Log.d(LOG_TAG, "END FILE Button was pressed....");
+                    sendUpdateToServer(legId, "END FILE");
+                    values.put(Leg.Columns.DEPART_TO_DATE_TIME, dateTime.format(new Date()));
+                    values.put(Leg.Columns.COMPLETED_FLAG, true);
+                    break;
 			}
 
             Log.i(LOG_TAG, "Uri in onArriveDepartButtonClick: " + uri.toString());
@@ -257,37 +268,28 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 			_activity.getContentResolver().update(uri, values, null, null);
 		}
 
-        private void sendArriveToServer(long legId){
-            Log.d(LOG_TAG, "In sendArriveToServer...");
+        private void sendUpdateToServer(long legId, String driverStatus){
             Uri uri = Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(_orderId));
             JSONObject requestJson = new JSONObject();
             try {
                 requestJson.accumulate(WebServiceConstants.FIELD_DRIVER_NO, Utils.getDriverNo(_activity));
+                requestJson.accumulate(WebServiceConstants.FIELD_LABEL, driverStatus);
                 requestJson.accumulate(WebServiceConstants.FIELD_IN_OUT_FLAG, "I");
                 requestJson.accumulate(WebServiceConstants.FIELD_FILE_NO, _fileNoText.getText());
                 requestJson.accumulate(WebServiceConstants.FIELD_LEG_NO, (int) legId);
-                requestJson.accumulate(WebServiceConstants.FIELD_LABEL, "ARRIVE");
                 requestJson.accumulate(WebServiceConstants.FIELD_FORM_NAME, "CANNED");
                 requestJson.accumulate(WebServiceConstants.FIELD_MESSAGE_TEXT, _fileNoText.getText());
-                requestJson.accumulate(WebServiceConstants.FIELD_CLIENT_DATETIME, Utils.getCurrentDateTime(Constants.ServerDateFormat));
+                requestJson.accumulate(WebServiceConstants.FIELD_CLIENT_DATETIME, Utils.getCurrentDateTime(Constants.ClientDateFormat));
 
-    //            Utils.sendMessageToServer(_activity, WebServiceConstants.URL_CREATE_MESSAGE, requestJson);
+                Utils.sendMessageToServer(_activity, WebServiceConstants.URL_CREATE_MESSAGE, requestJson);
             } catch (Exception e) {
-                Log.e(LOG_TAG, "startFile(): "+e.getMessage());
+                Log.e(LOG_TAG, "sendUpdateToServer(): "+e.getMessage());
                 Log.e(LOG_TAG, "URL: " + WebServiceConstants.URL_CREATE_MESSAGE);
                 Log.e(LOG_TAG, "JSON: " + requestJson.toString());
 
             }
-            Log.i(LOG_TAG, "Uri in StartFile(): "+uri.toString());
+            Log.i(LOG_TAG, "Uri: "+uri.toString());
             Log.i(LOG_TAG, "JSON: " + requestJson.toString());
-        }
-
-        private void sendDepartToServer(long legId){
-
-        }
-
-        private void sendEndFileToServer(){
-
         }
 
 		@Override
@@ -295,7 +297,7 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 			_callbacks.onOutboundFormClick(legId);
 		}
 
-		@Override
+        @Override
 		public void onEditArriveDepartButtonClick(View v, long legId) {
 			
 			final Dialog dialog = new Dialog(_activity);
@@ -347,7 +349,7 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 	
 	private void updateArriveDepartDateTime(View v, long legId, int year, int month, int day, int hour, int min) {
 		
-		SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS", Locale.US);
+		SimpleDateFormat dateTimeFormat = Constants.ClientDateFormat;
 		Calendar cal = Calendar.getInstance();
 		cal.set(year, month, day, hour, min);
 		
@@ -437,6 +439,7 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 											Order.Columns.PARENT_FILE_NO,
 											Order.Columns.HAZMAT_FLAG,
 											Order.Columns.APPT_DATE_TIME,
+                                            Order.Columns.APPT_TIME,
 											Order.Columns.VOYAGE_NO,
 											Order.Columns.MOVE_TYPE,
 											Order.Columns.CONTAINER_NO,
@@ -469,8 +472,9 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 			} else {
 				_hazmatText.setVisibility(View.GONE);
 			}
-			
-			_apptTimeText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.APPT_DATE_TIME)));
+
+            _apptDateText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.APPT_DATE_TIME)));
+            _apptTimeText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.APPT_TIME)));
 			_voyageNoText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.VOYAGE_NO)));
 			_moveTypeText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.MOVE_TYPE)));
 			_containerNoEditText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.CONTAINER_NO)));

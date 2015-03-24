@@ -26,6 +26,9 @@ import java.util.HashMap;
 @SuppressLint("UseSparseArrays")
 public class LegListCursorAdapter extends CursorTreeAdapter  {
 
+    // Allow editing after Arrive/Depart/Done button gets pressed
+    private boolean allowTimeEditing = false;
+
 	private Context _context;
 	private boolean _readOnly;
 	private boolean _startedFlag;
@@ -80,6 +83,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter  {
 		final Button departFromButton = (Button) view.findViewById(R.id.departFromButton);
 		final Button arriveToButton = (Button) view.findViewById(R.id.arriveToButton);
 		final Button departToButton = (Button) view.findViewById(R.id.departToButton);
+        final Button endFileButton = (Button) view.findViewById(R.id.endFileButton);
 		final Button outboundFormButton = (Button) view.findViewById(R.id.outboundFormButton);
 		String arriveFromDate = "";
 		String departFromDate = "";
@@ -95,12 +99,9 @@ public class LegListCursorAdapter extends CursorTreeAdapter  {
 		arriveFromButton.setText(_context.getString(R.string.arrive_button_text));
 		arriveToButton.setText(_context.getString(R.string.arrive_button_text));
 		departFromButton.setText(_context.getString(R.string.depart_button_text));
-		
-		if (isLastLeg(fileNo, legNo)) {
-			departToButton.setText("Done");
-		} else {
-			departToButton.setText(_context.getString(R.string.depart_button_text));
-		}
+		departToButton.setText(_context.getString(R.string.depart_button_text));
+        endFileButton.setText(_context.getString(R.string.endFile_button_text));
+
 
 		if (parentLegNo > 0) {
 			Cursor parentLegCursor = getParentLeg(fileNo, parentLegNo);
@@ -238,7 +239,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter  {
 			} else {
 				arriveFromButton.setText(arriveFromDate);
 				
-				if (parentLegNo <= 0) { 
+				if (parentLegNo <= 0 && allowTimeEditing) {
 					arriveFromButton.setEnabled(true);
 					arriveFromButton.setOnClickListener(new OnClickListener() {
 						@Override
@@ -269,7 +270,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter  {
 			} else {
 				departFromButton.setText(departFromDate);
 				
-				if (parentLegNo <= 0) {
+				if (parentLegNo <= 0 && allowTimeEditing) {
 					departFromButton.setEnabled(true);
 					departFromButton.setOnClickListener(new OnClickListener() {
 						@Override
@@ -298,40 +299,85 @@ public class LegListCursorAdapter extends CursorTreeAdapter  {
 					arriveToButton.setEnabled(false);
 				}
 			} else {
-				arriveToButton.setEnabled(true);
-				arriveToButton.setText(arriveToDate);
-				arriveToButton.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						_adapterCallbacks.onEditArriveDepartButtonClick(v, legId);
-					}
-				});
+
+                arriveToButton.setText(arriveToDate);
+
+                if(allowTimeEditing) {
+                    arriveToButton.setEnabled(true);
+                    arriveToButton.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            _adapterCallbacks.onEditArriveDepartButtonClick(v, legId);
+                        }
+                    });
+                } else {
+                    arriveToButton.setEnabled(false);
+                }
 			}
 			
 			if (TextUtils.isEmpty(departToDate)) {
-				departToButton.setVisibility(View.VISIBLE);
-				
+
+                if(isLastLeg(fileNo, legNo)) {
+                    departToButton.setVisibility(View.GONE);
+                    endFileButton.setVisibility(View.VISIBLE);
+                } else {
+                    endFileButton.setVisibility(View.GONE);
+                    departToButton.setVisibility(View.VISIBLE);
+                }
 				if (previousCompleted && Utils.isUserOnline(_context) && _startedFlag && !TextUtils.isEmpty(arriveToDate)) {
-					departToButton.setEnabled(true);
-				
+					if(isLastLeg(fileNo, legNo)){
+                        endFileButton.setEnabled(true);
+                        departToButton.setEnabled(false);
+                    } else {
+                        departToButton.setEnabled(true);
+                        endFileButton.setEnabled(false);
+                    }
+
+                    endFileButton.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            _adapterCallbacks.onArriveDepartButtonClick(v, legId);
+                        }
+                    });
 					departToButton.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
 							_adapterCallbacks.onArriveDepartButtonClick(v, legId);
 						}
 					});
+
 				} else {
 					departToButton.setEnabled(false);
+                    endFileButton.setEnabled(false);
 				}
 			} else {
-				departToButton.setEnabled(true);
-				departToButton.setText(departToDate);
-				departToButton.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						_adapterCallbacks.onEditArriveDepartButtonClick(v, legId);
-					}
-				});
+                endFileButton.setText(departToDate);
+                departToButton.setText(departToDate);
+
+                if(allowTimeEditing){
+                    if(isLastLeg(fileNo, legNo)) {
+                        endFileButton.setEnabled(true);
+                        departToButton.setEnabled(false);
+                        endFileButton.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            _adapterCallbacks.onEditArriveDepartButtonClick(v, legId);
+                        }
+                    });
+                    } else{
+                        departToButton.setEnabled(true);
+                        endFileButton.setEnabled(false);
+                        departToButton.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                _adapterCallbacks.onEditArriveDepartButtonClick(v, legId);
+                            }
+                        });
+                    }
+                } else {
+                    departToButton.setEnabled(false);
+                    endFileButton.setEnabled(false);
+                }
 			}
 			
 			if (outboundFlag) {
@@ -358,6 +404,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter  {
 			departFromButton.setVisibility(View.GONE);
 			arriveToButton.setVisibility(View.GONE);
 			departToButton.setVisibility(View.GONE);
+            endFileButton.setVisibility(View.GONE);
 			outboundFormButton.setVisibility(View.GONE);
 		}
 	}

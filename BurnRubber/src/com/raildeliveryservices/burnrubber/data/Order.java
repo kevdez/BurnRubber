@@ -21,6 +21,7 @@ public final class Order {
 			Columns.TRIP_NO + " text, " +
 			Columns.HAZMAT_FLAG + " integer, " +
 			Columns.APPT_DATE_TIME + " text, " +
+            Columns.APPT_TIME + " text, " +
 			Columns.MOVE_TYPE + " text, " +
 			Columns.CONTAINER_NO + " text, " +
 			Columns.CHASSIS_NO + " text, " +
@@ -40,6 +41,7 @@ public final class Order {
 		public static final String TRIP_NO = "trip_no";
 		public static final String HAZMAT_FLAG = "hazmat_flag";
 		public static final String APPT_DATE_TIME = "appt_date_time";
+        public static final String APPT_TIME = "appt_time";
 		public static final String MOVE_TYPE = "move_type";
 		public static final String CONFIRMED_FLAG = "confirmed_flag";
 		public static final String CONTAINER_NO = "container_no";
@@ -60,7 +62,8 @@ public final class Order {
 		PROJECTION_MAP.put(Columns.VOYAGE_NO, TABLE_NAME + "." + Columns.VOYAGE_NO);
 		PROJECTION_MAP.put(Columns.TRIP_NO, TABLE_NAME + "." + Columns.TRIP_NO);
 		PROJECTION_MAP.put(Columns.HAZMAT_FLAG, TABLE_NAME + "." + Columns.HAZMAT_FLAG);
-		PROJECTION_MAP.put(Columns.APPT_DATE_TIME, TABLE_NAME + "." + Columns.APPT_DATE_TIME);
+        PROJECTION_MAP.put(Columns.APPT_DATE_TIME, TABLE_NAME + "." + Columns.APPT_DATE_TIME);
+        PROJECTION_MAP.put(Columns.APPT_TIME, TABLE_NAME + "." + Columns.APPT_TIME);
 		PROJECTION_MAP.put(Columns.MOVE_TYPE, TABLE_NAME + "." + Columns.MOVE_TYPE);
 		PROJECTION_MAP.put(Columns.CONTAINER_NO, TABLE_NAME + "." + Columns.CONTAINER_NO);
 		PROJECTION_MAP.put(Columns.CHASSIS_NO, TABLE_NAME + "." + Columns.CHASSIS_NO);

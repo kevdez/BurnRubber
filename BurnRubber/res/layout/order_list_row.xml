@@ -2,14 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingBottom="5dp">
+        android:paddingBottom="5dp"
+        android:layout_weight="0.04">
         <LinearLayout
 	        android:id="@+id/fileNoLayout"
 	        android:layout_width="wrap_content"
@@ -49,29 +51,58 @@
 	            android:textColor="@color/red" />
 	    </LinearLayout>
 	    <LinearLayout
-	    	android:id="@+id/apptTimeLayout"
+	    	android:id="@+id/apptDateLayout"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:gravity="right"
 	        android:orientation="horizontal"
 	        android:layout_alignParentRight="true">
 	        <TextView
+                android:id="@+id/apptDateLabel"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:paddingRight="1dp"
-	            android:text="@string/appt_time_label_text"
+	            android:text="@string/appt_date_label_text"
 	            android:clickable="false"
 	            android:focusableInTouchMode="false"
 		        android:focusable="false" />
 	        <TextView
-	            android:id="@+id/apptTimeText"
+	            android:id="@+id/apptDateText"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:clickable="false"
 	            android:focusableInTouchMode="false"
 		        android:focusable="false" />
-	    </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/apptTimeLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal"
+            android:layout_below="@id/apptDateLayout">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/appt_time_label"
+                android:id="@+id/apptTimeLabel"
+                android:layout_gravity="right"
+                android:layout_below="@+id/apptTimeLayout"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+            <TextView
+                android:id="@+id/apptTimeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusableInTouchMode="false"
+                android:focusable="false" />
+
+        </LinearLayout>
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

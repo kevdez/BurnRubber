@@ -175,5 +175,12 @@
 	        android:layout_alignParentRight="true"
 	        android:layout_alignParentEnd="true"
 	        android:text="@string/depart_button_text" />
+        <Button
+            android:id="@+id/endFileButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:text="@string/endFile_button_text" />
 	</RelativeLayout>
 </LinearLayout>

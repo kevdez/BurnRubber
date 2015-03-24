@@ -353,6 +353,7 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
 						   				Order.Columns.VOYAGE_NO,
 						   				Order.Columns.HAZMAT_FLAG,
 						   				Order.Columns.APPT_DATE_TIME,
+                                        Order.Columns.APPT_TIME,
 						   				Order.Columns.MOVE_TYPE,
 						   				Order.Columns.CONFIRMED_FLAG };
 		} else if (loaderId == LOADER_MESSAGE_ALERTS) {

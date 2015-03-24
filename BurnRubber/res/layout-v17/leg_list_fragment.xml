@@ -108,9 +108,9 @@
 		            android:paddingLeft="0dp"
 		            android:paddingRight="1dp"
 		            android:paddingEnd="1dp"
-		            android:text="@string/appt_time_label_text" />
+		            android:text="@string/appt_date_label_text" />
 		        <TextView
-		            android:id="@+id/apptTimeText"
+		            android:id="@+id/apptDateText"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content" />
 		    </LinearLayout>

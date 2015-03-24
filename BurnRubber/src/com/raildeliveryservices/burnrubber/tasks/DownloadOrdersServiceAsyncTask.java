@@ -51,11 +51,12 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
 			
 			WebPost webPost = new WebPost(WebServiceConstants.URL_GET_ORDERS);
 			webPost.setJson(requestJson.toString());
+            Log.d(LOG_TAG, "REQUEST:"+requestJson.toString());
 			JSONObject responseJson = webPost.Post();
-			
+			Log.d(LOG_TAG, "RESPONSE"+responseJson.toString());
 			saveOrders(responseJson.getJSONArray("Orders"));
 			
-			String dateTime = Constants.ServerDateFormat.format(new Date()).replace("T", " ");
+			String dateTime = Constants.ServerDateFormat.format(new Date());
 			_settings.edit().putString(Constants.SETTINGS_LAST_UPDATE_DATE_TIME_ORDERS + "-" + Utils.getDriverNo(_context), dateTime).commit();
 			
 		} catch (Exception e) {
@@ -79,10 +80,12 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
 				values.put(Order.Columns.VOYAGE_NO, orderObject.getString("VoyageNo"));
 				values.put(Order.Columns.TRIP_NO, orderObject.getString("TripNo"));
 				values.put(Order.Columns.HAZMAT_FLAG, orderObject.getBoolean("HazmatFlag"));
-				
-				String tempDate = orderObject.getString("AppointmentDateTime").replace("T", " ");
+
+                // show only the date portion
+				String tempDate = orderObject.getString("AppointmentDateTime").substring(0,10);
 				values.put(Order.Columns.APPT_DATE_TIME, tempDate);
-				
+
+                values.put(Order.Columns.APPT_TIME, orderObject.getString("AppointmentTime"));
 				values.put(Order.Columns.MOVE_TYPE, orderObject.getString("MoveType"));
 				values.put(Order.Columns.CONTAINER_NO, orderObject.getString("ContainerNo"));
 				values.put(Order.Columns.CHASSIS_NO, orderObject.getString("ChassisNo"));
