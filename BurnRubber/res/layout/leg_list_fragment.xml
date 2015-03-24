@@ -94,7 +94,7 @@
 		            android:textColor="@color/red" />
 		    </LinearLayout>
 		    <LinearLayout
-		    	android:id="@+id/apptTimeLayout"
+		    	android:id="@+id/apptDateLayout"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:gravity="end"
@@ -102,10 +102,10 @@
 		        android:layout_alignParentRight="true"
 		        android:layout_alignParentEnd="true">
 		        <TextView
+                    android:id="@+id/apptDateLabel"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:paddingLeft="0dp"
-                    android:paddingStart="0dp"
 		            android:paddingRight="1dp"
 		            android:paddingEnd="1dp"
 		            android:text="@string/appt_date_label_text" />
@@ -114,6 +114,25 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content" />
 		    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/apptTimeLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_alignParentRight="true"
+                android:orientation="horizontal"
+                android:layout_below="@id/apptDateLayout">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/appt_time_label"
+                    android:id="@+id/apptTimeLabel"
+                    android:layout_gravity="right" />
+                <TextView
+                    android:id="@+id/apptTimeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 	    </RelativeLayout>
 	    <LinearLayout
 	        android:layout_width="match_parent"

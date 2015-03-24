@@ -89,7 +89,6 @@ public class DownloadMessagesServiceAsyncTask extends AsyncTask<Void, Void, Void
 					values.put(Message.Columns.MESSAGE_TEXT, messageObject.getString(WebServiceConstants.FIELD_MESSAGE_TEXT));
 					
 					String tempDate = messageObject.getString(WebServiceConstants.FIELD_CLIENT_DATETIME).replace("T", " ");
-					Log.i(LOG_TAG, Utils.convertTabletDateTime(tempDate));
 					values.put(Message.Columns.CREATED_DATE_TIME, Utils.convertTabletDateTime(tempDate));
 					
 					_context.getContentResolver().insert(Message.CONTENT_URI, values);

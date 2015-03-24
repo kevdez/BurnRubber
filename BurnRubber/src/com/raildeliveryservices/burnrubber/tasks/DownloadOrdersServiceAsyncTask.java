@@ -41,8 +41,7 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
 	private void downloadOrders() {
 		
 		String lastUpdateDateTime = _settings.getString(Constants.SETTINGS_LAST_UPDATE_DATE_TIME_ORDERS + "-" + Utils.getDriverNo(_context), "2000-01-01 00:00:00.000");
-		Log.i(LOG_TAG, "LastUpdateDateTime: " +  lastUpdateDateTime);
-		
+
 		try {
 			
 			JSONObject requestJson = new JSONObject();
@@ -51,9 +50,7 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
 			
 			WebPost webPost = new WebPost(WebServiceConstants.URL_GET_ORDERS);
 			webPost.setJson(requestJson.toString());
-            Log.d(LOG_TAG, "REQUEST:"+requestJson.toString());
 			JSONObject responseJson = webPost.Post();
-			Log.d(LOG_TAG, "RESPONSE"+responseJson.toString());
 			saveOrders(responseJson.getJSONArray("Orders"));
 			
 			String dateTime = Constants.ServerDateFormat.format(new Date());

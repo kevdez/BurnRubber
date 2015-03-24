@@ -179,7 +179,7 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 
             Utils.sendMessageToServer(_activity, WebServiceConstants.URL_CREATE_MESSAGE, requestJson);
         } catch (Exception e) {
-            Log.e(LOG_TAG, "startFile(): "+e.getMessage());
+            Log.e(LOG_TAG, "In startFile(): "+e.getMessage());
             Log.e(LOG_TAG, "URL: " + WebServiceConstants.URL_CREATE_MESSAGE);
             Log.e(LOG_TAG, "JSON: " + requestJson.toString());
 
@@ -191,12 +191,10 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 		} else {
 			getLoaderManager().initLoader(LOADER_ORDER, null, this);
 		}
-
-        Log.i(LOG_TAG, "Uri in StartFile(): "+uri.toString());
 	}
 
     /*
-    Driver cannot Arrive/Depart if Container or Chassis information are missing.
+    Driver CAN Arrive/Depart if Container or Chassis information are missing.
      */
 	private boolean canArriveDepart() {
         return true;
@@ -236,36 +234,29 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 			switch (v.getId()) {
 				case R.id.arriveFromButton:
 					values.put(Leg.Columns.ARRIVE_FROM_DATE_TIME, dateTime.format(new Date()));
-                    Log.d(LOG_TAG, "ARRIVE FROM Button was pressed....");
                     sendUpdateToServer(legId, "ARRIVE");
 					break;
 				case R.id.departFromButton:
 					values.put(Leg.Columns.DEPART_FROM_DATE_TIME, dateTime.format(new Date()));
-                    Log.d(LOG_TAG, "DEPART FROM Button was pressed.... ");
                     sendUpdateToServer(legId, "DEPART");
 					break;
 				case R.id.arriveToButton:
 					values.put(Leg.Columns.ARRIVE_TO_DATE_TIME, dateTime.format(new Date()));
-                    Log.d(LOG_TAG, "ARRIVE TO Button was pressed....");
                     sendUpdateToServer(legId, "ARRIVE");
 					break;
 				case R.id.departToButton:
 					values.put(Leg.Columns.DEPART_TO_DATE_TIME, dateTime.format(new Date()));
-                    Log.d(LOG_TAG, "DEPART TO Button was pressed....");
                     sendUpdateToServer(legId, "DEPART");
 					values.put(Leg.Columns.COMPLETED_FLAG, true);
 					break;
                 case R.id.endFileButton:
-                    Log.d(LOG_TAG, "END FILE Button was pressed....");
                     sendUpdateToServer(legId, "END FILE");
                     values.put(Leg.Columns.DEPART_TO_DATE_TIME, dateTime.format(new Date()));
                     values.put(Leg.Columns.COMPLETED_FLAG, true);
                     break;
 			}
 
-            Log.i(LOG_TAG, "Uri in onArriveDepartButtonClick: " + uri.toString());
-            Log.i(LOG_TAG, "values in onArriveDepartButtonClick: " + values.toString());
-			_activity.getContentResolver().update(uri, values, null, null);
+            _activity.getContentResolver().update(uri, values, null, null);
 		}
 
         private void sendUpdateToServer(long legId, String driverStatus){
@@ -288,8 +279,6 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
                 Log.e(LOG_TAG, "JSON: " + requestJson.toString());
 
             }
-            Log.i(LOG_TAG, "Uri: "+uri.toString());
-            Log.i(LOG_TAG, "JSON: " + requestJson.toString());
         }
 
 		@Override

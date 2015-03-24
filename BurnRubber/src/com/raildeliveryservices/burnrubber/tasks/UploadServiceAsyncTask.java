@@ -40,12 +40,6 @@ public class UploadServiceAsyncTask extends AsyncTask<Void, Void, Void> {
 					webPost.setJson(json);
 					webPost.Post();
 
-                    Log.d(LOG_TAG, "uploading id: "+id);
-                    Log.d(LOG_TAG, "uploading to url: "+url);
-                    Log.d(LOG_TAG, "uploading with json: "+json);
-
-
-
                     updateDeleteFlag(id);
 				} catch (Exception e) {
 					

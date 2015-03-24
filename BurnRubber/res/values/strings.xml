@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Burn Rubber</string>
-    <string name="file_no_label_text">File #:</string>
+    <string name="file_no_label_text">File #: </string>
     <string name="hazmat_flag_text">HAZMAT</string>
-    <string name="appt_date_label_text">Appointment Date:</string>
-    <string name="appt_time_label">Appointment Time:</string>
-    <string name="container_no_label_text">Container #:</string>
-    <string name="chassis_no_label_text">Chassis #:</string>
+    <string name="appt_date_label_text">Appointment Date: </string>
+    <string name="appt_time_label">Appointment Time: </string>
+    <string name="container_no_label_text">Container #: </string>
+    <string name="chassis_no_label_text">Chassis #: </string>
     <string name="leg_no_label_text">Leg #</string>
     <string name="leg_complete_text">Done</string>
     <string name="leg_from_label_text">From</string>

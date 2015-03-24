@@ -99,7 +99,6 @@
                 android:clickable="false"
                 android:focusableInTouchMode="false"
                 android:focusable="false" />
-
         </LinearLayout>
     </RelativeLayout>
 
