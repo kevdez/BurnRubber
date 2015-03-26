@@ -102,7 +102,6 @@ public class LegListCursorAdapter extends CursorTreeAdapter  {
 		departToButton.setText(_context.getString(R.string.depart_button_text));
         endFileButton.setText(_context.getString(R.string.endFile_button_text));
 
-
 		if (parentLegNo > 0) {
 			Cursor parentLegCursor = getParentLeg(fileNo, parentLegNo);
 			

@@ -59,6 +59,7 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 	private Button _startFileButton;
 	private Button _orderImageButton;
 	private Button _returnButton;
+    private Button _sendContainerChassisButton;
 	private TextView _fileNoText;
 	private TextView _hazmatText;
 	private TextView _apptDateText;
@@ -110,6 +111,7 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 		_startFileButton.setOnClickListener(_buttonListener);
 		_orderImageButton.setOnClickListener(_buttonListener);
 		_returnButton.setOnClickListener(_buttonListener);
+        _sendContainerChassisButton.setOnClickListener(_buttonListener);
 		
 		Bundle bundle = getArguments();
 		_orderId = bundle.getLong(Constants.BUNDLE_PARAM_ORDER_ID);
