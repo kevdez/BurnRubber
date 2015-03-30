@@ -23,7 +23,6 @@ public final class LegOutbound {
 			Columns.PALLETS + " integer, " +
 			Columns.COMMODITY + " text " +
 			");";
-			
 	
 	public static final class Columns implements BaseColumns {
 		public static final String LEG_ID = "leg_id";

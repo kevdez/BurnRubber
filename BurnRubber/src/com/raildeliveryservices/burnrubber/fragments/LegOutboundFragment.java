@@ -11,6 +11,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,16 +21,25 @@ import android.widget.EditText;
 
 import com.raildeliveryservices.burnrubber.Constants;
 import com.raildeliveryservices.burnrubber.R;
+import com.raildeliveryservices.burnrubber.WebServiceConstants;
 import com.raildeliveryservices.burnrubber.data.LegOutbound;
+import com.raildeliveryservices.burnrubber.utils.Utils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LegOutboundFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final String LOG_TAG = LegOutboundFragment.class.getSimpleName();
 
 	private static final int LOADER_LEG_OUTBOUND = -1;
 	
 	private Activity _activity;
 	private long _legOutboundId;
+    private int _fileNo;
 	private long _legId;
 	private Button _returnButton;
+    private Button _sendButton;
 	private EditText _piecesEditText;
 	private EditText _weightEditText;
 	private EditText _sealEditText;
@@ -55,7 +65,9 @@ public class LegOutboundFragment extends Fragment implements LoaderManager.Loade
 		
 		_returnButton = (Button) _activity.findViewById(R.id.returnButton);
 		_returnButton.setOnClickListener(_buttonListener);
-		
+		_sendButton = (Button) _activity.findViewById(R.id.sendButton);
+        _sendButton.setOnClickListener(_buttonListener);
+
 		_piecesEditText = (EditText) _activity.findViewById(R.id.piecesEditText);
 		_weightEditText = (EditText) _activity.findViewById(R.id.weightEditText);
 		_sealEditText = (EditText) _activity.findViewById(R.id.sealEditText);
@@ -76,7 +88,8 @@ public class LegOutboundFragment extends Fragment implements LoaderManager.Loade
 		
 		Bundle bundle = getArguments();
 		_legId = bundle.getLong(Constants.BUNDLE_PARAM_LEG_ID);
-		
+        _fileNo = bundle.getInt(Constants.BUNDLE_PARAM_FILE_NO);
+
 		Loader<Cursor> loader = getLoaderManager().getLoader(LOADER_LEG_OUTBOUND);
 		if (loader != null && !loader.isReset()) {
 			getLoaderManager().restartLoader(LOADER_LEG_OUTBOUND, null, this);
@@ -108,58 +121,135 @@ public class LegOutboundFragment extends Fragment implements LoaderManager.Loade
 	}
 	
 	private void saveRecord() {
-		
-		Uri uri = null;
+        Uri uri = LegOutbound.CONTENT_URI;
 
-		uri = LegOutbound.CONTENT_URI;
-		
-		ContentValues values = new ContentValues();
+        JSONObject json = new JSONObject();
+        try {
+            json.accumulate(WebServiceConstants.FIELD_DRIVER_NO, Utils.getDriverNo(_activity));
+            json.accumulate(WebServiceConstants.FIELD_IN_OUT_FLAG, "I");
+            json.accumulate(WebServiceConstants.FIELD_FILE_NO, _fileNo);
+            json.accumulate(WebServiceConstants.FIELD_FORM_NAME, "OUTBOUND LOAD");
+            json.accumulate(WebServiceConstants.FIELD_LEG_NO, (int) _legId);
+            json.accumulate(WebServiceConstants.FIELD_CLIENT_DATETIME, Utils.getCurrentDateTime(Constants.ClientDateFormat));
+        } catch (Exception e) { Log.e(LOG_TAG, e.getMessage()); }
+
+        ContentValues values = new ContentValues();
 		values.put(LegOutbound.Columns.LEG_ID, _legId);
 		
 		if (!TextUtils.isEmpty(_piecesEditText.getText())) {
 			values.put(LegOutbound.Columns.PIECES, Integer.parseInt(_piecesEditText.getText().toString()));
+            try {
+                json.remove(WebServiceConstants.FIELD_LABEL);
+                json.remove(WebServiceConstants.FIELD_MESSAGE_TEXT);
+                json.accumulate(WebServiceConstants.FIELD_LABEL, "Pieces");
+                json.accumulate(WebServiceConstants.FIELD_MESSAGE_TEXT, _piecesEditText.getText().toString());
+
+                Utils.sendMessageToServer(_activity, WebServiceConstants.URL_CREATE_MESSAGE, json);
+            } catch (JSONException e)
+            {
+                Log.e(LOG_TAG, e.getMessage());
+            }
 		} else {
 			values.putNull(LegOutbound.Columns.PIECES);
 		}
 		
 		if (!TextUtils.isEmpty(_weightEditText.getText())) {
 			values.put(LegOutbound.Columns.WEIGHT, Double.parseDouble(_weightEditText.getText().toString()));
+            try {
+                json.remove(WebServiceConstants.FIELD_LABEL);
+                json.remove(WebServiceConstants.FIELD_MESSAGE_TEXT);
+                json.accumulate(WebServiceConstants.FIELD_LABEL, "Weight");
+                json.accumulate(WebServiceConstants.FIELD_MESSAGE_TEXT, _weightEditText.getText().toString());
+
+                Utils.sendMessageToServer(_activity, WebServiceConstants.URL_CREATE_MESSAGE, json);
+            } catch (JSONException e) { Log.e(LOG_TAG, e.getMessage()); }
 		} else {
 			values.putNull(LegOutbound.Columns.WEIGHT);
 		}
 		
 		if (!TextUtils.isEmpty(_sealEditText.getText())) {
 			values.put(LegOutbound.Columns.SEAL, _sealEditText.getText().toString());
+            try {
+                json.remove(WebServiceConstants.FIELD_LABEL);
+                json.remove(WebServiceConstants.FIELD_MESSAGE_TEXT);
+                json.accumulate(WebServiceConstants.FIELD_LABEL, "Seal");
+                json.accumulate(WebServiceConstants.FIELD_MESSAGE_TEXT, _sealEditText.getText().toString());
+
+                Utils.sendMessageToServer(_activity, WebServiceConstants.URL_CREATE_MESSAGE, json);
+            } catch (JSONException e) { Log.e(LOG_TAG, e.getMessage()); }
 		} else {
 			values.putNull(LegOutbound.Columns.SEAL);
 		}
 		
 		if (!TextUtils.isEmpty(_destinationEditText.getText())) {
 			values.put(LegOutbound.Columns.DESTINATION, _destinationEditText.getText().toString());
+            try {
+                json.remove(WebServiceConstants.FIELD_LABEL);
+                json.remove(WebServiceConstants.FIELD_MESSAGE_TEXT);
+                json.accumulate(WebServiceConstants.FIELD_LABEL, "Destination");
+                json.accumulate(WebServiceConstants.FIELD_MESSAGE_TEXT, _destinationEditText.getText().toString());
+
+                Utils.sendMessageToServer(_activity, WebServiceConstants.URL_CREATE_MESSAGE, json);
+            } catch (JSONException e){ Log.e(LOG_TAG, e.getMessage()); }
 		} else {
 			values.putNull(LegOutbound.Columns.DESTINATION);
 		}
 		
 		if (!TextUtils.isEmpty(_bolEditText.getText())) {
 			values.put(LegOutbound.Columns.BOL, _bolEditText.getText().toString());
+            try {
+                json.remove(WebServiceConstants.FIELD_LABEL);
+                json.remove(WebServiceConstants.FIELD_MESSAGE_TEXT);
+                json.accumulate(WebServiceConstants.FIELD_LABEL, "BOL #");
+                json.accumulate(WebServiceConstants.FIELD_MESSAGE_TEXT, _bolEditText.getText().toString());
+
+                Utils.sendMessageToServer(_activity, WebServiceConstants.URL_CREATE_MESSAGE, json);
+            } catch (JSONException e) { Log.e(LOG_TAG, e.getMessage()); }
 		} else {
 			values.putNull(LegOutbound.Columns.BOL);
 		}
 		
 		if (!TextUtils.isEmpty(_bolPagesEditText.getText())) {
 			values.put(LegOutbound.Columns.BOL_PAGES, Integer.parseInt(_bolPagesEditText.getText().toString()));
+            try {
+                json.remove(WebServiceConstants.FIELD_LABEL);
+                json.remove(WebServiceConstants.FIELD_MESSAGE_TEXT);
+                json.accumulate(WebServiceConstants.FIELD_LABEL, "Pages of BOL");
+                json.accumulate(WebServiceConstants.FIELD_MESSAGE_TEXT, _bolPagesEditText.getText().toString());
+
+                Utils.sendMessageToServer(_activity, WebServiceConstants.URL_CREATE_MESSAGE, json);
+            } catch (JSONException e){ Log.e(LOG_TAG, e.getMessage()); }
 		} else {
 			values.putNull(LegOutbound.Columns.BOL_PAGES);
 		}
 		
 		if (!TextUtils.isEmpty(_palletsEditText.getText())) {
 			values.put(LegOutbound.Columns.PALLETS, Integer.parseInt(_palletsEditText.getText().toString()));
+            try {
+                json.remove(WebServiceConstants.FIELD_LABEL);
+                json.remove(WebServiceConstants.FIELD_MESSAGE_TEXT);
+                json.accumulate(WebServiceConstants.FIELD_LABEL, "Pallets");
+                json.accumulate(WebServiceConstants.FIELD_MESSAGE_TEXT, _palletsEditText.getText().toString());
+
+                Utils.sendMessageToServer(_activity, WebServiceConstants.URL_CREATE_MESSAGE, json);
+            } catch (JSONException e)
+            {
+                Log.e(LOG_TAG, e.getMessage());
+            }
 		} else {
 			values.putNull(LegOutbound.Columns.PALLETS);
 		}
 		
 		if (!TextUtils.isEmpty(_commodityEditText.getText())) {
 			values.put(LegOutbound.Columns.COMMODITY, _commodityEditText.getText().toString());
+            try {
+                json.remove(WebServiceConstants.FIELD_LABEL);
+                json.remove(WebServiceConstants.FIELD_MESSAGE_TEXT);
+                json.accumulate(WebServiceConstants.FIELD_LABEL, "Commodity");
+                json.accumulate(WebServiceConstants.FIELD_MESSAGE_TEXT, _commodityEditText.getText().toString());
+
+                Utils.sendMessageToServer(_activity, WebServiceConstants.URL_CREATE_MESSAGE, json);
+            } catch (JSONException e) { Log.e(LOG_TAG, e.getMessage()); }
 		} else {
 			values.putNull(LegOutbound.Columns.COMMODITY);
 		}
@@ -171,15 +261,19 @@ public class LegOutboundFragment extends Fragment implements LoaderManager.Loade
 			_activity.getContentResolver().insert(uri, values);
 		}
 	}
-	
+
 	private OnClickListener _buttonListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
 				case R.id.returnButton:
-					saveRecord();
+					//saveRecord();
 					_callbacks.onLegOutboundReturnButtonClick();
 					break;
+                case R.id.sendButton:
+                    saveRecord();
+                    _callbacks.onLegOutboundReturnButtonClick();
+                    break;
 			}
 		}
 	};

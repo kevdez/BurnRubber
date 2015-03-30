@@ -38,7 +38,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter  {
 	
 	public interface AdapterCallbacks {
 		public void onArriveDepartButtonClick(View v, long legId);
-		public void onOutboundFormClick(long legId);
+		public void onOutboundFormClick(long legId, int fileNo);
 		public void onEditArriveDepartButtonClick(View v, long legId);
 	}
 	
@@ -388,7 +388,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter  {
 					outboundFormButton.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							_adapterCallbacks.onOutboundFormClick(legId);
+							_adapterCallbacks.onOutboundFormClick(legId, fileNo);
 						}
 					});
 				} else {

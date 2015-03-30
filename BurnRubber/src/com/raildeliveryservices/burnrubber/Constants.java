@@ -22,6 +22,7 @@ public class Constants {
 	
 	public static final String BUNDLE_PARAM_ORDER_ID = "orderId";
 	public static final String BUNDLE_PARAM_LEG_ID = "legId";
+    public static final String BUNDLE_PARAM_FILE_NO = "fileNo";
 	public static final String BUNDLE_PARAM_READ_ONLY = "readOnly";
 	public static final String BUNDLE_PARAM_TRIP_HISTORY = "tripHistory";
 	public static final String BUNDLE_PARAM_FORM_NAME = "formName";

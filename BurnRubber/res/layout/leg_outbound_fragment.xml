@@ -139,4 +139,11 @@
             android:layout_height="wrap_content"
             android:inputType="textVisiblePassword" />
     </LinearLayout>
+
+    <Button
+        android:layout_width="168dp"
+        android:layout_height="wrap_content"
+        android:text="@string/send_button_text"
+        android:id="@+id/sendButton"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>

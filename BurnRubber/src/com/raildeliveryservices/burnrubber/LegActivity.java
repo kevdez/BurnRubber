@@ -51,11 +51,12 @@ public class LegActivity extends BaseFragmentActivity implements LegListFragment
 	}
 
 	@Override
-	public void onOutboundFormClick(long legId) {
+	public void onOutboundFormClick(long legId, int fileNo) {
 		
 		Fragment f = new LegOutboundFragment();
 		Bundle b = new Bundle();
 		b.putLong(Constants.BUNDLE_PARAM_LEG_ID, legId);
+        b.putInt(Constants.BUNDLE_PARAM_FILE_NO, fileNo);
 		f.setArguments(b);
 		
 		_ft = _fm.beginTransaction();
