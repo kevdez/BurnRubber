@@ -28,6 +28,19 @@ public class OrderActivity extends BaseFragmentActivity implements OrderListFrag
         msgIntent = new Intent(this, MessageActivity.class);
 		loadOrders();
 	}
+
+    @Override
+    public void onTripHistoryButtonClick() {
+
+        Fragment f = new OrderListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(Constants.BUNDLE_PARAM_TRIP_HISTORY, true);
+        f.setArguments(bundle);
+
+        _ft = _fm.beginTransaction();
+        _ft.replace(R.id.contentFrameLayout, f);
+        _ft.commit();
+    }
 	
 	private void loadOrders() {
 		
@@ -68,26 +81,13 @@ public class OrderActivity extends BaseFragmentActivity implements OrderListFrag
     }
 
 	@Override
-	public void onTripHistoryButtonClick() {
-		
-		Fragment f = new OrderListFragment();
-		Bundle bundle = new Bundle();
-		bundle.putBoolean(Constants.BUNDLE_PARAM_TRIP_HISTORY, true);
-		f.setArguments(bundle);
-		
-		_ft = _fm.beginTransaction();
-		_ft.replace(R.id.contentFrameLayout, f);
-		_ft.commit();
-	}
-
-	@Override
 	public void onReturnButtonClick() {
 		loadOrders();
 	}
 
 	@Override
 	public void onFormListItemClick(String formName) {
-		
+
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.BUNDLE_PARAM_FORM_NAME, formName);
 		Intent intent = new Intent(this, FormActivity.class);

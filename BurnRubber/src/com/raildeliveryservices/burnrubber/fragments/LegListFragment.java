@@ -256,6 +256,11 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
                     sendUpdateToServer(legId, "END FILE");
                     values.put(Leg.Columns.DEPART_TO_DATE_TIME, dateTime.format(new Date()));
                     values.put(Leg.Columns.COMPLETED_FLAG, true);
+
+                    Uri uri2 = Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(_orderId));
+                    ContentValues values2 = new ContentValues();
+                    values2.put(Order.Columns.COMPLETED_FLAG, true);
+                    _activity.getContentResolver().update(uri2, values2, null, null);
                     break;
 			}
 
@@ -263,7 +268,6 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 		}
 
         private void sendUpdateToServer(long legId, String driverStatus){
-            Uri uri = Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(_orderId));
             JSONObject requestJson = new JSONObject();
             try {
                 requestJson.accumulate(WebServiceConstants.FIELD_DRIVER_NO, Utils.getDriverNo(_activity));
