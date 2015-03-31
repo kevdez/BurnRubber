@@ -106,7 +106,7 @@ public class OrderActivity extends BaseFragmentActivity implements OrderListFrag
 		Services.stopOrdersDownloadService(this);
 		
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(750);
 		} catch (InterruptedException e) {;
 		}
 		

@@ -90,8 +90,6 @@ public class LegListCursorAdapter extends CursorTreeAdapter  {
 		String arriveToDate = "";
 		String departToDate = "";
 		
-		//SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yy HH:mm", Locale.US);
-		
 		arriveFromButton.setTag(legId);
 		departFromButton.setTag(legId);
 		arriveToButton.setTag(legId);
@@ -155,7 +153,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter  {
 		cityToText.setText(cursor.getString(cursor.getColumnIndex(Leg.Columns.CITY_TO)) + ", ");
 		stateToText.setText(cursor.getString(cursor.getColumnIndex(Leg.Columns.STATE_TO)) + " ");
 		zipcodeToText.setText(cursor.getString(cursor.getColumnIndex(Leg.Columns.ZIP_CODE_TO)));
-		
+
 		try {
 			if (!TextUtils.isEmpty(cursor.getString(cursor.getColumnIndex(Leg.Columns.ARRIVE_TO_DATE_TIME)))) {
 				arriveToDate = Constants.ClientDateFormat.format(Constants.ClientDateFormat.parse(cursor.getString(cursor.getColumnIndex(Leg.Columns.ARRIVE_TO_DATE_TIME))));
@@ -395,7 +393,6 @@ public class LegListCursorAdapter extends CursorTreeAdapter  {
 					outboundFormButton.setEnabled(false);
 				}
 			} else {
-				//outboundFormButton.setEnabled(false);
 				outboundFormButton.setVisibility(View.GONE);
 			}
 		} else {
