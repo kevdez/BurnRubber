@@ -45,9 +45,6 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
 	private Button _messageButton;
 	private Button _tripHistoryButton;
 	private Button _onlineButton;
-	//private Button _formsButton;
-	//private Button _logoffButton;
-	//private Button _returnButton;
 	private OrderListCursorAdapter _listAdapter;
 	private boolean _tripHistory;
 	private Callbacks _callbacks;
@@ -69,8 +66,6 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
 		super.onActivityCreated(savedInstanceState);
 		
 		_activity = getActivity();
-		
-		//_settings = _activity.getSharedPreferences(Constants.SETTINGS_NAME, Context.MODE_PRIVATE);
 
 		_messageButton = (Button) _activity.findViewById(R.id.messageButton);
 		_tripHistoryButton = (Button) _activity.findViewById(R.id.tripHistoryButton);

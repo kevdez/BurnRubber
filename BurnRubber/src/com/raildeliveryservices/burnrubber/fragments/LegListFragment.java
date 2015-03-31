@@ -208,41 +208,6 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 //			return true;
 //		}
 	}
-
-    private void sendContainerOrChassis(){
-        if(!(_containerNoEditText.getText().toString().isEmpty()))
-            sendContainerOrChassisToServer("CONTAINER",_containerNoEditText.getText().toString());
-
-        if(!(_chassisNoEditText.getText().toString().isEmpty()))
-            sendContainerOrChassisToServer("CHASSIS", _chassisNoEditText.getText().toString());
-    }
-
-    // This may require updating the leg to be either NULL or an actual current leg.
-    private void sendContainerOrChassisToServer(String label, String container){
-        Uri uri = Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(_orderId));
-        ContentValues values = new ContentValues();
-        values.put(Order.Columns.STARTED_FLAG, 1);
-        _activity.getContentResolver().update(uri, values, null, null);
-
-        JSONObject requestJson = new JSONObject();
-        try {
-            requestJson.accumulate(WebServiceConstants.FIELD_DRIVER_NO, Utils.getDriverNo(_activity));
-            requestJson.accumulate(WebServiceConstants.FIELD_IN_OUT_FLAG, "I");
-            requestJson.accumulate(WebServiceConstants.FIELD_FILE_NO, _fileNoText.getText());
-            requestJson.accumulate(WebServiceConstants.FIELD_LEG_NO, "1");
-            requestJson.accumulate(WebServiceConstants.FIELD_LABEL, label);
-            requestJson.accumulate(WebServiceConstants.FIELD_FORM_NAME, "CANNED");
-            requestJson.accumulate(WebServiceConstants.FIELD_MESSAGE_TEXT, container);
-            requestJson.accumulate(WebServiceConstants.FIELD_CLIENT_DATETIME, Utils.getCurrentDateTime(Constants.ClientDateFormat));
-
-            Utils.sendMessageToServer(_activity, WebServiceConstants.URL_CREATE_MESSAGE, requestJson);
-        } catch (Exception e) {
-            Log.e(LOG_TAG, "In sendContainerOrChassisToServer(): "+e.getMessage());
-            Log.e(LOG_TAG, "URL: " + WebServiceConstants.URL_CREATE_MESSAGE);
-            Log.e(LOG_TAG, "JSON: " + requestJson.toString());
-
-        }
-    }
 	
 	private LegListCursorAdapter.AdapterCallbacks _listAdapterButtonListener = new LegListCursorAdapter.AdapterCallbacks() {
 		
@@ -315,7 +280,6 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
                 Log.e(LOG_TAG, "sendUpdateToServer(): "+e.getMessage());
                 Log.e(LOG_TAG, "URL: " + WebServiceConstants.URL_CREATE_MESSAGE);
                 Log.e(LOG_TAG, "JSON: " + requestJson.toString());
-
             }
         }
 
@@ -373,6 +337,47 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 			dialog.show();
 		}
 	};
+
+    public void sendContainerOrChassis() {
+
+        Log.i(LOG_TAG, "sending container or chassis..." + _containerNoEditText.getText().toString());
+
+        if (!(_containerNoEditText.getText().toString().isEmpty())) {
+            sendContainerOrChassisToServer("CONTAINER", _containerNoEditText.getText().toString());
+            Log.i(LOG_TAG, "sending a container " + _containerNoEditText.getText().toString());
+        }
+
+        if (!(_chassisNoEditText.getText().toString().isEmpty())) {
+            sendContainerOrChassisToServer("CHASSIS", _chassisNoEditText.getText().toString());
+            Log.i(LOG_TAG, "sending a chassis " + _chassisNoEditText.getText().toString());
+        }
+    }
+
+    // This may require updating the leg to be either NULL or an actual current leg.
+    private void sendContainerOrChassisToServer(String label, String container){
+        Uri uri = Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(_orderId));
+        ContentValues values = new ContentValues();
+        values.put(Order.Columns.STARTED_FLAG, 1);
+        _activity.getContentResolver().update(uri, values, null, null);
+
+        JSONObject requestJson = new JSONObject();
+        try {
+            requestJson.accumulate(WebServiceConstants.FIELD_DRIVER_NO, Utils.getDriverNo(_activity));
+            requestJson.accumulate(WebServiceConstants.FIELD_IN_OUT_FLAG, "I");
+            requestJson.accumulate(WebServiceConstants.FIELD_FILE_NO, _fileNoText.getText());
+            requestJson.accumulate(WebServiceConstants.FIELD_LEG_NO, "1");
+            requestJson.accumulate(WebServiceConstants.FIELD_LABEL, label);
+            requestJson.accumulate(WebServiceConstants.FIELD_FORM_NAME, "CANNED");
+            requestJson.accumulate(WebServiceConstants.FIELD_MESSAGE_TEXT, container);
+            requestJson.accumulate(WebServiceConstants.FIELD_CLIENT_DATETIME, Utils.getCurrentDateTime(Constants.ClientDateFormat));
+
+            Utils.sendMessageToServer(_activity, WebServiceConstants.URL_CREATE_MESSAGE, requestJson);
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "In sendContainerOrChassisToServer(): "+e.getMessage());
+            Log.e(LOG_TAG, "URL: " + WebServiceConstants.URL_CREATE_MESSAGE);
+            Log.e(LOG_TAG, "JSON: " + requestJson.toString());
+        }
+    }
 	
 	private void updateArriveDepartDateTime(View v, long legId, int year, int month, int day, int hour, int min) {
 		
@@ -422,7 +427,7 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 				case R.id.returnButton:
 					_callbacks.onReturnButtonClick();
 					break;
-                case R.id.sendContainerChassisBtn:
+                case R.id.sendContainerChassisButton:
                     sendContainerOrChassis();
                     break;
 			}
@@ -519,15 +524,18 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 					_containerNoEditText.setEnabled(true);
 					_chassisNoEditText.setEnabled(true);
 					_listAdapter.setStartedFlag(true);
+                    _sendContainerChassisButton.setEnabled(true);
 				} else {
 					_startFileButton.setEnabled(true);
 					_startFileButton.setTextColor(_activity.getResources().getColor(R.color.red));
 					_containerNoEditText.setEnabled(false);
 					_chassisNoEditText.setEnabled(false);
 					_listAdapter.setStartedFlag(false);
+                    _sendContainerChassisButton.setEnabled(false);
 				}
 			} else {
 				_startFileButton.setEnabled(false);
+                _sendContainerChassisButton.setEnabled(false);
 			}
 			
 			Loader<Cursor> l = getLoaderManager().getLoader(LOADER_LEGS);
