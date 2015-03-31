@@ -339,17 +339,12 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 	};
 
     public void sendContainerOrChassis() {
-
-        Log.i(LOG_TAG, "sending container or chassis..." + _containerNoEditText.getText().toString());
-
         if (!(_containerNoEditText.getText().toString().isEmpty())) {
             sendContainerOrChassisToServer("CONTAINER", _containerNoEditText.getText().toString());
-            Log.i(LOG_TAG, "sending a container " + _containerNoEditText.getText().toString());
         }
 
         if (!(_chassisNoEditText.getText().toString().isEmpty())) {
             sendContainerOrChassisToServer("CHASSIS", _chassisNoEditText.getText().toString());
-            Log.i(LOG_TAG, "sending a chassis " + _chassisNoEditText.getText().toString());
         }
     }
 
