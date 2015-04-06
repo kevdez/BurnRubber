@@ -162,7 +162,10 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 			throw new ClassCastException(activity.toString() + " must implement Callbacks");
 		}
 	}
-	
+
+	/**
+	 * This function gets called when the user is online, confirmed the order, and presses the "Start file" button.
+	 */
 	private void startFile() {
 		Uri uri = Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(_orderId));
 		ContentValues values = new ContentValues();
@@ -196,9 +199,11 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 		}
 	}
 
-    /*
-    Driver CAN Arrive/Depart if Container or Chassis information are missing.
-     */
+	/**
+	 * This function was supposed to be the check whether the driver entered in container and chassis information.
+	 *
+	 * @return boolean whether the arrive and depart buttons are enabled.
+	 */
 	private boolean canArriveDepart() {
         return true;
 //		if (TextUtils.isEmpty(_containerNoEditText.getText()) ||
@@ -210,7 +215,7 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 	}
 	
 	private LegListCursorAdapter.AdapterCallbacks _listAdapterButtonListener = new LegListCursorAdapter.AdapterCallbacks() {
-		
+
 		@Override
 		public void onArriveDepartButtonClick(View v, long legId) {
 			
@@ -254,9 +259,12 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 					break;
                 case R.id.endFileButton:
                     sendUpdateToServer(legId, "END FILE");
+
+					// renders the leg complete, like in case R.id.departToButton
                     values.put(Leg.Columns.DEPART_TO_DATE_TIME, dateTime.format(new Date()));
                     values.put(Leg.Columns.COMPLETED_FLAG, true);
 
+					// also renders the ORDER complete
                     Uri uri2 = Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(_orderId));
                     ContentValues values2 = new ContentValues();
                     values2.put(Order.Columns.COMPLETED_FLAG, true);
@@ -267,6 +275,11 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
             _activity.getContentResolver().update(uri, values, null, null);
 		}
 
+		/**
+		 * Sends to the server whether the status is ARRIVE/DEPART/END FILE
+		 * @param legId the leg number
+		 * @param driverStatus the value of ARRIVE, DEPART, or END FILE
+		 */
         private void sendUpdateToServer(long legId, String driverStatus){
             JSONObject requestJson = new JSONObject();
             try {
@@ -292,6 +305,12 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 			_callbacks.onOutboundFormClick(legId, fileNo);
 		}
 
+		/**
+		 * This function is called when an ARRIVE / DEPART / DONE button is pressed again. The first time that button is pressed,
+		 * the text turns into a time like "4/5/15 8:00am". Pressing that new time button calls this.
+		 * @param v The view
+		 * @param legId The leg number
+		 */
         @Override
 		public void onEditArriveDepartButtonClick(View v, long legId) {
 			
@@ -342,6 +361,9 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 		}
 	};
 
+	/**
+	 * This function gets called when the "Send" button gets pressed, under the Container and Chassis fields.
+	 */
     public void sendContainerOrChassis() {
         if (!(_containerNoEditText.getText().toString().isEmpty())) {
             sendContainerOrChassisToServer("CONTAINER", _containerNoEditText.getText().toString());
@@ -406,7 +428,7 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 		
 		_activity.getContentResolver().update(uri, values, null, null);
 	}
-	
+
 	private OnClickListener _buttonListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -563,7 +585,6 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 			InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE); 
 			inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 		} catch (Exception e) {
-
 		}
 	}
 
@@ -576,7 +597,6 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 			try {
 				_listAdapter.setChildrenCursor(id, null);
 			} catch (NullPointerException e) {
-				
 			}
 		}
 
