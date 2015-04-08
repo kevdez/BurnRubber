@@ -30,5 +30,6 @@ Thumbs.db
 .gradle
 build/
 
-Custom BurnRubber
+# Custom BurnRubber
 BurnRubber/src/com/raildeliveryservices/burnrubber/WebServiceConstants.java
+.metadata/
