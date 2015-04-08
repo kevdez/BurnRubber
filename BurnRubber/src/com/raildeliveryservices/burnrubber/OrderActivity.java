@@ -20,14 +20,22 @@ public class OrderActivity extends BaseFragmentActivity implements OrderListFrag
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
-		
-		Services.startGpsService(this);
+
+        startServices();
 		
 		_fm = getSupportFragmentManager();
 
         msgIntent = new Intent(this, MessageActivity.class);
 		loadOrders();
 	}
+
+    private void startServices() {
+        Services.startGpsService(this);
+        Services.startMessagesDownloadService(this);
+        Services.startOrdersDownloadService(this);
+        Services.startLocationService(this);
+        Services.startUploadService(this);
+    }
 
     @Override
     public void onTripHistoryButtonClick() {

@@ -73,12 +73,7 @@ public class LoginAsyncTask extends AsyncTask<String, Void, AuthenticationRespon
 		if (result.authentic) {
 			Utils.setDriverNo(_context, _driverNo);
 			Utils.setUserLoggedIn(_context, true);
-			
-			Services.startMessagesDownloadService(_context);
-			Services.startOrdersDownloadService(_context);
-			Services.startLocationService(_context);
-			Services.startUploadService(_context);
-			
+
 			_context.startActivity(new Intent(_context, OrderActivity.class));
 		} else {
 			AlertDialog.Builder alertBuilder = new AlertDialog.Builder(_context);
