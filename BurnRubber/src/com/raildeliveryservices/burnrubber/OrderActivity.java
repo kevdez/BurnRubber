@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.raildeliveryservices.burnrubber.fragments.OrderListFragment;
 import com.raildeliveryservices.burnrubber.utils.Services;
@@ -15,6 +16,7 @@ public class OrderActivity extends BaseFragmentActivity implements OrderListFrag
 	private FragmentManager _fm;
 	private FragmentTransaction _ft;
     private static Intent msgIntent;
+    private static String TAG = OrderActivity.class.getSimpleName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,21 @@ public class OrderActivity extends BaseFragmentActivity implements OrderListFrag
 
         msgIntent = new Intent(this, MessageActivity.class);
 		loadOrders();
-	}
+
+        Log.d(TAG, "On Created");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "On Destroyed");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "On Destroyed");
+    }
 
     private void startServices() {
         Services.startGpsService(this);

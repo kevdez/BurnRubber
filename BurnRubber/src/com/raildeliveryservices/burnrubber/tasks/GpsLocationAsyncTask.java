@@ -5,6 +5,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.raildeliveryservices.burnrubber.models.GpsLocation;
 import com.raildeliveryservices.burnrubber.utils.Utils;
@@ -15,6 +16,7 @@ public class GpsLocationAsyncTask extends AsyncTask<Location, Void, String> {
 
 	private Context _context;
 	private Location _location;
+    private static final String TAG = GpsLocationAsyncTask.class.getSimpleName();
 	
 	public GpsLocationAsyncTask(Context context) {
 		_context = context;
@@ -30,8 +32,14 @@ public class GpsLocationAsyncTask extends AsyncTask<Location, Void, String> {
 		try {
 			addresses = geocoder.getFromLocation(_location.getLatitude(), _location.getLongitude(), 1);
 		} catch (Exception e) {
-			Utils.sendDebugMessageToServer(_context, "GpsLocationAsyncTask.doInBackground", e.getMessage());
-			return "Unavailable";
+            //TODO: Check for exception when getting GPS address. Max accepted msg length 4000.
+            String exceptionMsg = e.getMessage();
+            if(exceptionMsg.length() > 3900){
+                exceptionMsg = exceptionMsg.substring(0,3900);
+            }
+			Utils.sendDebugMessageToServer(_context, "GpsLocationAsyncTask.doInBackground", exceptionMsg);
+            Log.d(TAG, exceptionMsg, e);
+            return "Unavailable";
 		}
 		
 		if (addresses != null & addresses.size() > 0) {
