@@ -12,7 +12,6 @@ import com.raildeliveryservices.burnrubber.utils.Utils;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -25,37 +24,56 @@ import java.util.List;
 
 public class GpsLocationAsyncTask extends AsyncTask<Location, Void, String> {
 
-	private Context _context;
-	private Location _location;
     private static final String TAG = GpsLocationAsyncTask.class.getSimpleName();
-	
-	public GpsLocationAsyncTask(Context context) {
-		_context = context;
-	}
-	
-	@Override
-	protected String doInBackground(Location... params) {
-		
-		Geocoder geocoder = new Geocoder(_context);
-		_location = params[0];
-		List<Address> addresses = null;
-		
-		try {
-			addresses = geocoder.getFromLocation(_location.getLatitude(), _location.getLongitude(), 1);
-		} catch (Exception e) {
+    private Context _context;
+    private Location _location;
+
+    public GpsLocationAsyncTask(Context context) {
+        _context = context;
+    }
+
+    private static JSONObject getLocationInfo(double lat, double lng) throws IOException, JSONException {
+
+        HttpGet httpGet = new HttpGet("http://maps.google.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&sensor=false");
+        HttpClient client = new DefaultHttpClient();
+        HttpResponse response;
+        StringBuilder stringBuilder = new StringBuilder();
+
+        response = client.execute(httpGet);
+        HttpEntity entity = response.getEntity();
+        InputStream stream = entity.getContent();
+        int b;
+        while ((b = stream.read()) != -1) {
+            stringBuilder.append((char) b);
+        }
+
+        JSONObject jsonObject = new JSONObject(stringBuilder.toString());
+        return jsonObject;
+    }
+
+    @Override
+    protected String doInBackground(Location... params) {
+
+        Geocoder geocoder = new Geocoder(_context);
+        _location = params[0];
+        List<Address> addresses = null;
+
+        try {
+            addresses = geocoder.getFromLocation(_location.getLatitude(), _location.getLongitude(), 1);
+        } catch (Exception e) {
             //TODO: Check for exception when getting GPS address. Max accepted msg length 4000.
             String exceptionMsg = e.getMessage();
-            if(exceptionMsg.length() > 3900){
-                exceptionMsg = exceptionMsg.substring(0,3900);
+            if (exceptionMsg.length() > 3900) {
+                exceptionMsg = exceptionMsg.substring(0, 3900);
             }
-			Utils.sendDebugMessageToServer(_context, "GpsLocationAsyncTask.doInBackground", exceptionMsg);
+            Utils.sendDebugMessageToServer(_context, "GpsLocationAsyncTask.doInBackground", exceptionMsg);
             Log.d(TAG, exceptionMsg, e);
             return googleMapsAPIRequest();
-		}
+        }
 
-		if (addresses != null & addresses.size() > 0) {
-			Address address = addresses.get(0);
-            
+        if (addresses != null & addresses.size() > 0) {
+            Address address = addresses.get(0);
+
             String addressText = String.format(
                     "%s, %s, %s, %s",
                     address.getMaxAddressLineIndex() > 0 ?
@@ -64,50 +82,30 @@ public class GpsLocationAsyncTask extends AsyncTask<Location, Void, String> {
                     address.getAdminArea(),
                     address.getPostalCode());
             return addressText;
-		} else {
-			return "No address found";
-		}
-	}
+        } else {
+            return "No address found";
+        }
+    }
 
-	@Override
-	protected void onPostExecute(String result) {
-		GpsLocation.latitude = _location.getLatitude();
-		GpsLocation.longitude = _location.getLongitude();
-		GpsLocation.bearing = _location.getBearing();
-		GpsLocation.altitude = _location.getAltitude();
-		GpsLocation.speed = _location.getSpeed();
-		GpsLocation.address = result;
-	}
+    @Override
+    protected void onPostExecute(String result) {
+        GpsLocation.latitude = _location.getLatitude();
+        GpsLocation.longitude = _location.getLongitude();
+        GpsLocation.bearing = _location.getBearing();
+        GpsLocation.altitude = _location.getAltitude();
+        GpsLocation.speed = _location.getSpeed();
+        GpsLocation.address = result;
+    }
 
-	private String googleMapsAPIRequest(){
-		try{
-			JSONObject json = getLocationInfo(_location.getLatitude(), _location.getLongitude());
-			return json.getString("formatted_address");
-		} catch (Exception e) {
-			Utils.sendDebugMessageToServer(_context, "GpsLocationAsyncTask.googleMapsAPIRequest", e.getMessage());
-			return "Unavailable";
-		}
-	}
-
-	private static JSONObject getLocationInfo( double lat, double lng) throws IOException, JSONException {
-
-		HttpGet httpGet = new HttpGet("http://maps.google.com/maps/api/geocode/json?latlng="+lat+","+lng+"&sensor=false");
-		HttpClient client = new DefaultHttpClient();
-		HttpResponse response;
-		StringBuilder stringBuilder = new StringBuilder();
-
-		response = client.execute(httpGet);
-		HttpEntity entity = response.getEntity();
-		InputStream stream = entity.getContent();
-		int b;
-		while ((b = stream.read()) != -1) {
-			stringBuilder.append((char) b);
-		}
-
-		JSONObject jsonObject = new JSONObject(stringBuilder.toString());
-		return jsonObject;
-	}
-
+    private String googleMapsAPIRequest() {
+        try {
+            JSONObject json = getLocationInfo(_location.getLatitude(), _location.getLongitude());
+            return json.getString("formatted_address");
+        } catch (Exception e) {
+            Utils.sendDebugMessageToServer(_context, "GpsLocationAsyncTask.googleMapsAPIRequest", e.getMessage());
+            return "Unavailable";
+        }
+    }
 
 
 }

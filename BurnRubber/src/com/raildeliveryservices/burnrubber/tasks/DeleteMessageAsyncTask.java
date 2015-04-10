@@ -11,32 +11,32 @@ import java.util.ArrayList;
 
 public class DeleteMessageAsyncTask extends AsyncTask<ArrayList<Long>, Void, Void> {
 
-	private Context _context;
-	private ProgressDialog _progressDialog;
-	
-	public DeleteMessageAsyncTask(Context context) {
-		_context = context;
-	}
-	
-	@Override
-	protected Void doInBackground(ArrayList<Long>... params) {
-		
-		ArrayList<Long> messageIds = params[0];
+    private Context _context;
+    private ProgressDialog _progressDialog;
 
-		for (long id : messageIds) {
-			_context.getContentResolver().delete(Uri.withAppendedPath(Message.CONTENT_URI, String.valueOf(id)), null, null);
-		}
-		
-		return null;
-	}
+    public DeleteMessageAsyncTask(Context context) {
+        _context = context;
+    }
 
-	@Override
-	protected void onPreExecute() {
-		_progressDialog = ProgressDialog.show(_context, "Deleting Messages", "Message delete in progress...");
-	}
-	
-	@Override
-	protected void onPostExecute(Void result) {
-		_progressDialog.dismiss();
-	}
+    @Override
+    protected Void doInBackground(ArrayList<Long>... params) {
+
+        ArrayList<Long> messageIds = params[0];
+
+        for (long id : messageIds) {
+            _context.getContentResolver().delete(Uri.withAppendedPath(Message.CONTENT_URI, String.valueOf(id)), null, null);
+        }
+
+        return null;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        _progressDialog = ProgressDialog.show(_context, "Deleting Messages", "Message delete in progress...");
+    }
+
+    @Override
+    protected void onPostExecute(Void result) {
+        _progressDialog.dismiss();
+    }
 }
