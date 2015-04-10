@@ -10,6 +10,17 @@ import android.util.Log;
 import com.raildeliveryservices.burnrubber.models.GpsLocation;
 import com.raildeliveryservices.burnrubber.utils.Utils;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public class GpsLocationAsyncTask extends AsyncTask<Location, Void, String> {
@@ -39,9 +50,9 @@ public class GpsLocationAsyncTask extends AsyncTask<Location, Void, String> {
             }
 			Utils.sendDebugMessageToServer(_context, "GpsLocationAsyncTask.doInBackground", exceptionMsg);
             Log.d(TAG, exceptionMsg, e);
-            return "Unavailable";
+            return googleMapsAPIRequest();
 		}
-		
+
 		if (addresses != null & addresses.size() > 0) {
 			Address address = addresses.get(0);
             
@@ -57,9 +68,7 @@ public class GpsLocationAsyncTask extends AsyncTask<Location, Void, String> {
 			return "No address found";
 		}
 	}
-	
-	
-	
+
 	@Override
 	protected void onPostExecute(String result) {
 		GpsLocation.latitude = _location.getLatitude();
@@ -69,5 +78,36 @@ public class GpsLocationAsyncTask extends AsyncTask<Location, Void, String> {
 		GpsLocation.speed = _location.getSpeed();
 		GpsLocation.address = result;
 	}
-	
+
+	private String googleMapsAPIRequest(){
+		try{
+			JSONObject json = getLocationInfo(_location.getLatitude(), _location.getLongitude());
+			return json.getString("formatted_address");
+		} catch (Exception e) {
+			Utils.sendDebugMessageToServer(_context, "GpsLocationAsyncTask.googleMapsAPIRequest", e.getMessage());
+			return "Unavailable";
+		}
+	}
+
+	private static JSONObject getLocationInfo( double lat, double lng) throws IOException, JSONException {
+
+		HttpGet httpGet = new HttpGet("http://maps.google.com/maps/api/geocode/json?latlng="+lat+","+lng+"&sensor=false");
+		HttpClient client = new DefaultHttpClient();
+		HttpResponse response;
+		StringBuilder stringBuilder = new StringBuilder();
+
+		response = client.execute(httpGet);
+		HttpEntity entity = response.getEntity();
+		InputStream stream = entity.getContent();
+		int b;
+		while ((b = stream.read()) != -1) {
+			stringBuilder.append((char) b);
+		}
+
+		JSONObject jsonObject = new JSONObject(stringBuilder.toString());
+		return jsonObject;
+	}
+
+
+
 }
