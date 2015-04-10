@@ -1,12 +1,44 @@
+import java.util.regex.Pattern
+
 apply plugin: 'com.android.application'
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     compile project(':google-play-services_lib')
-    compile project(':google-play-services_lib')
 }
 
+//Increase the version code by 1. Ex: 30 -> 31.
+task increaseVersionCode << {
+    def manifestFile = file('AndroidManifest.xml')
+    def matcher = Pattern.compile('versionCode=\"(\\d+)\"')
+            .matcher(manifestFile.getText())
+    matcher.find()
+    def manifestContent = matcher.replaceAll('versionCode=\"' +
+            ++Integer.parseInt(matcher.group(1)) + '\"')
+    manifestFile.write(manifestContent)
+}
+
+//Increase the build version name by 0.01. Ex: 3.01 -> 3.02.
+task increaseVersionName <<{
+    def manifestFile = file('AndroidManifest.xml')
+    def matcher = Pattern.compile('versionName=\"(\\d+)\\.(\\d+)\"').matcher(manifestFile.getText())
+    matcher.find()
+    def versionName = String.format("%.2f", Integer.parseInt(matcher.group(1)) + Double.parseDouble("." + matcher.group(2)) + 0.01)
+    def manifestContent = matcher.replaceAll('versionName=\"'  + versionName + '\"')
+    manifestFile.write(manifestContent)
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name == 'generateReleaseBuildConfig') {
+        task.dependsOn 'increaseVersionCode', 'increaseVersionName'
+    }
+    //For debug mode use 'generateDebugBuildConfig'
+}
+
+
 android {
+
+
     compileSdkVersion 19
     buildToolsVersion "21.1.2"
 
