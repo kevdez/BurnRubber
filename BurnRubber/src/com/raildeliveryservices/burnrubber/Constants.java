@@ -14,13 +14,23 @@ public class Constants {
     public static final String SETTINGS_DVIR_POWERED_SEQUENCE = "dvirPoweredSequence";
     public static final String SETTINGS_DRIVER_LOGGED_IN = "driverLoggedIn";
     public static final String SETTINGS_LAST_UPDATE_DATE_TIME_ORDERS = "lastUpdateDateTimeOrders";
+    public static final String SETTINGS_DOWNLOAD_ORDERS_SERVICE_INTERVAL = "downloadOrderServiceInterval";
+    public static final String SETTINGS_DOWNLOAD_MESSAGE_SERVICE_INTERVAL = "downloadMessageServiceInterval";
+    public static final String SETTINGS_UPLOAD_SERVICE_INTERVAL = "uploadServiceInterval";
+    public static final String SETTINGS_LOCATION_SERVICE_INTERVAL = "locationServiceInterval";
+    public static final String SETTINGS_REQUEST_NEW_LOCATION_INTERVAL = "requestNewLocationInterval";
+    public static final String SETTINGS_FASTEST_LOCATION_UPDATE_INTERVAL = "fastestLocationUpdateInterval";
+    public static final String SETTINGS_SEND_GPS_WHEN_OFFLINE = "sendGpsWhenOffline";
 
-    public static final int DOWNLOAD_ORDERS_SERVICE_INTERVAL = 60000;  //1 minute
-    public static final int DOWNLOAD_MESSAGES_SERVICE_INTERVAL = 60000; //1 minute
-    public static final int UPLOAD_SERVICE_INTERVAL = 60000; //1 minute
-    public static final int LOCATION_SERVICE_INTERVAL = 300000; //5 minutes
-    public static final int REQUEST_NEW_LOCATION_INTERVAL = 270000;//every 4.5 minutes request a new location from device.
-    public static final int FASTEST_REQUEST_LOCATION_INTERVAL = 60000;//every 1 minute get location update from GPS providers.
+
+
+    public static final int DEFAULT_DOWNLOAD_ORDERS_SERVICE_INTERVAL = 60000;  //1 minute
+    public static final int DEFAULT_DOWNLOAD_MESSAGES_SERVICE_INTERVAL = 60000; //1 minute
+    public static final int DEFAULT_UPLOAD_SERVICE_INTERVAL = 60000; //1 minute
+    public static final int DEFAULT_LOCATION_SERVICE_INTERVAL = 300000; //5 minutes
+    public static final int DEFAULT_REQUEST_NEW_LOCATION_INTERVAL = 270000;//every 4.5 minutes request a new location from device.
+    public static final int DEFAULT_FASTEST_LOCATION_UPDATE_INTERVAL = 60000;//every 1 minute get location update from GPS providers.
+    public static final boolean DEFAULT_SEND_GPS_WHEN_OFFLINE = true;
 
     public static final String BUNDLE_PARAM_ORDER_ID = "orderId";
     public static final String BUNDLE_PARAM_LEG_ID = "legId";
@@ -30,7 +40,6 @@ public class Constants {
     public static final String BUNDLE_PARAM_FORM_NAME = "formName";
 
     public static final int NOTIFICATION_MESSAGES = 0;
-
 
     public static SimpleDateFormat ServerDateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm", Locale.US);
 
