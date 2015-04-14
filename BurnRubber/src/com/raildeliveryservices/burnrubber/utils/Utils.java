@@ -29,6 +29,30 @@ import java.util.TimeZone;
 
 public class Utils {
 
+    public static void saveRuntimeSetting(Context context){
+        SharedPreferences settings = context.getSharedPreferences(Constants.SETTINGS_NAME, Context.MODE_PRIVATE);
+        settings.edit().putInt(Constants.SETTINGS_DOWNLOAD_MESSAGE_SERVICE_INTERVAL, RuntimeSetting.downloadMessageInterval).commit();
+        settings.edit().putInt(Constants.SETTINGS_DOWNLOAD_ORDERS_SERVICE_INTERVAL, RuntimeSetting.downloadOrderInterval).commit();
+        settings.edit().putInt(Constants.SETTINGS_UPLOAD_SERVICE_INTERVAL, RuntimeSetting.uploadServiceInterval).commit();
+        settings.edit().putInt(Constants.SETTINGS_LOCATION_SERVICE_INTERVAL, RuntimeSetting.locationServiceInterval).commit();
+        settings.edit().putInt(Constants.SETTINGS_REQUEST_NEW_LOCATION_INTERVAL, RuntimeSetting.locationUpdateInterval).commit();
+        settings.edit().putInt(Constants.SETTINGS_FASTEST_LOCATION_UPDATE_INTERVAL, RuntimeSetting.fastestLocationUpdateInterval).commit();
+        settings.edit().putBoolean(Constants.SETTINGS_SEND_GPS_WHEN_OFFLINE, RuntimeSetting.sendGpsWhenOffline).commit();
+    }
+
+    public static void loadRuntimeSetting(Context context){
+        SharedPreferences settings = context.getSharedPreferences(Constants.SETTINGS_NAME, Context.MODE_PRIVATE);
+        RuntimeSetting.downloadMessageInterval = settings.getInt(Constants.SETTINGS_DOWNLOAD_MESSAGE_SERVICE_INTERVAL, Constants.DEFAULT_DOWNLOAD_MESSAGES_SERVICE_INTERVAL);
+        RuntimeSetting.downloadOrderInterval = settings.getInt(Constants.SETTINGS_DOWNLOAD_ORDERS_SERVICE_INTERVAL, Constants.DEFAULT_DOWNLOAD_ORDERS_SERVICE_INTERVAL);
+        RuntimeSetting.uploadServiceInterval = settings.getInt(Constants.SETTINGS_UPLOAD_SERVICE_INTERVAL, Constants.DEFAULT_UPLOAD_SERVICE_INTERVAL);
+        RuntimeSetting.locationServiceInterval = settings.getInt(Constants.SETTINGS_LOCATION_SERVICE_INTERVAL, Constants.DEFAULT_LOCATION_SERVICE_INTERVAL);
+        RuntimeSetting.locationUpdateInterval = settings.getInt(Constants.SETTINGS_REQUEST_NEW_LOCATION_INTERVAL, Constants.DEFAULT_REQUEST_NEW_LOCATION_INTERVAL);
+        RuntimeSetting.fastestLocationUpdateInterval = settings.getInt(Constants.SETTINGS_FASTEST_LOCATION_UPDATE_INTERVAL, Constants.DEFAULT_FASTEST_LOCATION_UPDATE_INTERVAL);
+        RuntimeSetting.sendGpsWhenOffline = settings.getBoolean(Constants.SETTINGS_SEND_GPS_WHEN_OFFLINE, Constants.DEFAULT_SEND_GPS_WHEN_OFFLINE);
+    }
+
+
+
     public static void setUserOnline(Context context, boolean value) {
         SharedPreferences settings = context.getSharedPreferences(Constants.SETTINGS_NAME, Context.MODE_PRIVATE);
         settings.edit().putBoolean(Constants.SETTINGS_DRIVER_ONLINE + "-" + Utils.getDriverNo(context), value).commit();

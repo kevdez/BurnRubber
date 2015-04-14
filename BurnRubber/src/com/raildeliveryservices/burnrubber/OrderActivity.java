@@ -27,6 +27,7 @@ public class OrderActivity extends BaseFragmentActivity implements OrderListFrag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
+        Utils.loadRuntimeSetting(this);
         startServices();
 
         _fm = getSupportFragmentManager();
@@ -41,6 +42,13 @@ public class OrderActivity extends BaseFragmentActivity implements OrderListFrag
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "On Destroyed");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "On Resumed");
+        Utils.loadRuntimeSetting(this);
     }
 
     @Override

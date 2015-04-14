@@ -8,6 +8,7 @@ import android.util.Log;
 import com.raildeliveryservices.burnrubber.Constants;
 import com.raildeliveryservices.burnrubber.WebServiceConstants;
 import com.raildeliveryservices.burnrubber.models.GpsLocation;
+import com.raildeliveryservices.burnrubber.utils.RuntimeSetting;
 import com.raildeliveryservices.burnrubber.utils.Utils;
 
 import org.json.JSONObject;
@@ -23,12 +24,17 @@ public class LocationAsyncTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
+        //TODO: for testing
+        if(!Utils.isUserOnline(_context) && !RuntimeSetting.sendGpsWhenOffline){
+            return null;
+        }
+
         saveLocation();
         return null;
     }
 
     private void saveLocation() {
-        Log.i(TAG, "Location Service Started");
+        Log.i(TAG, "Location Service save location");
 
         try {
             if (!TextUtils.isEmpty(GpsLocation.getLocationString())) {

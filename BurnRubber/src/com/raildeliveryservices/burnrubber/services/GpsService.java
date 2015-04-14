@@ -14,6 +14,7 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.raildeliveryservices.burnrubber.Constants;
 import com.raildeliveryservices.burnrubber.tasks.GpsLocationAsyncTask;
+import com.raildeliveryservices.burnrubber.utils.RuntimeSetting;
 import com.raildeliveryservices.burnrubber.utils.Utils;
 
 public class GpsService extends Service implements
@@ -32,8 +33,8 @@ public class GpsService extends Service implements
         try {
             _locationRequest = LocationRequest.create();
             _locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            _locationRequest.setInterval(Constants.REQUEST_NEW_LOCATION_INTERVAL);
-            _locationRequest.setFastestInterval(Constants.FASTEST_REQUEST_LOCATION_INTERVAL);
+            _locationRequest.setInterval(RuntimeSetting.locationUpdateInterval);
+            _locationRequest.setFastestInterval(RuntimeSetting.fastestLocationUpdateInterval);
 
             _locationClient = new LocationClient(this, this, this);
             _locationClient.connect();
@@ -79,7 +80,7 @@ public class GpsService extends Service implements
     public void onLocationChanged(Location location) {
         GpsLocationAsyncTask task = new GpsLocationAsyncTask(this);
         task.execute(new Location[]{location});
-        Log.d(TAG, String.format("onLocationChanged, Lat: %s, Lgn: %s", String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude())));
+        Log.d(TAG, String.format("onLocationChanged, interval: " + RuntimeSetting.locationUpdateInterval +  ", Lat: %s, Lgn: %s", String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude())));
     }
 
     @Override

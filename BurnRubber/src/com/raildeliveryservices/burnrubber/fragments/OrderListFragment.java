@@ -32,6 +32,8 @@ import com.raildeliveryservices.burnrubber.data.Form;
 import com.raildeliveryservices.burnrubber.data.MessageAlert;
 import com.raildeliveryservices.burnrubber.data.Order;
 import com.raildeliveryservices.burnrubber.tasks.DeleteOrderAsyncTask;
+import com.raildeliveryservices.burnrubber.utils.RuntimeSetting;
+import com.raildeliveryservices.burnrubber.utils.Services;
 import com.raildeliveryservices.burnrubber.utils.Utils;
 
 @SuppressLint("NewApi")
@@ -54,6 +56,12 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
                     break;
                 case R.id.onlineButton:
                     if (Utils.isUserOnline(_activity)) {
+                        //TODO: Turn off gps service for testing.
+                        if(!RuntimeSetting.sendGpsWhenOffline){
+                            Services.stopGpsService(_activity);
+                            Services.stopLocationService(_activity);
+                        }
+                        /////////////////
                         setUserOffline();
                     } else {
                         final CharSequence[] choiceItems = new CharSequence[]{"Intermodal", "Crossdock"};
@@ -64,6 +72,10 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 setUserOnline(choiceItems[which].toString());
+                                if(!RuntimeSetting.isGpsServiceRunning){
+                                    Services.startGpsService(_activity);
+                                    Services.startLocationService(_activity);
+                                }
                                 dialog.dismiss();
                             }
                         });
