@@ -4,7 +4,7 @@
     android:versionName="3.0" android:installLocation="auto">
 
     <uses-sdk
-        android:minSdkVersion="17"
+        android:minSdkVersion="11"
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -30,7 +30,7 @@
         <activity android:name=".LegActivity" />
         <activity android:name=".MessageActivity" />
         <activity android:name=".FormActivity" />
-        
+
         <provider
             android:authorities="com.raildeliveryservices.burnrubber"
             android:name="com.raildeliveryservices.burnrubber.data.DataContentProvider"

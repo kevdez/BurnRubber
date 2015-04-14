@@ -9,35 +9,35 @@ import com.raildeliveryservices.burnrubber.fragments.FormFragment;
 
 public class FormActivity extends BaseFragmentActivity implements FormFragment.Callbacks {
 
-	private FragmentManager _fm;
-	private FragmentTransaction _ft;
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main_activity);
-		
-		Bundle bundle = getIntent().getExtras();
+    private FragmentManager _fm;
+    private FragmentTransaction _ft;
 
-		Fragment f = new FormFragment();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_activity);
 
-		if (bundle != null) {
-			f.setArguments(bundle);
-		}
-		
-		_fm = getSupportFragmentManager();
-		_ft = _fm.beginTransaction();
-		_ft.replace(R.id.contentFrameLayout, f);
-		_ft.commit();
-	}
+        Bundle bundle = getIntent().getExtras();
 
-	@Override
-	public void onFormSendButtonClick() {
-		finish();
-	}
+        Fragment f = new FormFragment();
 
-	@Override
-	public void onFormCancelButtonClick() {
-		finish();
-	}
+        if (bundle != null) {
+            f.setArguments(bundle);
+        }
+
+        _fm = getSupportFragmentManager();
+        _ft = _fm.beginTransaction();
+        _ft.replace(R.id.contentFrameLayout, f);
+        _ft.commit();
+    }
+
+    @Override
+    public void onFormSendButtonClick() {
+        finish();
+    }
+
+    @Override
+    public void onFormCancelButtonClick() {
+        finish();
+    }
 }
