@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.raildeliveryservices.burnrubber"
-    android:versionCode="30"
-    android:versionName="3.0" android:installLocation="auto">
+    android:versionCode="31"
+    android:versionName="3.01" android:installLocation="auto">
 
     <uses-sdk
         android:minSdkVersion="11"
