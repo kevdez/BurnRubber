@@ -14,6 +14,7 @@ import com.raildeliveryservices.burnrubber.utils.Utils;
 public class OrderActivity extends BaseFragmentActivity implements OrderListFragment.Callbacks {
 
     private static Intent msgIntent;
+    private static String TAG = OrderActivity.class.getSimpleName();
     private FragmentManager _fm;
     private FragmentTransaction _ft;
 
@@ -33,6 +34,8 @@ public class OrderActivity extends BaseFragmentActivity implements OrderListFrag
 
         msgIntent = new Intent(this, MessageActivity.class);
         loadOrders();
+
+        Log.d(TAG, "On Created");
     }
 
     @Override
@@ -109,7 +112,6 @@ public class OrderActivity extends BaseFragmentActivity implements OrderListFrag
         }
 
         finish();
-        Log.d(TAG, "Finished");
         System.exit(0);
     }
 

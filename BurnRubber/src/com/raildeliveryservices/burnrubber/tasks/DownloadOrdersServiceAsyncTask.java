@@ -55,7 +55,7 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
 
             String dateTime = Constants.ServerDateFormat.format(new Date());
             _settings.edit().putString(Constants.SETTINGS_LAST_UPDATE_DATE_TIME_ORDERS + "-" + Utils.getDriverNo(_context), dateTime).commit();
-
+            Log.d(LOG_TAG, responseJson.toString());
         } catch (Exception e) {
             Log.e(LOG_TAG, e.getMessage());
         }
