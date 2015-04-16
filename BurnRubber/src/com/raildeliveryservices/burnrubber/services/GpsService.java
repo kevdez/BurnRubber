@@ -12,10 +12,8 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
-import com.raildeliveryservices.burnrubber.Constants;
 import com.raildeliveryservices.burnrubber.tasks.GpsLocationAsyncTask;
 import com.raildeliveryservices.burnrubber.utils.RuntimeSetting;
-import com.raildeliveryservices.burnrubber.utils.Utils;
 
 public class GpsService extends Service implements
         GooglePlayServicesClient.ConnectionCallbacks,
@@ -38,10 +36,7 @@ public class GpsService extends Service implements
 
             _locationClient = new LocationClient(this, this, this);
             _locationClient.connect();
-            Utils.sendDebugMessageToServer(this, TAG, "GpsService onCreate successfully");
-
         } catch (Exception e) {
-            Utils.sendDebugMessageToServer(this, "GpsService.onCreate Exception", e.getMessage());
             Log.d(TAG, "Create Location Request exception", e);
         }
     }
@@ -58,22 +53,18 @@ public class GpsService extends Service implements
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Utils.sendDebugMessageToServer(this, "GpsService.onConnectionFailed", "Connection Failed");
         Log.d(TAG, "GpsService onConnection Failed.");
-        Utils.sendDebugMessageToServer(this, TAG, "GpsService onConnectionFailed");
     }
 
     @Override
     public void onConnected(Bundle bundle) {
         _locationClient.requestLocationUpdates(_locationRequest, this);
         Log.d(TAG, "GpsService is connected");
-        Utils.sendDebugMessageToServer(this, TAG, "GpsService onConnected");
     }
 
     @Override
     public void onDisconnected() {
         Log.d(TAG, "GpsService is disconnected.");
-        Utils.sendDebugMessageToServer(this, TAG, "GpsService onDisconnected");
     }
 
     @Override
@@ -88,7 +79,6 @@ public class GpsService extends Service implements
         _locationClient.removeLocationUpdates(this);
         _locationClient.disconnect();
         Log.d(TAG, "GpsService is destroyed.");
-        Utils.sendDebugMessageToServer(this, TAG, "GpsService onDestroyed");
         super.onDestroy();
     }
 }

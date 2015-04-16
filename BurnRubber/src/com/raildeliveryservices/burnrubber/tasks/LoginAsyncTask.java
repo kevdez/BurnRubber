@@ -23,7 +23,7 @@ public class LoginAsyncTask extends AsyncTask<String, Void, AuthenticationRespon
     private Context _context;
     private ProgressDialog _progressDialog;
     private String _driverNo;
-    private static final String TAG = LoginAsyncTask.class.getSimpleName();
+    private static final String LOG_TAG = LoginAsyncTask.class.getSimpleName();
 
     public LoginAsyncTask(Context context) {
         _context = context;
@@ -65,23 +65,15 @@ public class LoginAsyncTask extends AsyncTask<String, Void, AuthenticationRespon
 
             Utils.saveRuntimeSetting(_context);
 
-            Log.d(TAG, "downloadMessageInterval = " +  RuntimeSetting.downloadMessageInterval);
-            Log.d(TAG, "downloadOrderInterval = " +  RuntimeSetting.downloadOrderInterval);
-            Log.d(TAG, "uploadServiceInterval = " +  RuntimeSetting.uploadServiceInterval);
-            Log.d(TAG, "locationServiceInterval = " + RuntimeSetting.locationServiceInterval);
-            Log.d(TAG, "locationUpdateInterval = " +  RuntimeSetting.locationUpdateInterval);
-            Log.d(TAG, "fastestLocationUpdateInterval = " +  RuntimeSetting.fastestLocationUpdateInterval);
-            Log.d(TAG, "sendGpsMessageWhenOffline = " + RuntimeSetting.sendGpsWhenOffline);
-
             if (returnJsonObject.has(WebServiceConstants.OBJECT_RESPONSE_MESSAGE)) {
                 loginResponse.message = returnJsonObject.getString("ResponseMessage");
             }
 
             return loginResponse;
         } catch (Exception e) {
-            Utils.sendDebugMessageToServer(_context, "LoginAsyncTask.doInBackground", e.getMessage());
+            Log.d(LOG_TAG, "doInBackground Exception: " + e.getMessage());
             loginResponse.authentic = false;
-            loginResponse.message = "An unexpected error occured.  Please contact to administrator.";
+            loginResponse.message = "An error occurred.  Please contact an administrator or try again later.";
             return loginResponse;
         }
     }

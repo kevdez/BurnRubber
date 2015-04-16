@@ -15,7 +15,7 @@ import org.json.JSONObject;
 
 public class LocationAsyncTask extends AsyncTask<Void, Void, Void> {
 
-    private static final String TAG = "LocationAsyncTask";
+    private static final String LOG_TAG = LocationAsyncTask.class.getSimpleName();
     private Context _context;
 
     public LocationAsyncTask(Context context) {
@@ -34,7 +34,7 @@ public class LocationAsyncTask extends AsyncTask<Void, Void, Void> {
     }
 
     private void saveLocation() {
-        Log.i(TAG, "Location Service save location");
+        Log.i(LOG_TAG, "Location Service save location");
 
         try {
             if (!TextUtils.isEmpty(GpsLocation.getLocationString())) {
@@ -46,7 +46,7 @@ public class LocationAsyncTask extends AsyncTask<Void, Void, Void> {
                 Utils.sendMessageToServer(_context, WebServiceConstants.URL_CREATE_MESSAGE, jsonObject);
             }
         } catch (Exception e) {
-            Utils.sendDebugMessageToServer(_context, "LocationAsyncTask.saveLocation", e.getMessage());
+            Log.d(LOG_TAG, "saveLocation Exception: " + e.getMessage());
         }
     }
 }

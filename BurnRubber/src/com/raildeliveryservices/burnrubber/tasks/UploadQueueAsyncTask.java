@@ -3,16 +3,18 @@ package com.raildeliveryservices.burnrubber.tasks;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.raildeliveryservices.burnrubber.WebServiceConstants;
 import com.raildeliveryservices.burnrubber.data.UploadQ;
 import com.raildeliveryservices.burnrubber.models.GpsLocation;
 import com.raildeliveryservices.burnrubber.utils.Services;
-import com.raildeliveryservices.burnrubber.utils.Utils;
 
 import org.json.JSONObject;
 
 public class UploadQueueAsyncTask extends AsyncTask<String, Void, Void> {
+
+    private final String LOG_TAG = UploadQueueAsyncTask.class.getSimpleName();
 
     private Context _context;
 
@@ -37,7 +39,7 @@ public class UploadQueueAsyncTask extends AsyncTask<String, Void, Void> {
 
             _context.getContentResolver().insert(UploadQ.CONTENT_URI, values);
         } catch (Exception e) {
-            Utils.sendDebugMessageToServer(_context, "UploadQueueAsyncTask.doInBackground", e.getMessage());
+            Log.d(LOG_TAG, "doInBackground Exception: " + e.getMessage());
         }
 
         Services.startUploadService(_context);

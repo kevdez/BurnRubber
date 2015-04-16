@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.raildeliveryservices.burnrubber.models.GpsLocation;
-import com.raildeliveryservices.burnrubber.utils.Utils;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -24,7 +23,7 @@ import java.util.List;
 
 public class GpsLocationAsyncTask extends AsyncTask<Location, Void, String> {
 
-    private static final String TAG = GpsLocationAsyncTask.class.getSimpleName();
+    private static final String LOG_TAG = GpsLocationAsyncTask.class.getSimpleName();
     private Context _context;
     private Location _location;
 
@@ -66,8 +65,7 @@ public class GpsLocationAsyncTask extends AsyncTask<Location, Void, String> {
             if (exceptionMsg.length() > 3900) {
                 exceptionMsg = exceptionMsg.substring(0, 3900);
             }
-            Utils.sendDebugMessageToServer(_context, "GpsLocationAsyncTask.doInBackground", exceptionMsg);
-            Log.d(TAG, exceptionMsg, e);
+            Log.d(LOG_TAG, exceptionMsg, e);
             return googleMapsAPIRequest();
         }
 
@@ -102,7 +100,7 @@ public class GpsLocationAsyncTask extends AsyncTask<Location, Void, String> {
             JSONObject json = getLocationInfo(_location.getLatitude(), _location.getLongitude());
             return json.getString("formatted_address");
         } catch (Exception e) {
-            Utils.sendDebugMessageToServer(_context, "GpsLocationAsyncTask.googleMapsAPIRequest", e.getMessage());
+            Log.d(LOG_TAG, "Exception in googleMapsAPIRequest: " + e.getMessage());
             return "Unavailable";
         }
     }
