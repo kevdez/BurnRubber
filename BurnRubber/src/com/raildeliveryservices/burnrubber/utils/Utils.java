@@ -127,20 +127,22 @@ public class Utils {
     }
 
     public static void sendDebugMessageToServer(Context context, String tag, String message) {
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.accumulate(WebServiceConstants.FIELD_DRIVER_NO, Utils.getDriverNo(context));
-            jsonObject.accumulate(WebServiceConstants.FIELD_IN_OUT_FLAG, "I");
-            jsonObject.accumulate(WebServiceConstants.FIELD_LABEL, "DEBUG");
-            jsonObject.accumulate(WebServiceConstants.FIELD_FORM_NAME, "DEBUG");
+//        try {
+//            JSONObject jsonObject = new JSONObject();
+//            jsonObject.accumulate(WebServiceConstants.FIELD_DRIVER_NO, Utils.getDriverNo(context));
+//            jsonObject.accumulate(WebServiceConstants.FIELD_IN_OUT_FLAG, "I");
+//            jsonObject.accumulate(WebServiceConstants.FIELD_LABEL, "DEBUG");
+//            jsonObject.accumulate(WebServiceConstants.FIELD_FORM_NAME, "DEBUG");
+//
+//            jsonObject.accumulate(WebServiceConstants.FIELD_MESSAGE_TEXT, tag + ":" + message);
+//            jsonObject.accumulate(WebServiceConstants.FIELD_CLIENT_DATETIME, Utils.getCurrentDateTime(Constants.ServerDateFormat));
+//
+//            Utils.sendMessageToServer(context, WebServiceConstants.URL_CREATE_MESSAGE, jsonObject);
+//        } catch (JSONException e) {
+//            Log.d(tag, "Failed to send debug message to server: " + message);
+//        }
 
-            jsonObject.accumulate(WebServiceConstants.FIELD_MESSAGE_TEXT, tag + ":" + message);
-            jsonObject.accumulate(WebServiceConstants.FIELD_CLIENT_DATETIME, Utils.getCurrentDateTime(Constants.ServerDateFormat));
-
-            Utils.sendMessageToServer(context, WebServiceConstants.URL_CREATE_MESSAGE, jsonObject);
-        } catch (JSONException e) {
-
-        }
+        Log.d(tag, message);
     }
 
     @SuppressLint("SimpleDateFormat")

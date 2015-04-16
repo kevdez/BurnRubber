@@ -24,6 +24,25 @@ public class Services {
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + 60000, RuntimeSetting.downloadMessageInterval, downloadMessageServicePendingIntent);
     }
 
+
+    public static void stopAll(Context context)
+    {
+        Services.stopGpsService(context);
+        Services.stopLocationService(context);
+        Services.stopMessagesDownloadService(context);
+        Services.stopOrdersDownloadService(context);
+        Services.stopFormDownloadService(context);
+    }
+
+    public static void startAll(Context context){
+        Services.startGpsService(context);
+        Services.startMessagesDownloadService(context);
+        Services.startOrdersDownloadService(context);
+        Services.startFormDownloadService(context);
+        Services.startLocationService(context);
+        Services.startUploadService(context);
+    }
+
     public static void stopMessagesDownloadService(Context context) {
         context = context.getApplicationContext();
         Intent downloadService = new Intent(context, DownloadMessagesService.class);
@@ -100,4 +119,11 @@ public class Services {
         Intent downloadFormsServiceIntent = new Intent(context, DownloadFormsService.class);
         context.startService(downloadFormsServiceIntent);
     }
+
+    public static void stopFormDownloadService(Context context) {
+        Intent downloadFormsService = new Intent(context, DownloadFormsService.class);
+        context.getApplicationContext().stopService(downloadFormsService);
+        Log.d("Service", "Download Form Service is stopped");
+    }
+
 }

@@ -37,7 +37,7 @@ public class UploadQueueAsyncTask extends AsyncTask<String, Void, Void> {
 
             _context.getContentResolver().insert(UploadQ.CONTENT_URI, values);
         } catch (Exception e) {
-            Utils.sendDebugMessageToServer(_context, "UploadQueueAsyncTask.doInBackground", e.getMessage());
+            //Utils.sendDebugMessageToServer(_context, "UploadQueueAsyncTask.doInBackground", e.getMessage());
         }
 
         Services.startUploadService(_context);

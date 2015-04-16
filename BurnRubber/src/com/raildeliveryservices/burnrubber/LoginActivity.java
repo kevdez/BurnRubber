@@ -33,8 +33,6 @@ public class LoginActivity extends BaseFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
-        Services.startFormDownloadService(this);
-
         if (Utils.isUserLoggedIn(this)) {
             startActivity(new Intent(this, OrderActivity.class));
         }

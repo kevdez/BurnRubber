@@ -54,25 +54,6 @@ public class LoginAsyncTask extends AsyncTask<String, Void, AuthenticationRespon
 
             loginResponse.authentic = returnJsonObject.getBoolean(WebServiceConstants.FIELD_AUTHENTIC);
 
-            //Save mobile settings from server
-            RuntimeSetting.downloadMessageInterval  = Integer.parseInt(returnJsonObject.getString(WebServiceConstants.FIELD_DOWNLOAD_MESSAGE_INTERVAL));
-            RuntimeSetting.downloadOrderInterval = Integer.parseInt(returnJsonObject.getString(WebServiceConstants.FIELD_DOWNLOAD_ORDER_INTERVAL));
-            RuntimeSetting.uploadServiceInterval = Integer.parseInt(returnJsonObject.getString(WebServiceConstants.FIELD_UPLOAD_SERVICE_INTERVAL));
-            RuntimeSetting.locationServiceInterval = Integer.parseInt(returnJsonObject.getString(WebServiceConstants.FIELD_LOCATION_SERVICE_INTERVAL));
-            RuntimeSetting.locationUpdateInterval = Integer.parseInt(returnJsonObject.getString(WebServiceConstants.FIELD_LOCATION_UPDATE_INTERVAL));
-            RuntimeSetting.fastestLocationUpdateInterval = Integer.parseInt(returnJsonObject.getString(WebServiceConstants.FIELD_FASTEST_LOCATION_UPDATE_INTERVAL));
-            RuntimeSetting.sendGpsWhenOffline = Boolean.parseBoolean(returnJsonObject.getString(WebServiceConstants.FIELD_SEND_GPS_MESSAGE_WHEN_OFFLINE));
-
-            Utils.saveRuntimeSetting(_context);
-
-            Log.d(TAG, "downloadMessageInterval = " +  RuntimeSetting.downloadMessageInterval);
-            Log.d(TAG, "downloadOrderInterval = " +  RuntimeSetting.downloadOrderInterval);
-            Log.d(TAG, "uploadServiceInterval = " +  RuntimeSetting.uploadServiceInterval);
-            Log.d(TAG, "locationServiceInterval = " + RuntimeSetting.locationServiceInterval);
-            Log.d(TAG, "locationUpdateInterval = " +  RuntimeSetting.locationUpdateInterval);
-            Log.d(TAG, "fastestLocationUpdateInterval = " +  RuntimeSetting.fastestLocationUpdateInterval);
-            Log.d(TAG, "sendGpsMessageWhenOffline = " + RuntimeSetting.sendGpsWhenOffline);
-
             if (returnJsonObject.has(WebServiceConstants.OBJECT_RESPONSE_MESSAGE)) {
                 loginResponse.message = returnJsonObject.getString("ResponseMessage");
             }
