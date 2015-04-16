@@ -3,12 +3,18 @@ package com.raildeliveryservices.burnrubber.tasks;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.raildeliveryservices.burnrubber.Constants;
 import com.raildeliveryservices.burnrubber.WebServiceConstants;
+import com.raildeliveryservices.burnrubber.data.Leg;
+import com.raildeliveryservices.burnrubber.data.LegExtra;
+import com.raildeliveryservices.burnrubber.data.LegOutbound;
 import com.raildeliveryservices.burnrubber.data.Message;
+import com.raildeliveryservices.burnrubber.data.Order;
 import com.raildeliveryservices.burnrubber.models.SoundPlayer;
 import com.raildeliveryservices.burnrubber.utils.Utils;
 import com.raildeliveryservices.burnrubber.utils.WebPost;
@@ -51,26 +57,9 @@ public class DownloadMessagesServiceAsyncTask extends AsyncTask<Void, Void, Void
             saveMessages(responseJson.getJSONArray(WebServiceConstants.OBJECT_MESSAGES));
 
         } catch (Exception e) {
-            Utils.sendDebugMessageToServer(_context, "DownloadMessagesServiceAsyncTask.downloadMessages", e.getMessage());
             Log.e(LOG_TAG, e.getMessage());
         }
     }
-
-	/*
-	private long orderExists(int fileNo) {
-		Uri uri = Order.CONTENT_URI;
-		String[] projection = { Order.Columns._ID, Order.Columns.FILE_NO };
-		String selection = Order.Columns.FILE_NO + " = " + String.valueOf(fileNo);
-		
-		Cursor cursor = getContentResolver().query(uri, projection, selection, null, null);
-			
-		if (cursor.getCount() > 0) {
-			return cursor.getLong(cursor.getColumnIndex(Order.Columns._ID));
-		} else {
-			return 0;
-		}
-	}
-	*/
 
     private void saveMessages(JSONArray messageArray) {
 
@@ -80,7 +69,12 @@ public class DownloadMessagesServiceAsyncTask extends AsyncTask<Void, Void, Void
             try {
                 JSONObject messageObject = messageArray.getJSONObject(i);
 
-                if ("MSG".equals(messageObject.getString(WebServiceConstants.FIELD_LABEL))) {
+                if("DELETE".equals(messageObject.get(WebServiceConstants.FIELD_LABEL))){
+                    Long order_id = orderExists(messageObject.getInt(WebServiceConstants.FIELD_MESSAGE_TEXT));
+                    Log.d(LOG_TAG, "In saveMessages, deleting order ID: " + order_id + " and file No.: " + messageObject.getString(WebServiceConstants.FIELD_MESSAGE_TEXT));
+                    deleteOrder(order_id);
+                }
+                else if ("MSG".equals(messageObject.getString(WebServiceConstants.FIELD_LABEL))) {
                     hasMessage = true;
 
                     ContentValues values = new ContentValues();
@@ -96,15 +90,48 @@ public class DownloadMessagesServiceAsyncTask extends AsyncTask<Void, Void, Void
 
                 _settings.edit().putLong(Constants.SETTINGS_LAST_DOWNLOADED_MESSAGE_ID + "-" + Utils.getDriverNo(_context), messageObject.getLong(WebServiceConstants.FIELD_MESSAGE_ID)).commit();
             } catch (Exception e) {
-                Utils.sendDebugMessageToServer(_context, "DownloadMessagesServiceAsyncTask.saveMessages", e.getMessage());
                 Log.e(LOG_TAG, e.getMessage());
             }
         }
 
         if (hasMessage) {
-            //Utils.sendNotification(this, Constants.NOTIFICATION_MESSAGES, getString(R.string.message_notification_title), getString(R.string.message_notification_message), MessageActivity.class);
             Utils.setMessageAlertFlag(_context, Utils.getDriverNo(_context), true);
             SoundPlayer.playSound(_context, com.raildeliveryservices.burnrubber.R.raw.notification);
         }
+    }
+
+    private long orderExists(int fileNo) {
+        Uri uri = Order.CONTENT_URI;
+        String[] projection = { Order.Columns._ID, Order.Columns.FILE_NO };
+        String selection = Order.Columns.FILE_NO + " = " + String.valueOf(fileNo);
+
+        Cursor cursor = _context.getContentResolver().query(uri, projection, selection, null, null);
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            return cursor.getLong(cursor.getColumnIndex(Order.Columns._ID));
+        } else {
+            return 0;
+        }
+    }
+
+    private void deleteOrder(Long param){
+
+            Long _orderId = param;
+
+            _context.getContentResolver().delete(Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(_orderId)), null, null);
+            _context.getContentResolver().delete(Message.CONTENT_URI, Message.Columns.ORDER_ID + " = " + _orderId, null);
+
+            Cursor cursor = _context.getContentResolver().query(Leg.CONTENT_URI, new String[]{Leg.Columns._ID}, Leg.Columns.ORDER_ID + " = " + _orderId, null, null);
+            cursor.moveToFirst();
+
+            do {
+                _context.getContentResolver().delete(LegExtra.CONTENT_URI, LegExtra.Columns.LEG_ID + " = " + cursor.getLong(cursor.getColumnIndex(Leg.Columns._ID)), null);
+                _context.getContentResolver().delete(LegOutbound.CONTENT_URI, LegOutbound.Columns.LEG_ID + " = " + cursor.getLong(cursor.getColumnIndex(Leg.Columns._ID)), null);
+            } while (cursor.moveToNext());
+
+            cursor.close();
+
+            _context.getContentResolver().delete(Leg.CONTENT_URI, Leg.Columns.ORDER_ID + " = " + _orderId, null);
+
     }
 }

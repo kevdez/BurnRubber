@@ -510,6 +510,14 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 
+
+//      Program goes here when user is on LegListFragment and SQL Server sends a DELETE message for that same order.
+//      When that happens, return to the OrderListFragment.
+        if (cursor.getCount() == 0) {
+            _callbacks.onReturnButtonClick();
+            return;
+        }
+
         if (loader.getId() == LOADER_ORDER) {
             cursor.moveToFirst();
             _fileNoText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.FILE_NO)));
