@@ -28,7 +28,7 @@ public class OrderActivity extends BaseFragmentActivity implements OrderListFrag
         setContentView(R.layout.main_activity);
 
         Utils.loadRuntimeSetting(this);
-        startServices();
+        Services.startAll(this);
 
         _fm = getSupportFragmentManager();
 
@@ -36,33 +36,6 @@ public class OrderActivity extends BaseFragmentActivity implements OrderListFrag
         loadOrders();
 
         Log.d(TAG, "On Created");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG, "On Destroyed");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(TAG, "On Resumed");
-        Utils.loadRuntimeSetting(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "On Destroyed");
-    }
-
-    private void startServices() {
-        Services.startGpsService(this);
-        Services.startMessagesDownloadService(this);
-        Services.startOrdersDownloadService(this);
-        Services.startLocationService(this);
-        Services.startUploadService(this);
     }
 
     @Override
@@ -131,12 +104,7 @@ public class OrderActivity extends BaseFragmentActivity implements OrderListFrag
     public void onLogoffButtonClick() {
 
         Utils.setUserLoggedIn(this, false);
-
-        Services.stopGpsService(this);
-        Services.stopLocationService(this);
-        Services.stopMessagesDownloadService(this);
-        Services.stopOrdersDownloadService(this);
-
+        Services.stopAll(this);
         try {
             Thread.sleep(750);
         } catch (InterruptedException e) {

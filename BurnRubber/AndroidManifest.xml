@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.raildeliveryservices.burnrubber"
+    android:installLocation="auto"
     android:versionCode="31"
-    android:versionName="3.01" android:installLocation="auto">
+    android:versionName="3.01">
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -19,32 +20,50 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity"
-            android:noHistory="true">
+        <activity
+            android:name=".LoginActivity"
+            android:noHistory="true"
+            android:finishOnTaskLaunch="true">
+
+        </activity>
+        <activity android:name=".OrderActivity"
+            android:launchMode="singleTask"
+            android:finishOnTaskLaunch="true"/>
+        <activity android:name=".LegActivity"
+            android:finishOnTaskLaunch="true"/>
+        <activity android:name=".MessageActivity"
+            android:finishOnTaskLaunch="true"/>
+        <activity android:name=".FormActivity"
+            android:finishOnTaskLaunch="true"/>
+        <activity
+            android:name=".SplashActivity"
+            android:launchMode="singleTask"
+            android:clearTaskOnLaunch="true"
+            android:noHistory="true"
+            android:configChanges="orientation|screenSize"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".OrderActivity" />
-        <activity android:name=".LegActivity" />
-        <activity android:name=".MessageActivity" />
-        <activity android:name=".FormActivity" />
-
+       
         <provider
-            android:authorities="com.raildeliveryservices.burnrubber"
             android:name="com.raildeliveryservices.burnrubber.data.DataContentProvider"
-            android:multiprocess="true"
-            android:exported="false" />
-        
+            android:authorities="com.raildeliveryservices.burnrubber"
+            android:exported="false"
+            android:multiprocess="true" />
+
         <service android:name="com.raildeliveryservices.burnrubber.services.UploadService" />
         <service android:name="com.raildeliveryservices.burnrubber.services.DownloadFormsService" />
         <service android:name="com.raildeliveryservices.burnrubber.services.DownloadMessagesService" />
         <service android:name="com.raildeliveryservices.burnrubber.services.DownloadOrdersService" />
         <service android:name="com.raildeliveryservices.burnrubber.services.LocationService" />
         <service android:name="com.raildeliveryservices.burnrubber.services.GpsService" />
-        
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

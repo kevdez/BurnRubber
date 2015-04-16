@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.SystemClock;
 import android.util.Log;
 
+import com.raildeliveryservices.burnrubber.Constants;
 import com.raildeliveryservices.burnrubber.services.DownloadFormsService;
 import com.raildeliveryservices.burnrubber.services.DownloadMessagesService;
 import com.raildeliveryservices.burnrubber.services.DownloadOrdersService;
@@ -22,6 +23,25 @@ public class Services {
         PendingIntent downloadMessageServicePendingIntent = PendingIntent.getService(context, 0, downloadService, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + 60000, RuntimeSetting.downloadMessageInterval, downloadMessageServicePendingIntent);
+    }
+
+
+    public static void stopAll(Context context)
+    {
+        Services.stopGpsService(context);
+        Services.stopLocationService(context);
+        Services.stopMessagesDownloadService(context);
+        Services.stopOrdersDownloadService(context);
+        Services.stopFormDownloadService(context);
+    }
+
+    public static void startAll(Context context){
+        Services.startGpsService(context);
+        Services.startMessagesDownloadService(context);
+        Services.startOrdersDownloadService(context);
+        Services.startFormDownloadService(context);
+        Services.startLocationService(context);
+        Services.startUploadService(context);
     }
 
     public static void stopMessagesDownloadService(Context context) {
@@ -100,4 +120,11 @@ public class Services {
         Intent downloadFormsServiceIntent = new Intent(context, DownloadFormsService.class);
         context.startService(downloadFormsServiceIntent);
     }
+
+    public static void stopFormDownloadService(Context context) {
+        Intent downloadFormsService = new Intent(context, DownloadFormsService.class);
+        context.getApplicationContext().stopService(downloadFormsService);
+        Log.d("Service", "Download Form Service is stopped");
+    }
+
 }
