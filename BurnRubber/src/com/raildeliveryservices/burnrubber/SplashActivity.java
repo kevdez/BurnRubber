@@ -3,7 +3,6 @@ package com.raildeliveryservices.burnrubber;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.raildeliveryservices.burnrubber.tasks.DownloadSettingsAsyncTask;
 
@@ -30,7 +29,7 @@ public class SplashActivity extends BaseFragmentActivity {
                     downloadSettingsAsyncTask.execute();
                 }
             }
-        }, 1500);
+        }, 750);
 
     }
 }
