@@ -28,7 +28,7 @@ public class DownloadSettingsAsyncTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        Log.d(TAG, "Thread running");
+        Log.d(TAG, "doInBackground");
         try {
             WebPost webPost = new WebPost(WebServiceConstants.URL_GET_SETTING);
             JSONObject response = webPost.Post();

@@ -1,6 +1,7 @@
 package com.raildeliveryservices.burnrubber;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -33,6 +34,12 @@ public class BaseFragmentActivity extends FragmentActivity {
         //Set application name in action bar
         ActionBar actionBar = getActionBar();
         actionBar.setTitle(appName);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.d(TAG, "onNewIntent");
     }
 
     @Override

@@ -39,6 +39,12 @@ public class OrderActivity extends BaseFragmentActivity implements OrderListFrag
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Services.startAll(this);
+    }
+
+    @Override
     public void onTripHistoryButtonClick() {
 
         Fragment f = new OrderListFragment();

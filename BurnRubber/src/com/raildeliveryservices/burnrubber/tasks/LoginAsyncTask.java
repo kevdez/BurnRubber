@@ -38,7 +38,7 @@ public class LoginAsyncTask extends AsyncTask<String, Void, AuthenticationRespon
 
     @Override
     protected AuthenticationResponse doInBackground(String... params) {
-
+        Log.d(LOG_TAG, "doInBackGround");
         AuthenticationResponse loginResponse = new AuthenticationResponse();
         _driverNo = params[0];
         String password = params[1];
@@ -53,17 +53,6 @@ public class LoginAsyncTask extends AsyncTask<String, Void, AuthenticationRespon
             JSONObject returnJsonObject = webPost.Post();
 
             loginResponse.authentic = returnJsonObject.getBoolean(WebServiceConstants.FIELD_AUTHENTIC);
-
-            //Save mobile settings from server
-            RuntimeSetting.downloadMessageInterval  = Integer.parseInt(returnJsonObject.getString(WebServiceConstants.FIELD_DOWNLOAD_MESSAGE_INTERVAL));
-            RuntimeSetting.downloadOrderInterval = Integer.parseInt(returnJsonObject.getString(WebServiceConstants.FIELD_DOWNLOAD_ORDER_INTERVAL));
-            RuntimeSetting.uploadServiceInterval = Integer.parseInt(returnJsonObject.getString(WebServiceConstants.FIELD_UPLOAD_SERVICE_INTERVAL));
-            RuntimeSetting.locationServiceInterval = Integer.parseInt(returnJsonObject.getString(WebServiceConstants.FIELD_LOCATION_SERVICE_INTERVAL));
-            RuntimeSetting.locationUpdateInterval = Integer.parseInt(returnJsonObject.getString(WebServiceConstants.FIELD_LOCATION_UPDATE_INTERVAL));
-            RuntimeSetting.fastestLocationUpdateInterval = Integer.parseInt(returnJsonObject.getString(WebServiceConstants.FIELD_FASTEST_LOCATION_UPDATE_INTERVAL));
-            RuntimeSetting.sendGpsWhenOffline = Boolean.parseBoolean(returnJsonObject.getString(WebServiceConstants.FIELD_SEND_GPS_MESSAGE_WHEN_OFFLINE));
-
-            Utils.saveRuntimeSetting(_context);
 
             if (returnJsonObject.has(WebServiceConstants.OBJECT_RESPONSE_MESSAGE)) {
                 loginResponse.message = returnJsonObject.getString("ResponseMessage");

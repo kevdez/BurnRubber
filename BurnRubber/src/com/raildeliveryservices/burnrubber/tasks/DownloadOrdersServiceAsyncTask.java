@@ -35,6 +35,7 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
     protected Void doInBackground(Void... arg0) {
         _settings = _context.getSharedPreferences(Constants.SETTINGS_NAME, Context.MODE_PRIVATE);
         downloadOrders();
+        Log.d(LOG_TAG, "doInBackGround");
         return null;
     }
 

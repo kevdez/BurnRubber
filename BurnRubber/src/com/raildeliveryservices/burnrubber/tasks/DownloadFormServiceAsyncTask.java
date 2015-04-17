@@ -15,6 +15,7 @@ import org.json.JSONObject;
 public class DownloadFormServiceAsyncTask extends AsyncTask<Void, Void, Void> {
 
     private Context _context;
+    private static final String LOG_TAG = DownloadFormServiceAsyncTask.class.getSimpleName();
 
     public DownloadFormServiceAsyncTask(Context context) {
         _context = context;
@@ -23,6 +24,7 @@ public class DownloadFormServiceAsyncTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         downloadForms();
+        Log.d(LOG_TAG, "doInBackGround");
         return null;
     }
 

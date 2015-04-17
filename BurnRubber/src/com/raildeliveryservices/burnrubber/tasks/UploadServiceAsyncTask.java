@@ -26,7 +26,7 @@ public class UploadServiceAsyncTask extends AsyncTask<Void, Void, Void> {
     }
 
     private void upload() {
-        Log.i(LOG_TAG, "Upload Service Started");
+        Log.i(LOG_TAG, "doInBackground");
         Cursor cursor = getData();
 
         if (cursor.getCount() > 0) {
