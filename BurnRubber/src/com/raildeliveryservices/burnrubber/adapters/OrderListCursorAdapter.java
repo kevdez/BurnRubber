@@ -85,21 +85,7 @@ public class OrderListCursorAdapter extends SimpleCursorAdapter {
                     ContentValues values = new ContentValues();
                     values.put(Order.Columns.CONFIRMED_FLAG, 1);
                     _context.getContentResolver().update(Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(v.getTag())), values, null, null);
-
-					/*
-					try {
-						SharedPreferences settings = _context.getSharedPreferences(Constants.SETTINGS_NAME, Context.MODE_PRIVATE);
-						
-						JSONObject jsonObject = new JSONObject();
-						jsonObject.accumulate(Constants.WEB_SERVICE_FIELD_FILE_NO, fileNo);
-						jsonObject.accumulate(Constants.WEB_SERVICE_FIELD_CONFIRMATION_TYPE, "Accepted");
-						jsonObject.accumulate(Constants.WEB_SERVICE_FIELD_LAST_UPDATE_USER_NAME, settings.getString(Constants.SETTINGS_USER_NAME, ""));
-						
-						UploadQueueAsyncTask uploadAsyncTask = new UploadQueueAsyncTask(_context);
-						uploadAsyncTask.execute(new String[] { Constants.WEB_SERVICE_CONFIRM_REJECT_ORDER_URL, jsonObject.toString() });
-					} catch (JSONException e) {
-					}
-					*/
+                    // sendAcceptMessageToServer();
                 }
             });
 
@@ -116,23 +102,8 @@ public class OrderListCursorAdapter extends SimpleCursorAdapter {
                                     Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(v.getTag())),
                                     null,
                                     null);
-							
-							/*
-							try {
-								SharedPreferences settings = _context.getSharedPreferences(Constants.SETTINGS_NAME, Context.MODE_PRIVATE);
-								
-								JSONObject jsonObject = new JSONObject();
-								jsonObject.accumulate(Constants.WEB_SERVICE_FIELD_FILE_NO, fileNo);
-								jsonObject.accumulate(Constants.WEB_SERVICE_FIELD_CONFIRMATION_TYPE, "Rejected");
-								jsonObject.accumulate(Constants.WEB_SERVICE_FIELD_LAST_UPDATE_USER_NAME, settings.getString(Constants.SETTINGS_USER_NAME, ""));
-								
-								UploadQueueAsyncTask uploadAsyncTask = new UploadQueueAsyncTask(_context);
-								uploadAsyncTask.execute(new String[] { Constants.WEB_SERVICE_CONFIRM_REJECT_ORDER_URL, jsonObject.toString() });
-							} catch (JSONException e) {
-							}
-							*/
-
                             dialog.dismiss();
+                            // sendRejectMessageToServer();
                         }
                     });
                     dialogBuilder.setNegativeButton(_context.getResources().getString(R.string.no), new DialogInterface.OnClickListener() {

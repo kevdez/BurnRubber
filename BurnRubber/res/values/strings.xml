@@ -41,7 +41,7 @@
 	<string name="logout_progress_message">Logging off&#8230;</string>
 	<string name="auth_error_dialog_title">Login Error</string>
 	<string name="reject_order_dialog_title">Reject Order</string>
-	<string name="reject_order_dialog_message">Are you sure you want to reject File # %s ?</string>
+	<string name="reject_order_dialog_message">Are you sure you want to reject file # %s ?</string>
 	<string name="edit_arrive_date_time_title">Edit Arrive Date &amp; Time</string>
 	<string name="edit_depart_date_time_title">Edit Depart Date &amp; Time</string>
 	<string name="container_chassis_error_title">Data Required</string>
