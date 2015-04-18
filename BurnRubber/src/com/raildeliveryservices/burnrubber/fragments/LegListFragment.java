@@ -105,6 +105,7 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
                     // also renders the ORDER complete
                     Uri uri2 = Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(_orderId));
                     ContentValues values2 = new ContentValues();
+                    _sendContainerChassisButton.setEnabled(false);
                     values2.put(Order.Columns.COMPLETED_FLAG, true);
                     _activity.getContentResolver().update(uri2, values2, null, null);
                     break;
