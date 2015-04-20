@@ -240,6 +240,7 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
     private TextView _moveTypeText;
     private EditText _containerNoEditText;
     private EditText _chassisNoEditText;
+    private TextView _commentsText;
     private LegListCursorAdapter _listAdapter;
     private Callbacks _callbacks;
     private OnClickListener _buttonListener = new OnClickListener() {
@@ -292,6 +293,7 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
         _moveTypeText = (TextView) _activity.findViewById(R.id.moveTypeText);
         _containerNoEditText = (EditText) _activity.findViewById(R.id.containerNoEditText);
         _chassisNoEditText = (EditText) _activity.findViewById(R.id.chassisNoEditText);
+        _commentsText = (TextView) _activity.findViewById(R.id.commentsText);
 
         _containerNoEditText.setOnFocusChangeListener(_focusChangeListener);
         _chassisNoEditText.setOnFocusChangeListener(_focusChangeListener);
@@ -492,6 +494,7 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
                         Order.Columns.MOVE_TYPE,
                         Order.Columns.CONTAINER_NO,
                         Order.Columns.CHASSIS_NO,
+                        Order.Columns.COMMENTS,
                         Order.Columns.STARTED_FLAG};
                 break;
             case LOADER_LEGS:
@@ -535,6 +538,7 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
             _moveTypeText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.MOVE_TYPE)));
             _containerNoEditText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.CONTAINER_NO)));
             _chassisNoEditText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.CHASSIS_NO)));
+            _commentsText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.COMMENTS)));
 
             boolean startedFlag = cursor.getInt(cursor.getColumnIndex(Order.Columns.STARTED_FLAG)) == 1;
 

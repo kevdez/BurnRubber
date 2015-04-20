@@ -26,6 +26,7 @@ public final class Order {
                     Columns.LUMPER_FLAG + " integer, " +
                     Columns.SCALE_FLAG + " integer, " +
                     Columns.WEIGHT_FLAG + " integer, " +
+                    Columns.COMMENTS + " text, " +
                     Columns.CONFIRMED_FLAG + " integer, " +
                     Columns.STARTED_FLAG + " integer, " +
                     Columns.COMPLETED_FLAG + " integer " +
@@ -48,6 +49,7 @@ public final class Order {
         PROJECTION_MAP.put(Columns.LUMPER_FLAG, TABLE_NAME + "." + Columns.LUMPER_FLAG);
         PROJECTION_MAP.put(Columns.SCALE_FLAG, TABLE_NAME + "." + Columns.SCALE_FLAG);
         PROJECTION_MAP.put(Columns.WEIGHT_FLAG, TABLE_NAME + "." + Columns.WEIGHT_FLAG);
+        PROJECTION_MAP.put(Columns.COMMENTS, TABLE_NAME + "." + Columns.COMMENTS);
         PROJECTION_MAP.put(Columns.CONFIRMED_FLAG, TABLE_NAME + "." + Columns.CONFIRMED_FLAG);
         PROJECTION_MAP.put(Columns.STARTED_FLAG, TABLE_NAME + "." + Columns.STARTED_FLAG);
         PROJECTION_MAP.put(Columns.COMPLETED_FLAG, TABLE_NAME + "." + Columns.COMPLETED_FLAG);
@@ -69,6 +71,7 @@ public final class Order {
         public static final String LUMPER_FLAG = "lumper_flag";
         public static final String SCALE_FLAG = "scale_flag";
         public static final String WEIGHT_FLAG = "weight_flag";
+        public static final String COMMENTS = "comments";
         public static final String STARTED_FLAG = "started_flag";
         public static final String COMPLETED_FLAG = "completed_flag";
     }

@@ -90,6 +90,7 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
                 values.put(Order.Columns.LUMPER_FLAG, orderObject.getBoolean("LumperFlag") ? 1 : 0);
                 values.put(Order.Columns.SCALE_FLAG, orderObject.getBoolean("ScaleFlag") ? 1 : 0);
                 values.put(Order.Columns.WEIGHT_FLAG, orderObject.getBoolean("WeightFlag") ? 1 : 0);
+                values.put(Order.Columns.COMMENTS, orderObject.getString("Comments"));
                 values.put(Order.Columns.CONFIRMED_FLAG, 0);
                 values.put(Order.Columns.STARTED_FLAG, 0);
                 values.put(Order.Columns.COMPLETED_FLAG, 0);
@@ -97,10 +98,10 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
                 int fileNo = orderObject.getInt("FileNo");
                 long orderId = orderExists(fileNo);
 
-                if (orderId > 0) {
+                if (orderId > 0) {      // UPDATE
                     uri = Uri.withAppendedPath(uri, String.valueOf(orderId));
                     _context.getContentResolver().update(uri, values, null, null);
-                } else {
+                } else {                // INSERT
                     Uri returnUri = _context.getContentResolver().insert(uri, values);
                     orderId = Long.parseLong(returnUri.getLastPathSegment());
                 }
