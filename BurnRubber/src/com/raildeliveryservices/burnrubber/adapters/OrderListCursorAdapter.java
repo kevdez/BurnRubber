@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,11 +16,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.raildeliveryservices.burnrubber.Constants;
 import com.raildeliveryservices.burnrubber.R;
+import com.raildeliveryservices.burnrubber.WebServiceConstants;
 import com.raildeliveryservices.burnrubber.data.Order;
+import com.raildeliveryservices.burnrubber.utils.Utils;
+
+import org.json.JSONObject;
 
 public class OrderListCursorAdapter extends SimpleCursorAdapter {
 
+    private String LOG_TAG = OrderListCursorAdapter.class.getSimpleName();
     private Context _context;
     private int _layout;
     private LayoutInflater _layoutInflater;
@@ -86,20 +93,22 @@ public class OrderListCursorAdapter extends SimpleCursorAdapter {
                     values.put(Order.Columns.CONFIRMED_FLAG, 1);
                     _context.getContentResolver().update(Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(v.getTag())), values, null, null);
 
-					/*
-					try {
-						SharedPreferences settings = _context.getSharedPreferences(Constants.SETTINGS_NAME, Context.MODE_PRIVATE);
-						
-						JSONObject jsonObject = new JSONObject();
-						jsonObject.accumulate(Constants.WEB_SERVICE_FIELD_FILE_NO, fileNo);
-						jsonObject.accumulate(Constants.WEB_SERVICE_FIELD_CONFIRMATION_TYPE, "Accepted");
-						jsonObject.accumulate(Constants.WEB_SERVICE_FIELD_LAST_UPDATE_USER_NAME, settings.getString(Constants.SETTINGS_USER_NAME, ""));
-						
-						UploadQueueAsyncTask uploadAsyncTask = new UploadQueueAsyncTask(_context);
-						uploadAsyncTask.execute(new String[] { Constants.WEB_SERVICE_CONFIRM_REJECT_ORDER_URL, jsonObject.toString() });
-					} catch (JSONException e) {
-					}
-					*/
+                    JSONObject requestJson = new JSONObject();
+                    try {
+                        requestJson.accumulate(WebServiceConstants.FIELD_DRIVER_NO, Utils.getDriverNo(_context));
+                        requestJson.accumulate(WebServiceConstants.FIELD_LABEL, "ACCEPT");
+                        requestJson.accumulate(WebServiceConstants.FIELD_IN_OUT_FLAG, "I");
+                        requestJson.accumulate(WebServiceConstants.FIELD_FILE_NO, fileNoText.getText());
+                        requestJson.accumulate(WebServiceConstants.FIELD_FORM_NAME, "CANNED");
+                        requestJson.accumulate(WebServiceConstants.FIELD_MESSAGE_TEXT, fileNoText.getText());
+                        requestJson.accumulate(WebServiceConstants.FIELD_CLIENT_DATETIME, Utils.getCurrentDateTime(Constants.ClientDateFormat));
+
+                        Utils.sendMessageToServer(_context, WebServiceConstants.URL_CREATE_MESSAGE, requestJson);
+                    } catch (Exception e) {
+                        Log.e(LOG_TAG, e.getMessage());
+                        Log.e(LOG_TAG, "URL: " + WebServiceConstants.URL_CREATE_MESSAGE);
+                        Log.e(LOG_TAG, "JSON: " + requestJson.toString());
+                    }
                 }
             });
 
@@ -113,26 +122,26 @@ public class OrderListCursorAdapter extends SimpleCursorAdapter {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             _context.getContentResolver().delete(
-                                    Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(v.getTag())),
-                                    null,
-                                    null);
-							
-							/*
-							try {
-								SharedPreferences settings = _context.getSharedPreferences(Constants.SETTINGS_NAME, Context.MODE_PRIVATE);
-								
-								JSONObject jsonObject = new JSONObject();
-								jsonObject.accumulate(Constants.WEB_SERVICE_FIELD_FILE_NO, fileNo);
-								jsonObject.accumulate(Constants.WEB_SERVICE_FIELD_CONFIRMATION_TYPE, "Rejected");
-								jsonObject.accumulate(Constants.WEB_SERVICE_FIELD_LAST_UPDATE_USER_NAME, settings.getString(Constants.SETTINGS_USER_NAME, ""));
-								
-								UploadQueueAsyncTask uploadAsyncTask = new UploadQueueAsyncTask(_context);
-								uploadAsyncTask.execute(new String[] { Constants.WEB_SERVICE_CONFIRM_REJECT_ORDER_URL, jsonObject.toString() });
-							} catch (JSONException e) {
-							}
-							*/
+                                    Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(v.getTag())), null, null);
 
                             dialog.dismiss();
+
+                            JSONObject requestJson = new JSONObject();
+                            try {
+                                requestJson.accumulate(WebServiceConstants.FIELD_DRIVER_NO, Utils.getDriverNo(_context));
+                                requestJson.accumulate(WebServiceConstants.FIELD_LABEL, "REJECT");
+                                requestJson.accumulate(WebServiceConstants.FIELD_IN_OUT_FLAG, "I");
+                                requestJson.accumulate(WebServiceConstants.FIELD_FILE_NO, fileNoText.getText());
+                                requestJson.accumulate(WebServiceConstants.FIELD_FORM_NAME, "CANNED");
+                                requestJson.accumulate(WebServiceConstants.FIELD_MESSAGE_TEXT, fileNoText.getText());
+                                requestJson.accumulate(WebServiceConstants.FIELD_CLIENT_DATETIME, Utils.getCurrentDateTime(Constants.ClientDateFormat));
+
+                                Utils.sendMessageToServer(_context, WebServiceConstants.URL_CREATE_MESSAGE, requestJson);
+                            } catch (Exception e) {
+                                Log.e(LOG_TAG, e.getMessage());
+                                Log.e(LOG_TAG, "URL: " + WebServiceConstants.URL_CREATE_MESSAGE);
+                                Log.e(LOG_TAG, "JSON: " + requestJson.toString());
+                            }
                         }
                     });
                     dialogBuilder.setNegativeButton(_context.getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
