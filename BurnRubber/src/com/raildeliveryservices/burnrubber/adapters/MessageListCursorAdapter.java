@@ -3,13 +3,16 @@ package com.raildeliveryservices.burnrubber.adapters;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.raildeliveryservices.burnrubber.Constants;
 import com.raildeliveryservices.burnrubber.R;
 import com.raildeliveryservices.burnrubber.data.Message;
+import com.raildeliveryservices.burnrubber.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -32,7 +35,9 @@ public class MessageListCursorAdapter extends SimpleCursorAdapter {
         final TextView messageText = (TextView) view.findViewById(R.id.messageText);
         final long messageId = cursor.getLong(cursor.getColumnIndex(Message.Columns._ID));
 
-        messageDateTimeText.setText(cursor.getString(cursor.getColumnIndex(Message.Columns.CREATED_DATE_TIME)));
+        String msgDateTime = cursor.getString(cursor.getColumnIndex(Message.Columns.CREATED_DATE_TIME));
+        messageDateTimeText.setText(Utils.formatDateTime(msgDateTime, Constants.ClientDateFormat));
+
         messageText.setText(cursor.getString(cursor.getColumnIndex(Message.Columns.MESSAGE_TEXT)));
 
         if (cursor.getString(cursor.getColumnIndex(Message.Columns.MESSAGE_TYPE)).equals("Dispatch")) {
