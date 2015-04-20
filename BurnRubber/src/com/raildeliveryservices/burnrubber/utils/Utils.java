@@ -23,13 +23,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
 public class Utils {
 
-    public static void saveRuntimeSetting(Context context){
+    public static void saveRuntimeSetting(Context context) {
         SharedPreferences settings = context.getSharedPreferences(Constants.SETTINGS_NAME, Context.MODE_PRIVATE);
         settings.edit().putInt(Constants.SETTINGS_DOWNLOAD_MESSAGE_SERVICE_INTERVAL, RuntimeSetting.downloadMessageInterval).commit();
         settings.edit().putInt(Constants.SETTINGS_DOWNLOAD_ORDERS_SERVICE_INTERVAL, RuntimeSetting.downloadOrderInterval).commit();
@@ -40,7 +41,7 @@ public class Utils {
         settings.edit().putBoolean(Constants.SETTINGS_SEND_GPS_WHEN_OFFLINE, RuntimeSetting.sendGpsWhenOffline).commit();
     }
 
-    public static void loadRuntimeSetting(Context context){
+    public static void loadRuntimeSetting(Context context) {
         SharedPreferences settings = context.getSharedPreferences(Constants.SETTINGS_NAME, Context.MODE_PRIVATE);
         RuntimeSetting.downloadMessageInterval = settings.getInt(Constants.SETTINGS_DOWNLOAD_MESSAGE_SERVICE_INTERVAL, Constants.DEFAULT_DOWNLOAD_MESSAGES_SERVICE_INTERVAL);
         RuntimeSetting.downloadOrderInterval = settings.getInt(Constants.SETTINGS_DOWNLOAD_ORDERS_SERVICE_INTERVAL, Constants.DEFAULT_DOWNLOAD_ORDERS_SERVICE_INTERVAL);
@@ -50,7 +51,6 @@ public class Utils {
         RuntimeSetting.fastestLocationUpdateInterval = settings.getInt(Constants.SETTINGS_FASTEST_LOCATION_UPDATE_INTERVAL, Constants.DEFAULT_FASTEST_LOCATION_UPDATE_INTERVAL);
         RuntimeSetting.sendGpsWhenOffline = settings.getBoolean(Constants.SETTINGS_SEND_GPS_WHEN_OFFLINE, Constants.DEFAULT_SEND_GPS_WHEN_OFFLINE);
     }
-
 
 
     public static void setUserOnline(Context context, boolean value) {
@@ -168,6 +168,45 @@ public class Utils {
         sdf.setTimeZone(TimeZone.getDefault());
         return sdf.format(new Date());
     }
+
+    public static String getUTCNow(String format){
+        //Sample format "yyyy-MM-dd'T'HH:mm:ss"
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        String utcTime = sdf.format(new Date());
+        Log.d("Time", utcTime);
+        return utcTime;
+    }
+
+    public static Date utcToLocalTime(String utcTime, String utcTimeFormat) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(utcTimeFormat);
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Date localDate = sdf.parse(utcTime);
+        return localDate;
+    }
+
+    public static Date toDate(String timeString, String timeFormat) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(timeFormat);
+        sdf.setTimeZone(TimeZone.getDefault());
+        Date date = sdf.parse(timeString);
+        return date;
+    }
+
+    public static String formatDateTime(String dateTime, SimpleDateFormat simpleDateFormat) {
+        final SimpleDateFormat sdf = simpleDateFormat;
+        SimpleDateFormat sdfFull = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+        sdfFull.setTimeZone(TimeZone.getDefault());
+        sdf.setTimeZone(TimeZone.getDefault());
+
+        Date parsedDate = null;
+        try {
+            parsedDate = sdfFull.parse(dateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return sdf.format(parsedDate);
+    }
+
 
     public static void sendNotification(Context context, int id, String title, String message, Class<?> cls) {
 

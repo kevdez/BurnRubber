@@ -18,6 +18,7 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -44,13 +45,16 @@ import com.raildeliveryservices.burnrubber.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class MessageListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int LOADER_MESSAGES = -1;
+    private static final String TAG = MessageListFragment.class.getSimpleName();
 
     private Activity _activity;
     private long _orderId;
@@ -106,7 +110,7 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        Log.d(TAG, "onActivityCreated");
         _activity = getActivity();
 
         Bundle bundle = getArguments();
@@ -227,13 +231,14 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
      */
     private void saveMessage(String label, String formName) {
 
-        Date currentDateTime = new Date();
+
 
         ContentValues values = new ContentValues();
         values.put(Message.Columns.DRIVER_NO, Utils.getDriverNo(_activity));
         values.put(Message.Columns.MESSAGE_TYPE, "User");
         values.put(Message.Columns.MESSAGE_TEXT, label.equals("MSG") ? _messageEditText.getText().toString() : label + " " + _messageEditText.getText().toString());
-        values.put(Message.Columns.CREATED_DATE_TIME, Constants.ClientDateFormat.format(currentDateTime));
+        values.put(Message.Columns.CREATED_DATE_TIME, new Date().toString());
+        Log.d(TAG, new Date().toString());
 
         if (_orderId > 0) {
             values.put(Message.Columns.ORDER_ID, _orderId);
@@ -378,7 +383,9 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
         c.add(Calendar.DATE, -7);
 
         // AND [CREATED DATETIME] > '[
-        selection += " AND " + Message.Columns.CREATED_DATE_TIME + " > '" + Constants.ClientDateFormat.format(c.getTime()).toString() + "'";
+        //TODO: Test date time of message.
+//        selection += " AND " + Message.Columns.CREATED_DATE_TIME + " > '" + Constants.ClientDateFormat.format(c.getTime()).toString() + "'";
+        selection += " AND " + Message.Columns.CREATED_DATE_TIME + " > '" + c.getTime().toString() + "'";
 
         selection += " AND " + Message.Columns.DRIVER_NO + " = " + Utils.getDriverNo(_activity);
 
