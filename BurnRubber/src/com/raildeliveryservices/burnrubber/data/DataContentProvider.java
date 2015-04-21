@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 public class DataContentProvider extends ContentProvider {
 
@@ -464,6 +465,7 @@ public class DataContentProvider extends ContentProvider {
             getContext().getContentResolver().notifyChange(uri, null);
         }
 
+        Log.d(DataContentProvider.class.getSimpleName(), "delete: " + uri + ", deleted count: " + deleteCount);
         return deleteCount;
     }
 }

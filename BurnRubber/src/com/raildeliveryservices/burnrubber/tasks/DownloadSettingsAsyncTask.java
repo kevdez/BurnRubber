@@ -53,7 +53,7 @@ public class DownloadSettingsAsyncTask extends AsyncTask<Void, Void, Void> {
         RuntimeSetting.locationUpdateInterval = Integer.parseInt(response.getString(WebServiceConstants.FIELD_LOCATION_UPDATE_INTERVAL));
         RuntimeSetting.fastestLocationUpdateInterval = Integer.parseInt(response.getString(WebServiceConstants.FIELD_FASTEST_LOCATION_UPDATE_INTERVAL));
         RuntimeSetting.sendGpsWhenOffline = Boolean.parseBoolean(response.getString(WebServiceConstants.FIELD_SEND_GPS_MESSAGE_WHEN_OFFLINE));
-
+        RuntimeSetting.syncTimeInSeconds = Integer.parseInt(response.getString(WebServiceConstants.FIELD_SYNC_TIME_IN_SECONDS));
         Utils.saveRuntimeSetting(mContext);
 
         Log.d(TAG, "downloadMessageInterval = " + RuntimeSetting.downloadMessageInterval);
@@ -63,6 +63,7 @@ public class DownloadSettingsAsyncTask extends AsyncTask<Void, Void, Void> {
         Log.d(TAG, "locationUpdateInterval = " +  RuntimeSetting.locationUpdateInterval);
         Log.d(TAG, "fastestLocationUpdateInterval = " +  RuntimeSetting.fastestLocationUpdateInterval);
         Log.d(TAG, "sendGpsMessageWhenOffline = " + RuntimeSetting.sendGpsWhenOffline);
+        Log.d(TAG, "syncTimeInSeconds = " + RuntimeSetting.syncTimeInSeconds);
     }
 
 }

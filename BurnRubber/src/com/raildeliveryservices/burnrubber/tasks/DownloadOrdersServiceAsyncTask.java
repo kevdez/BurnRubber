@@ -56,7 +56,7 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
 
             String dateTime = Constants.ServerDateFormat.format(new Date());
             _settings.edit().putString(Constants.SETTINGS_LAST_UPDATE_DATE_TIME_ORDERS + "-" + Utils.getDriverNo(_context), dateTime).commit();
-            Log.d(LOG_TAG, responseJson.toString());
+            Log.d(LOG_TAG, responseJson.toString() + "lastUpdatedTime = " + dateTime);
         } catch (Exception e) {
             Log.e(LOG_TAG, e.getMessage());
         }
@@ -154,7 +154,7 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
                     legId = Long.parseLong(returnUri.getLastPathSegment());
                 }
 
-                saveLegExtras(legId, fileNo, legNo, legObject.getJSONArray("LegExtras"));
+                //saveLegExtras(legId, fileNo, legNo, legObject.getJSONArray("LegExtras"));
             }
         } catch (Exception e) {
             Log.e(LOG_TAG, e.getMessage());
@@ -193,6 +193,7 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
         Cursor cursor = _context.getContentResolver().query(uri, projection, selection, null, null);
 
         if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
             return cursor.getLong(cursor.getColumnIndex(Order.Columns._ID));
         } else {
             return 0;
@@ -207,6 +208,7 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
         Cursor cursor = _context.getContentResolver().query(uri, projection, selection, null, null);
 
         if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
             return cursor.getLong(cursor.getColumnIndex(Leg.Columns._ID));
         } else {
             return 0;

@@ -39,6 +39,7 @@ public class Utils {
         settings.edit().putInt(Constants.SETTINGS_REQUEST_NEW_LOCATION_INTERVAL, RuntimeSetting.locationUpdateInterval).commit();
         settings.edit().putInt(Constants.SETTINGS_FASTEST_LOCATION_UPDATE_INTERVAL, RuntimeSetting.fastestLocationUpdateInterval).commit();
         settings.edit().putBoolean(Constants.SETTINGS_SEND_GPS_WHEN_OFFLINE, RuntimeSetting.sendGpsWhenOffline).commit();
+        settings.edit().putInt(Constants.SETTING_SYNC_TIME_IN_SECONDS, RuntimeSetting.syncTimeInSeconds).commit();
     }
 
     public static void loadRuntimeSetting(Context context) {
@@ -50,6 +51,7 @@ public class Utils {
         RuntimeSetting.locationUpdateInterval = settings.getInt(Constants.SETTINGS_REQUEST_NEW_LOCATION_INTERVAL, Constants.DEFAULT_REQUEST_NEW_LOCATION_INTERVAL);
         RuntimeSetting.fastestLocationUpdateInterval = settings.getInt(Constants.SETTINGS_FASTEST_LOCATION_UPDATE_INTERVAL, Constants.DEFAULT_FASTEST_LOCATION_UPDATE_INTERVAL);
         RuntimeSetting.sendGpsWhenOffline = settings.getBoolean(Constants.SETTINGS_SEND_GPS_WHEN_OFFLINE, Constants.DEFAULT_SEND_GPS_WHEN_OFFLINE);
+        RuntimeSetting.syncTimeInSeconds = settings.getInt(Constants.SETTING_SYNC_TIME_IN_SECONDS, Constants.DEFAULT_SYNC_TIME_IN_SECONDS);
     }
 
 

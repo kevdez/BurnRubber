@@ -14,4 +14,5 @@ public class RuntimeSetting {
     public static int fastestLocationUpdateInterval = Constants.DEFAULT_FASTEST_LOCATION_UPDATE_INTERVAL;
     public static boolean sendGpsWhenOffline = Constants.DEFAULT_SEND_GPS_WHEN_OFFLINE;
     public static boolean isGpsServiceRunning = false;
+    public static int syncTimeInSeconds = Constants.DEFAULT_SYNC_TIME_IN_SECONDS;
 }

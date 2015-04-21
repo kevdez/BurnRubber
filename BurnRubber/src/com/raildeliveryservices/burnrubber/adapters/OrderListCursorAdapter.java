@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.raildeliveryservices.burnrubber.Constants;
 import com.raildeliveryservices.burnrubber.R;
 import com.raildeliveryservices.burnrubber.WebServiceConstants;
+import com.raildeliveryservices.burnrubber.data.Leg;
 import com.raildeliveryservices.burnrubber.data.Order;
 import com.raildeliveryservices.burnrubber.utils.Utils;
 
@@ -123,7 +124,7 @@ public class OrderListCursorAdapter extends SimpleCursorAdapter {
                         public void onClick(DialogInterface dialog, int which) {
                             _context.getContentResolver().delete(
                                     Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(v.getTag())), null, null);
-
+                            deleteAssociateLegs(String.valueOf(v.getTag()));
                             dialog.dismiss();
 
                             JSONObject requestJson = new JSONObject();
@@ -154,5 +155,10 @@ public class OrderListCursorAdapter extends SimpleCursorAdapter {
                 }
             });
         }
+    }
+
+    private void deleteAssociateLegs(String orderId) {
+        String condition = Leg.Columns.ORDER_ID + " = " + orderId;
+        _context.getContentResolver().delete(Leg.CONTENT_URI, condition, null);
     }
 }

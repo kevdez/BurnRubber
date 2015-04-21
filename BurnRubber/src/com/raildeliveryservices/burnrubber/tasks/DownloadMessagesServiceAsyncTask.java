@@ -16,6 +16,7 @@ import com.raildeliveryservices.burnrubber.data.LegOutbound;
 import com.raildeliveryservices.burnrubber.data.Message;
 import com.raildeliveryservices.burnrubber.data.Order;
 import com.raildeliveryservices.burnrubber.models.SoundPlayer;
+import com.raildeliveryservices.burnrubber.utils.RuntimeSetting;
 import com.raildeliveryservices.burnrubber.utils.Utils;
 import com.raildeliveryservices.burnrubber.utils.WebPost;
 
@@ -88,7 +89,7 @@ public class DownloadMessagesServiceAsyncTask extends AsyncTask<Void, Void, Void
                     Date date = Utils.toDate(messageObject.getString(WebServiceConstants.FIELD_CLIENT_DATETIME), "yyyy-MM-dd'T'HH:mm:ss");
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(date);
-                    calendar.add(Calendar.MINUTE, 3);
+                    calendar.add(Calendar.SECOND, RuntimeSetting.syncTimeInSeconds);
                     //Add 1 second for messages to be sorted in the right order.
                     now.add(Calendar.SECOND, 1);
                     Date savedDate = calendar.getTimeInMillis() > now.getTimeInMillis() ? now.getTime() : calendar.getTime();
