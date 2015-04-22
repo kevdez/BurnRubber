@@ -13,7 +13,7 @@ public class Constants {
     public static final String SETTINGS_DVIR_TOWED_SEQUENCE = "dvirTowedSequence";
     public static final String SETTINGS_DVIR_POWERED_SEQUENCE = "dvirPoweredSequence";
     public static final String SETTINGS_DRIVER_LOGGED_IN = "driverLoggedIn";
-    public static final String SETTINGS_LAST_UPDATE_DATE_TIME_ORDERS = "lastUpdateDateTimeOrders";
+    public static final String SETTINGS_LAST_REQUEST_DATE_TIME_ORDERS = "lastRequestDateTimeOrders";
     public static final String SETTINGS_DOWNLOAD_ORDERS_SERVICE_INTERVAL = "downloadOrderServiceInterval";
     public static final String SETTINGS_DOWNLOAD_MESSAGE_SERVICE_INTERVAL = "downloadMessageServiceInterval";
     public static final String SETTINGS_UPLOAD_SERVICE_INTERVAL = "uploadServiceInterval";

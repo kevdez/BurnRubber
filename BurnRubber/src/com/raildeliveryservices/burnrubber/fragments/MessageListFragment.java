@@ -230,9 +230,6 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
      * @param formName - CANNED, OUTBOUND LOAD, DVIR TOWED, DVIR POWER
      */
     private void saveMessage(String label, String formName) {
-
-
-
         ContentValues values = new ContentValues();
         values.put(Message.Columns.DRIVER_NO, Utils.getDriverNo(_activity));
         values.put(Message.Columns.MESSAGE_TYPE, "User");
@@ -379,16 +376,12 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
             selection = Message.Columns.ORDER_ID + " isnull";
         }
 
+        //Get all the messages 7 days ago.
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DATE, -7);
 
-        // AND [CREATED DATETIME] > '[
-        //TODO: Test date time of message.
-//        selection += " AND " + Message.Columns.CREATED_DATE_TIME + " > '" + Constants.ClientDateFormat.format(c.getTime()).toString() + "'";
-        selection += " AND " + Message.Columns.CREATED_DATE_TIME + " > '" + c.getTime().toString() + "'";
-
+        selection += " AND " + Message.Columns.CREATED_DATE_TIME + " > '" + Constants.ClientDateFormat.format(c.getTime()) + "'";
         selection += " AND " + Message.Columns.DRIVER_NO + " = " + Utils.getDriverNo(_activity);
-
         return new CursorLoader(_activity, uri, projection, selection, null, sortOrder);
     }
 
