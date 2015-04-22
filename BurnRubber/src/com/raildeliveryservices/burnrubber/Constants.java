@@ -31,7 +31,7 @@ public class Constants {
     public static final int DEFAULT_REQUEST_NEW_LOCATION_INTERVAL = 270000;//every 4.5 minutes request a new location from device.
     public static final int DEFAULT_FASTEST_LOCATION_UPDATE_INTERVAL = 60000;//every 1 minute get location update from GPS providers.
     public static final boolean DEFAULT_SEND_GPS_WHEN_OFFLINE = true;
-    public static final int DEFAULT_SYNC_TIME_IN_SECONDS = 90;
+    public static final int DEFAULT_SYNC_TIME_IN_SECONDS = 180;
 
 
     public static final String BUNDLE_PARAM_ORDER_ID = "orderId";
