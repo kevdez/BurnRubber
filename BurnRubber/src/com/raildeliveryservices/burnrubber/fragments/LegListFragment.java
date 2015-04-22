@@ -545,14 +545,12 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
             if (!_readOnly) {
                 if (startedFlag) {
                     _startFileButton.setEnabled(false);
-                    _startFileButton.setTextColor(_activity.getResources().getColor(R.color.green));
                     _containerNoEditText.setEnabled(true);
                     _chassisNoEditText.setEnabled(true);
                     _listAdapter.setStartedFlag(true);
                     _sendContainerChassisButton.setEnabled(true);
                 } else {
                     _startFileButton.setEnabled(true);
-                    _startFileButton.setTextColor(_activity.getResources().getColor(R.color.red));
                     _containerNoEditText.setEnabled(false);
                     _chassisNoEditText.setEnabled(false);
                     _listAdapter.setStartedFlag(false);

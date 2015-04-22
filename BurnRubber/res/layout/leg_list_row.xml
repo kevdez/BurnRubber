@@ -59,6 +59,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentLeft="true"
 	        android:layout_alignParentStart="true"
+			android:background="@drawable/button"
 	        android:text="@string/arrive_button_text" />
 	    <Button
 	        android:id="@+id/departFromButton"
@@ -66,6 +67,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentRight="true"
 	        android:layout_alignParentEnd="true"
+			android:background="@drawable/button"
 	        android:text="@string/depart_button_text" />
 	</RelativeLayout>
     <ImageView
@@ -161,12 +163,14 @@
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentLeft="true"
 	        android:layout_alignParentStart="true"
+			android:background="@drawable/button"
 	        android:text="@string/arrive_button_text" />
 	    <Button
 	        android:id="@+id/outboundFormButton"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_centerInParent="true"
+			android:background="@drawable/button"
 	        android:text="@string/outbound_form_button_text" />
 	    <Button
 	        android:id="@+id/departToButton"
@@ -174,6 +178,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentRight="true"
 	        android:layout_alignParentEnd="true"
+			android:background="@drawable/button"
 	        android:text="@string/depart_button_text" />
         <Button
             android:id="@+id/endFileButton"
@@ -181,6 +186,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+			android:background="@drawable/button"
             android:text="@string/endFile_button_text" />
 	</RelativeLayout>
 </LinearLayout>

@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/directionsButton"
             android:layout_toEndOf="@id/directionsButton"
+            android:background="@drawable/button"
             android:text="@string/start_file_button_text" />
         <Button
             android:id="@+id/orderImageButton"
