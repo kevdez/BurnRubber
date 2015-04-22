@@ -198,7 +198,8 @@
                 android:layout_alignEnd="@+id/chassisNoLayout" />
             <TextView
                 android:id="@+id/commentsText"
-                android:layout_width="wrap_content"
+                android:textAlignment="textStart"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="false"
                 android:layout_toLeftOf="@+id/sendContainerChassisButton"
