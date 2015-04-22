@@ -210,7 +210,8 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
         cursor.moveToPosition(position);
 
         boolean confirmedFlag = cursor.getInt(cursor.getColumnIndex(Order.Columns.CONFIRMED_FLAG)) == 1;
-        boolean readOnly = !confirmedFlag;
+        boolean completedFlag = cursor.getInt(cursor.getColumnIndex(Order.Columns.COMPLETED_FLAG)) == 1;
+        boolean readOnly = !confirmedFlag || completedFlag;
 
         _callbacks.onOrderListItemClick(id, readOnly);
     }
@@ -352,7 +353,8 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
                     Order.Columns.APPT_DATE_TIME,
                     Order.Columns.APPT_TIME,
                     Order.Columns.MOVE_TYPE,
-                    Order.Columns.CONFIRMED_FLAG};
+                    Order.Columns.CONFIRMED_FLAG,
+                    Order.Columns.COMPLETED_FLAG};
         } else if (loaderId == LOADER_MESSAGE_ALERTS) {
             uri = MessageAlert.CONTENT_URI;
             projection = new String[]{MessageAlert.Columns._ID,
