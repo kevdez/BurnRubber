@@ -93,7 +93,7 @@ public class DownloadMessagesServiceAsyncTask extends AsyncTask<Void, Void, Void
                     //Add 1 second for messages to be sorted in the right order.
                     now.add(Calendar.SECOND, 1);
                     Date savedDate = calendar.getTimeInMillis() > now.getTimeInMillis() ? now.getTime() : calendar.getTime();
-                    values.put(Message.Columns.CREATED_DATE_TIME, savedDate.toString());
+                    values.put(Message.Columns.CREATED_DATE_TIME, Constants.SQLiteDateFormat.format(savedDate));
 
                     _context.getContentResolver().insert(Message.CONTENT_URI, values);
                 }

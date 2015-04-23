@@ -234,7 +234,7 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
         values.put(Message.Columns.DRIVER_NO, Utils.getDriverNo(_activity));
         values.put(Message.Columns.MESSAGE_TYPE, "User");
         values.put(Message.Columns.MESSAGE_TEXT, label.equals("MSG") ? _messageEditText.getText().toString() : label + " " + _messageEditText.getText().toString());
-        values.put(Message.Columns.CREATED_DATE_TIME, new Date().toString());
+        values.put(Message.Columns.CREATED_DATE_TIME, Constants.SQLiteDateFormat.format(new Date()));
         Log.d(TAG, new Date().toString());
 
         if (_orderId > 0) {

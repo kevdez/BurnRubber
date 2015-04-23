@@ -207,7 +207,7 @@ public class DataContentProvider extends ContentProvider {
             selection += " AND " + where;
         }
 
-        Log.d("TEST", selection);
+        Log.d("TEST", selection + " Sort order: " +  sortOrder);
         Cursor cursor = qb.query(db, projection, selection, selectionArgs, null, null, sortOrder);
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
 

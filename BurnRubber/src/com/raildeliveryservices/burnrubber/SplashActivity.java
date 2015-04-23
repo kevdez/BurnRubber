@@ -20,7 +20,7 @@ public class SplashActivity extends BaseFragmentActivity {
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.splash);
-        Services.stopAll(this.getApplicationContext());
+        //Services.stopAll(this.getApplicationContext());
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override

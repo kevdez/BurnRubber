@@ -45,7 +45,7 @@ public class Constants {
     public static final String SETTING_SYNC_TIME_IN_SECONDS = "syncTimeInSeconds";
 
     public static SimpleDateFormat ServerDateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss.s", Locale.US);
-
+    public static SimpleDateFormat SQLiteDateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss.s", Locale.US);
     /**
      * Update to BurnRubber 2.0:
      * <p/>

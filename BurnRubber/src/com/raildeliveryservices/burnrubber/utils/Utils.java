@@ -196,7 +196,7 @@ public class Utils {
 
     public static String formatDateTime(String dateTime, SimpleDateFormat simpleDateFormat) {
         final SimpleDateFormat sdf = simpleDateFormat;
-        SimpleDateFormat sdfFull = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+        SimpleDateFormat sdfFull = Constants.SQLiteDateFormat;
         sdfFull.setTimeZone(TimeZone.getDefault());
         sdf.setTimeZone(TimeZone.getDefault());
 
