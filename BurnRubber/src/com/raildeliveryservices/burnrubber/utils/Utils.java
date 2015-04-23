@@ -171,21 +171,6 @@ public class Utils {
         return sdf.format(new Date());
     }
 
-    public static String getUTCNow(String format){
-        //Sample format "yyyy-MM-dd'T'HH:mm:ss"
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String utcTime = sdf.format(new Date());
-        Log.d("Time", utcTime);
-        return utcTime;
-    }
-
-    public static Date utcToLocalTime(String utcTime, String utcTimeFormat) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat(utcTimeFormat);
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-        Date localDate = sdf.parse(utcTime);
-        return localDate;
-    }
 
     public static Date toDate(String timeString, String timeFormat) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat(timeFormat);

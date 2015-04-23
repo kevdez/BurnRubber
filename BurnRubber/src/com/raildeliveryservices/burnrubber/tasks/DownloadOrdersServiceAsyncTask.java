@@ -11,15 +11,12 @@ import android.util.Log;
 import com.raildeliveryservices.burnrubber.Constants;
 import com.raildeliveryservices.burnrubber.WebServiceConstants;
 import com.raildeliveryservices.burnrubber.data.Leg;
-import com.raildeliveryservices.burnrubber.data.LegExtra;
 import com.raildeliveryservices.burnrubber.data.Order;
 import com.raildeliveryservices.burnrubber.utils.Utils;
 import com.raildeliveryservices.burnrubber.utils.WebPost;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.Date;
 
 public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> {
 
@@ -40,9 +37,7 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
     }
 
     private void downloadOrders() {
-
         String lastUpdateDateTime = _settings.getString(Constants.SETTINGS_LAST_REQUEST_DATE_TIME_ORDERS + "-" + Utils.getDriverNo(_context), "2000-01-01 00:00:00.000");
-
         try {
 
             JSONObject requestJson = new JSONObject();
@@ -54,18 +49,16 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
             JSONObject responseJson = webPost.Post();
             saveOrders(responseJson.getJSONArray("Orders"));
 
-            String lastRequestTime = responseJson.getString(WebServiceConstants.FIELD_LAST_REQUEST_DATE_TIME_ORDERS);
-            _settings.edit().putString(Constants.SETTINGS_LAST_REQUEST_DATE_TIME_ORDERS + "-" + Utils.getDriverNo(_context), lastRequestTime).commit();
-            Log.d(LOG_TAG, responseJson.toString());
+            String lastRequestUTCTime = responseJson.getString(WebServiceConstants.FIELD_LAST_REQUEST_DATE_TIME_ORDERS);
+            _settings.edit().putString(Constants.SETTINGS_LAST_REQUEST_DATE_TIME_ORDERS + "-" + Utils.getDriverNo(_context), lastRequestUTCTime).commit();
+            Log.d(LOG_TAG, "requestTime: " + lastUpdateDateTime + responseJson.toString());
         } catch (Exception e) {
             Log.e(LOG_TAG, e.getMessage());
         }
     }
 
     private void saveOrders(JSONArray orderArray) {
-
         Uri uri = Order.CONTENT_URI;
-
         for (int i = 0; i < orderArray.length(); i++) {
 
             try {
@@ -96,12 +89,14 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
                 values.put(Order.Columns.COMPLETED_FLAG, 0);
 
                 int fileNo = orderObject.getInt("FileNo");
-                long orderId = orderExists(fileNo);
+                long orderId = orderExistedButNotCompleted(fileNo);
 
-                if (orderId > 0) {      // UPDATE
+                if (orderId > 0) {
                     uri = Uri.withAppendedPath(uri, String.valueOf(orderId));
+                    //Delete all the associate legs of the order before saving the new legs.
+                    deleteLegsOfOrder(orderId);
                     _context.getContentResolver().update(uri, values, null, null);
-                } else {                // INSERT
+                } else {
                     Uri returnUri = _context.getContentResolver().insert(uri, values);
                     orderId = Long.parseLong(returnUri.getLastPathSegment());
                 }
@@ -114,10 +109,24 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
         }
     }
 
+    private void deleteLegsOfOrder(long orderId) {
+        String[] projections = {Leg.Columns._ID};
+        String selection = Leg.Columns.ORDER_ID + " = " + orderId;
+        Cursor cursor = _context.getContentResolver().query(Leg.CONTENT_URI, projections, selection, null, null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                int legId = cursor.getInt(cursor.getColumnIndex(Leg.Columns._ID));
+                Uri deleteLegUri = Uri.withAppendedPath(Leg.CONTENT_URI, String.valueOf(legId));
+                _context.getContentResolver().delete(deleteLegUri, null, null);
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+    }
+
     private void saveLegs(long orderId, int fileNo, JSONArray legArray) {
-
         Uri uri = Leg.CONTENT_URI;
-
         try {
             for (int i = 0; i < legArray.length(); i++) {
                 JSONObject legObject = legArray.getJSONObject(i);
@@ -139,45 +148,10 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
                 values.put(Leg.Columns.STATE_TO, legObject.getString("StateTo"));
                 values.put(Leg.Columns.ZIP_CODE_TO, legObject.getString("ZipCodeTo"));
                 values.put(Leg.Columns.COUNT_FLAG, legObject.getBoolean("CountFlag") ? 1 : 0);
-                values.put(Leg.Columns.WEIGHT_FLAG, legObject.getBoolean("WeightFlag") ? 1 : 0);
                 values.put(Leg.Columns.OUTBOUND_FLAG, legObject.getBoolean("OutboundFlag") ? 1 : 0);
-
-                long legId = legExists(fileNo, legNo);
-
-                if (legId > 0) {
-                    uri = Uri.withAppendedPath(uri, String.valueOf(legId));
-                    _context.getContentResolver().update(uri, values, null, null);
-                } else {
-                    values.put(Leg.Columns.ORDER_ID, orderId);
-                    values.put(Leg.Columns.COMPLETED_FLAG, 0);
-                    Uri returnUri = _context.getContentResolver().insert(uri, values);
-                    legId = Long.parseLong(returnUri.getLastPathSegment());
-                }
-
-                //saveLegExtras(legId, fileNo, legNo, legObject.getJSONArray("LegExtras"));
-            }
-        } catch (Exception e) {
-            Log.e(LOG_TAG, e.getMessage());
-        }
-    }
-
-    private void saveLegExtras(long legId, int fileNo, int legNo, JSONArray legExtraArray) {
-
-        deleteLegExtras(legId);
-
-        Uri uri = LegExtra.CONTENT_URI;
-
-        try {
-            for (int i = 0; i < legExtraArray.length(); i++) {
-                JSONObject legExtraObject = legExtraArray.getJSONObject(i);
-
-                ContentValues values = new ContentValues();
-                values.put(LegExtra.Columns.LEG_ID, legId);
-                values.put(LegExtra.Columns.FILE_NO, fileNo);
-                values.put(LegExtra.Columns.LEG_NO, legNo);
-                values.put(LegExtra.Columns.LEG_PART, legExtraObject.getString("LegPart"));
-                values.put(LegExtra.Columns.EXTRA, legExtraObject.getString("Extra"));
-
+                values.put(Leg.Columns.WEIGHT_FLAG, legObject.getBoolean("WeightFlag") ? 1 : 0);
+                values.put(Leg.Columns.ORDER_ID, orderId);
+                values.put(Leg.Columns.COMPLETED_FLAG, 0);
                 _context.getContentResolver().insert(uri, values);
             }
         } catch (Exception e) {
@@ -185,10 +159,11 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
         }
     }
 
-    private long orderExists(int fileNo) {
+    private long orderExistedButNotCompleted(int fileNo) {
         Uri uri = Order.CONTENT_URI;
-        String[] projection = {Order.Columns._ID, Order.Columns.FILE_NO};
+        String[] projection = {Order.Columns._ID, Order.Columns.FILE_NO, Order.Columns.COMPLETED_FLAG};
         String selection = Order.Columns.FILE_NO + " = " + String.valueOf(fileNo);
+        selection += " AND " + Order.Columns.COMPLETED_FLAG + " != 1";//Completed order.
 
         Cursor cursor = _context.getContentResolver().query(uri, projection, selection, null, null);
 
@@ -200,25 +175,4 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
         }
     }
 
-    private long legExists(int fileNo, int legNo) {
-        Uri uri = Leg.CONTENT_URI;
-        String[] projection = {Leg.Columns._ID};
-        String selection = Leg.Columns.FILE_NO + " = " + String.valueOf(fileNo) + " and " + Leg.Columns.LEG_NO + " = " + String.valueOf(legNo);
-
-        Cursor cursor = _context.getContentResolver().query(uri, projection, selection, null, null);
-
-        if (cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            return cursor.getLong(cursor.getColumnIndex(Leg.Columns._ID));
-        } else {
-            return 0;
-        }
-    }
-
-    private void deleteLegExtras(long legId) {
-        Uri uri = LegExtra.CONTENT_URI;
-        String where = LegExtra.Columns.LEG_ID + " = " + legId;
-
-        _context.getContentResolver().delete(uri, where, null);
-    }
 }

@@ -55,7 +55,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
     protected void bindChildView(View view, Context context, Cursor cursor, boolean isLastChild) {
 
         final long legId = cursor.getLong(cursor.getColumnIndex(Leg.Columns._ID));
-        final int fileNo = cursor.getInt(cursor.getColumnIndex(Leg.Columns.FILE_NO));
+        final int orderId = cursor.getInt(cursor.getColumnIndex(Leg.Columns.ORDER_ID));
         final int legNo = cursor.getInt(cursor.getColumnIndex(Leg.Columns.LEG_NO));
         final int parentLegNo = cursor.getInt(cursor.getColumnIndex(Leg.Columns.PARENT_LEG_NO));
         final TextView companyNameFromText = (TextView) view.findViewById(R.id.companyNameFromText);
@@ -95,7 +95,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
         endFileButton.setText(_context.getString(R.string.endFile_button_text));
 
         if (parentLegNo > 0) {
-            Cursor parentLegCursor = getParentLeg(fileNo, parentLegNo);
+            Cursor parentLegCursor = getParentLeg(orderId, parentLegNo);
 
             companyNameFromText.setText(parentLegCursor.getString(parentLegCursor.getColumnIndex(Leg.Columns.COMPANY_NAME_TO)));
             addressFromText.setText(parentLegCursor.getString(parentLegCursor.getColumnIndex(Leg.Columns.ADDRESS_TO)));
@@ -306,7 +306,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
 
             if (TextUtils.isEmpty(departToDate)) {
 
-                if (isLastLeg(fileNo, legNo)) {
+                if (isLastLeg(orderId, legNo)) {
                     departToButton.setVisibility(View.GONE);
                     endFileButton.setVisibility(View.VISIBLE);
                 } else {
@@ -314,7 +314,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
                     departToButton.setVisibility(View.VISIBLE);
                 }
                 if (previousCompleted && Utils.isUserOnline(_context) && _startedFlag && !TextUtils.isEmpty(arriveToDate)) {
-                    if (isLastLeg(fileNo, legNo)) {
+                    if (isLastLeg(orderId, legNo)) {
                         endFileButton.setEnabled(true);
                         departToButton.setEnabled(false);
                     } else {
@@ -344,7 +344,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
                 departToButton.setText(departToDate);
 
                 if (allowTimeEditing) {
-                    if (isLastLeg(fileNo, legNo)) {
+                    if (isLastLeg(orderId, legNo)) {
                         endFileButton.setEnabled(true);
                         departToButton.setEnabled(false);
                         endFileButton.setOnClickListener(new OnClickListener() {
@@ -378,7 +378,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
                     outboundFormButton.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            _adapterCallbacks.onOutboundFormClick(legId, fileNo);
+                            _adapterCallbacks.onOutboundFormClick(legId, orderId);
                         }
                     });
                 } else {
@@ -418,10 +418,10 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
         _completed.put(legNo, completeFlag);
     }
 
-    private boolean isLastLeg(int fileNo, int legNo) {
+    private boolean isLastLeg(int orderId, int legNo) {
         Uri uri = Leg.CONTENT_URI;
         String[] projection = {Leg.Columns.LEG_NO};
-        String selection = Leg.Columns.FILE_NO + " = " + fileNo;
+        String selection = Leg.Columns.ORDER_ID + " = " + orderId;
         String sortOrder = Leg.Columns.LEG_NO;
 
         Cursor cursor = _context.getContentResolver().query(uri, projection, selection, null, sortOrder);
@@ -434,7 +434,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
         }
     }
 
-    private Cursor getParentLeg(int fileNo, int parentLegNo) {
+    private Cursor getParentLeg(int orderId, int parentLegNo) {
         Uri uri = Leg.CONTENT_URI;
         String[] projection = {Leg.Columns.COMPANY_NAME_TO,
                 Leg.Columns.ADDRESS_TO,
@@ -443,7 +443,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
                 Leg.Columns.ZIP_CODE_TO,
                 Leg.Columns.ARRIVE_TO_DATE_TIME,
                 Leg.Columns.DEPART_TO_DATE_TIME};
-        String selection = Leg.Columns.FILE_NO + " = " + fileNo + " and " + Leg.Columns.LEG_NO + " = " + parentLegNo;
+        String selection = Leg.Columns.ORDER_ID + " = " + orderId + " and " + Leg.Columns.LEG_NO + " = " + parentLegNo;
 
         Cursor cursor = _context.getContentResolver().query(uri, projection, selection, null, null);
         cursor.moveToFirst();
@@ -469,6 +469,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
         long legId = itemCursor.getLong(itemCursor.getColumnIndex(Leg.Columns._ID));
         Uri uri = Uri.withAppendedPath(Leg.CONTENT_URI, String.valueOf(legId));
         String[] projection = {Leg.Columns._ID,
+                Leg.Columns.ORDER_ID,
                 Leg.Columns.FILE_NO,
                 Leg.Columns.LEG_NO,
                 Leg.Columns.PARENT_LEG_NO,
