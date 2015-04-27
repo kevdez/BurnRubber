@@ -143,7 +143,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:textColor="#0ae"
+            android:textColor="@color/blue"
             android:text="@string/confirm_button_text"
             android:focusable="false" />
         <Button
@@ -151,7 +151,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textColor="#f44"
+            android:textColor="@color/orange"
             android:text="@string/reject_button_text"
             android:focusable="false" />
     </RelativeLayout>
