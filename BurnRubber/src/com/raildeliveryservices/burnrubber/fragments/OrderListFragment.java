@@ -54,42 +54,8 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
                 case R.id.tripHistoryButton:
                     _callbacks.onTripHistoryButtonClick();
                     break;
-                case R.id.onlineButton:
-                    if (Utils.isUserOnline(_activity)) {
-                        //TODO: Turn off gps service for testing.
-                        if(!RuntimeSetting.sendGpsWhenOffline){
-                            Services.stopGpsService(_activity);
-                            Services.stopLocationService(_activity);
-                        }
-                        /////////////////
-                        setUserOffline();
-                    } else {
-                        final CharSequence[] choiceItems = new CharSequence[]{"Intermodal", "Crossdock"};
-
-                        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(_activity);
-                        alertBuilder.setTitle("Select System");
-                        alertBuilder.setSingleChoiceItems(choiceItems, -1, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                setUserOnline(choiceItems[which].toString());
-                                if(!RuntimeSetting.isGpsServiceRunning){
-                                    Services.startGpsService(_activity);
-                                    Services.startLocationService(_activity);
-                                }
-                                dialog.dismiss();
-                            }
-                        });
-                        alertBuilder.create().show();
-                    }
-                    break;
                 case R.id.formsButton:
                     showFormDialog();
-                    break;
-                case R.id.logoffButton:
-                    if (Utils.isUserOnline(_activity)) {
-                        setUserOffline();
-                    }
-                    _callbacks.onLogoffButtonClick();
                     break;
                 case R.id.returnButton:
                     _callbacks.onReturnButtonClick();
@@ -99,7 +65,6 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
     };
     private Button _messageButton;
     private Button _tripHistoryButton;
-    private Button _onlineButton;
     private OrderListCursorAdapter _listAdapter;
     private boolean _tripHistory;
     private Callbacks _callbacks;
@@ -115,16 +80,12 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
 
         _messageButton = (Button) _activity.findViewById(R.id.messageButton);
         _tripHistoryButton = (Button) _activity.findViewById(R.id.tripHistoryButton);
-        _onlineButton = (Button) _activity.findViewById(R.id.onlineButton);
         Button formsButton = (Button) _activity.findViewById(R.id.formsButton);
-        Button logoffButton = (Button) _activity.findViewById(R.id.logoffButton);
         Button returnButton = (Button) _activity.findViewById(R.id.returnButton);
 
         _messageButton.setOnClickListener(_buttonListener);
         _tripHistoryButton.setOnClickListener(_buttonListener);
-        _onlineButton.setOnClickListener(_buttonListener);
         formsButton.setOnClickListener(_buttonListener);
-        logoffButton.setOnClickListener(_buttonListener);
         returnButton.setOnClickListener(_buttonListener);
 
         Bundle bundle = getArguments();
@@ -132,28 +93,16 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
 
         if (_tripHistory) {
             _messageButton.setVisibility(View.GONE);
-            _onlineButton.setVisibility(View.GONE);
             formsButton.setVisibility(View.GONE);
-            logoffButton.setVisibility(View.GONE);
             _tripHistoryButton.setVisibility(View.GONE);
+
             returnButton.setVisibility(View.VISIBLE);
         } else {
             _messageButton.setVisibility(View.VISIBLE);
-            _onlineButton.setVisibility(View.VISIBLE);
             formsButton.setVisibility(View.VISIBLE);
-            logoffButton.setVisibility(View.VISIBLE);
             _tripHistoryButton.setVisibility(View.VISIBLE);
             returnButton.setVisibility(View.GONE);
         }
-
-        if (Utils.isUserOnline(_activity)) {
-            setUserButtonOnline(true, Utils.getDriverOnlineSystem(_activity));
-        } else {
-            setUserButtonOnline(false, null);
-        }
-
-        TextView driverNumberText = (TextView) _activity.findViewById(R.id.driverNumberText);
-        driverNumberText.setText(Utils.getDriverNo(_activity));
 
         _listAdapter = new OrderListCursorAdapter(_activity, R.layout.order_list_row, _tripHistory);
         setListAdapter(_listAdapter);
@@ -259,38 +208,6 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
     private void deleteOrder(long orderId) {
         DeleteOrderAsyncTask deleteOrder = new DeleteOrderAsyncTask(_activity);
         deleteOrder.execute(new Long[]{orderId});
-    }
-
-    private void setUserButtonOnline(boolean value, String system) {
-
-        if (value) {
-            if (system.equals("Crossdock")) {
-                _onlineButton.setText(getString(R.string.online_xdock));
-            } else if (system.equals("Intermodal")) {
-                _onlineButton.setText(getString(R.string.online_drayage));
-            } else {
-                _onlineButton.setText(getString(R.string.online));
-            }
-
-            _onlineButton.setTextColor(getActivity().getResources().getColor(R.color.green));
-        } else {
-            _onlineButton.setText(getString(R.string.offline));
-            _onlineButton.setTextColor(getActivity().getResources().getColor(R.color.red));
-        }
-    }
-
-    private void setUserOnline(String system) {
-        Utils.setUserOnline(_activity, true);
-        Utils.setDriverOnlineSystem(_activity, system);
-        setUserButtonOnline(true, system);
-        Utils.sendUserOnlineToServer(_activity, true, system);
-    }
-
-    private void setUserOffline() {
-        Utils.setUserOnline(_activity, false);
-        Utils.setDriverOnlineSystem(_activity, "");
-        setUserButtonOnline(false, null);
-        Utils.sendUserOnlineToServer(_activity, false, null);
     }
 
     private void showFormDialog() {
@@ -412,8 +329,6 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
         public void onTripHistoryButtonClick();
 
         public void onReturnButtonClick();
-
-        public void onLogoffButtonClick();
 
         public void onOrderListItemClick(long orderId, boolean readOnly);
 

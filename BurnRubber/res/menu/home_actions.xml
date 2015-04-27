@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_online_status"
+        android:title="online status"
+        android:actionLayout="@layout/home_actions"
+        android:showAsAction="always">
+    </item>
+    <item
+        android:id="@+id/action_settings"
+        android:title="settings"
+        android:icon="@drawable/ic_action_overflow"
+        android:showAsAction="always">
+        <menu>
+
+            <item android:id="@+id/action_log_off"
+                android:title="@string/log_off">
+            </item>
+        </menu>
+    </item>
+</menu>

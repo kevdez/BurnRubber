@@ -32,8 +32,11 @@
         <activity android:name=".LegActivity"
             android:finishOnTaskLaunch="true"/>
         <activity android:name=".MessageActivity"
-            android:finishOnTaskLaunch="true"/>
+            android:finishOnTaskLaunch="true"
+            android:parentActivityName=".OrderActivity"/>
+
         <activity android:name=".FormActivity"
+            android:parentActivityName=".OrderActivity"
             android:finishOnTaskLaunch="true"/>
         <activity
             android:name=".SplashActivity"

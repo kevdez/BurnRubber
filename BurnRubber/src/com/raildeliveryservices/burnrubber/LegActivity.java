@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.raildeliveryservices.burnrubber.fragments.LegListFragment;
 import com.raildeliveryservices.burnrubber.fragments.LegOutboundFragment;
 
-public class LegActivity extends BaseFragmentActivity implements LegListFragment.Callbacks, LegOutboundFragment.Callbacks {
+public class LegActivity extends BaseLoggedInActivity implements LegListFragment.Callbacks, LegOutboundFragment.Callbacks {
 
     private long _orderId;
     private FragmentManager _fm;

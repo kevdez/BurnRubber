@@ -1,20 +1,27 @@
 package com.raildeliveryservices.burnrubber;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import com.raildeliveryservices.burnrubber.fragments.OrderListFragment;
 import com.raildeliveryservices.burnrubber.utils.Services;
 import com.raildeliveryservices.burnrubber.utils.Utils;
 
-public class OrderActivity extends BaseFragmentActivity implements OrderListFragment.Callbacks {
+public class OrderActivity extends BaseLoggedInActivity implements OrderListFragment.Callbacks {
 
     private static Intent msgIntent;
-    private static String TAG = OrderActivity.class.getSimpleName();
     private FragmentManager _fm;
     private FragmentTransaction _ft;
 
@@ -34,9 +41,9 @@ public class OrderActivity extends BaseFragmentActivity implements OrderListFrag
 
         msgIntent = new Intent(this, MessageActivity.class);
         loadOrders();
-
-        Log.d(TAG, "On Created");
     }
+
+
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -105,20 +112,4 @@ public class OrderActivity extends BaseFragmentActivity implements OrderListFrag
         intent.putExtras(bundle);
         startActivity(intent);
     }
-
-    @Override
-    public void onLogoffButtonClick() {
-
-        Utils.setUserLoggedIn(this, false);
-        Services.stopAll(this);
-        try {
-            Thread.sleep(750);
-        } catch (InterruptedException e) {
-            ;
-        }
-
-        finish();
-        System.exit(0);
-    }
-
 }

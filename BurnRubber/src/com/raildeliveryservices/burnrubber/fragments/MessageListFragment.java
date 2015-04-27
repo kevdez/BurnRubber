@@ -62,7 +62,6 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
     private Button _sendMessageButton;
     private EditText _messageEditText;
     private MessageListCursorAdapter _listAdapter;
-    private Callbacks _callbacks;
     private OnClickListener _buttonListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -76,9 +75,6 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
                     break;
                 case R.id.purgeMessageButton:
                     showPurgeMessageDialog();
-                    break;
-                case R.id.cancelMessageButton:
-                    _callbacks.onCancelButtonClick();
                     break;
             }
         }
@@ -121,14 +117,12 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
         _sendMessageButton = (Button) _activity.findViewById(R.id.sendMessageButton);
         Button cannedMessageButton = (Button) _activity.findViewById(R.id.cannedMessageButton);
         Button purgeMessageButton = (Button) _activity.findViewById(R.id.purgeMessageButton);
-        Button cancelMessageButton = (Button) _activity.findViewById(R.id.cancelMessageButton);
 
         _sendMessageButton.setOnClickListener(_buttonListener);
         _sendMessageButton.setEnabled(false);
 
         cannedMessageButton.setOnClickListener(_buttonListener);
         purgeMessageButton.setOnClickListener(_buttonListener);
-        cancelMessageButton.setOnClickListener(_buttonListener);
 
         _messageEditText = (EditText) _activity.findViewById(R.id.messageEditText);
         _messageEditText.addTextChangedListener(_messageTextWatcher);
@@ -172,7 +166,6 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
         super.onAttach(activity);
 
         try {
-            _callbacks = (Callbacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement Callbacks");
         }
@@ -451,9 +444,5 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
 
             cursor.moveToNext();
         }
-    }
-
-    public interface Callbacks {
-        public void onCancelButtonClick();
     }
 }

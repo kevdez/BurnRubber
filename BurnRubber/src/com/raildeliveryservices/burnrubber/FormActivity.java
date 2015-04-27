@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.raildeliveryservices.burnrubber.fragments.FormFragment;
 
-public class FormActivity extends BaseFragmentActivity implements FormFragment.Callbacks {
+public class FormActivity extends BaseLoggedInActivity implements FormFragment.Callbacks {
 
     private FragmentManager _fm;
     private FragmentTransaction _ft;
@@ -16,6 +16,9 @@ public class FormActivity extends BaseFragmentActivity implements FormFragment.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayShowTitleEnabled(false);
 
         Bundle bundle = getIntent().getExtras();
 

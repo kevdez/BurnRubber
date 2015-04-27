@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.raildeliveryservices.burnrubber.fragments.MessageListFragment;
 
-public class MessageActivity extends BaseFragmentActivity implements MessageListFragment.Callbacks {
+public class MessageActivity extends BaseLoggedInActivity{
 
     private FragmentManager _fm;
     private FragmentTransaction _ft;
@@ -16,7 +16,8 @@ public class MessageActivity extends BaseFragmentActivity implements MessageList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayShowTitleEnabled(false);
         Bundle bundle = getIntent().getExtras();
 
         Fragment f = new MessageListFragment();
@@ -29,10 +30,5 @@ public class MessageActivity extends BaseFragmentActivity implements MessageList
         _ft = _fm.beginTransaction();
         _ft.replace(R.id.contentFrameLayout, f);
         _ft.commit();
-    }
-
-    @Override
-    public void onCancelButtonClick() {
-        finish();
     }
 }

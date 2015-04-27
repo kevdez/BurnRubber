@@ -332,6 +332,8 @@ public class FormFragment extends Fragment implements LoaderManager.LoaderCallba
         if (loader.getId() == LOADER_FORMS) {
             loadFormLayout(cursor);
         }
+
+        getLoaderManager().destroyLoader(LOADER_FORMS);
     }
 
     @Override
