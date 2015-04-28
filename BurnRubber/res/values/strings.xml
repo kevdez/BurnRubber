@@ -62,9 +62,6 @@
 	<string name="yes">Yes</string>
 	<string name="no">No</string>
 	<string name="ok">OK</string>
-	<color name="green">#7fff00</color>
-	<color name="red">#ff0000</color>
-	<color name="white">#ffffff</color>
 	<string name="delete_message_menu_item_text">Delete Message</string>
 	<string name="message_options_menu_title">Message Options</string>
 	<string name="delete_message_dialog_title">Delete Message</string>
@@ -77,4 +74,9 @@
 	<string name="dvir_help_dialog_message">LFO = Left front outside\nLFI = Left front inside\nRRO = Right rear outside\nRRI = Right rear inside\n\nR/S = Right side\nL/S = Left side\n\nR&amp;R = Remove &amp; Replace</string>
 	<string name="canned_message_dialog_title">Select Message</string>
 	<string name="canned_message_dialog_cancel_button">Back</string>
+    <string name="you_are_offline">You Are Offline</string>
+    <string name="log_off">Log Off</string>
+    <string name="intermodal">Intermodal</string>
+    <string name="crossdock">Crossdock</string>
+    <string name="select_online_system">Select system</string>
 </resources>
