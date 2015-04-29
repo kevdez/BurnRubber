@@ -146,14 +146,12 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
     public void onResume() {
         super.onResume();
         Log.d(TAG, this.getClass().getSimpleName() + " onResume");
-        Utils.addNewMessageCount(_activity, Utils.getDriverNo(_activity), true, 0);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         Log.d(TAG, this.getClass().getSimpleName() + " onPause");
-        Utils.addNewMessageCount(_activity, Utils.getDriverNo(_activity), true, 0);
     }
 
     @Override

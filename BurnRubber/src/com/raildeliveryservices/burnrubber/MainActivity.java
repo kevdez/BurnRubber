@@ -150,6 +150,9 @@ public class MainActivity extends BaseAuthActivity implements OrderListFragment.
 
     @Override
     public void onPageSelected(int i) {
+        if (i == 0) {
+            Utils.addNewMessageCount(this, Utils.getDriverNo(this), true, 0);
+        }
         getActionBar().setSelectedNavigationItem(i);
     }
 
