@@ -66,8 +66,7 @@ public class DownloadMessagesServiceAsyncTask extends AsyncTask<Void, Void, Void
     }
 
     private void saveMessages(JSONArray messageArray) {
-
-        boolean hasMessage = false;
+        int newMessageCount = 0;
         Calendar now = Calendar.getInstance();
         now.setTime(new Date());
         for (int i = 0; i < messageArray.length(); i++) {
@@ -79,8 +78,7 @@ public class DownloadMessagesServiceAsyncTask extends AsyncTask<Void, Void, Void
                     Log.d(LOG_TAG, "In saveMessages, deleting order ID: " + order_id + " and file No.: " + messageObject.getString(WebServiceConstants.FIELD_MESSAGE_TEXT));
                     deleteOrder(order_id);
                 } else if ("MSG".equals(messageObject.getString(WebServiceConstants.FIELD_LABEL))) {
-                    hasMessage = true;
-
+                    newMessageCount ++;
                     ContentValues values = new ContentValues();
                     values.put(Message.Columns.DRIVER_NO, messageObject.getInt(WebServiceConstants.FIELD_DRIVER_NO));
                     values.put(Message.Columns.MESSAGE_TYPE, "Dispatch");
@@ -104,8 +102,8 @@ public class DownloadMessagesServiceAsyncTask extends AsyncTask<Void, Void, Void
             }
         }
 
-        if (hasMessage) {
-            Utils.setMessageAlertFlag(_context, Utils.getDriverNo(_context), true);
+        if (newMessageCount > 0) {
+            Utils.setMessageAlertFlag(_context, Utils.getDriverNo(_context), newMessageCount);
             SoundPlayer.playSound(_context, com.raildeliveryservices.burnrubber.R.raw.notification);
         }
     }

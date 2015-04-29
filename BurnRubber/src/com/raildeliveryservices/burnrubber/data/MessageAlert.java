@@ -13,7 +13,8 @@ public final class MessageAlert {
                     "(" +
                     Columns._ID + " integer primary key autoincrement, " +
                     Columns.DRIVER_NO + " integer, " +
-                    Columns.MESSAGE_FLAG + " integer " +
+                    Columns.MESSAGE_FLAG + " integer, " +
+                    Columns.NEW_MESSAGE_COUNT + " integer " +
                     ");";
     public static final Uri CONTENT_URI = Uri.parse("content://" + DataContentProvider.AUTHORITY + "/messagealerts");
     public static final HashMap<String, String> PROJECTION_MAP = new HashMap<String, String>();
@@ -21,10 +22,12 @@ public final class MessageAlert {
         PROJECTION_MAP.put(Columns._ID, TABLE_NAME + "." + Columns._ID);
         PROJECTION_MAP.put(Columns.DRIVER_NO, TABLE_NAME + "." + Columns.DRIVER_NO);
         PROJECTION_MAP.put(Columns.MESSAGE_FLAG, TABLE_NAME + "." + Columns.MESSAGE_FLAG);
+        PROJECTION_MAP.put(Columns.NEW_MESSAGE_COUNT, TABLE_NAME + "." + Columns.NEW_MESSAGE_COUNT);
     }
 
     public static final class Columns implements BaseColumns {
         public static final String DRIVER_NO = "driver_no";
         public static final String MESSAGE_FLAG = "message_flag";
+        public static final String NEW_MESSAGE_COUNT = "new_message_count";
     }
 }

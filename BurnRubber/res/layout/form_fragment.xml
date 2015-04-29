@@ -1,55 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <RelativeLayout
-        android:id="@+id/formMenuLayout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ListView
+        android:id="@id/android:list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/dvirHelpButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/dvir_help_button_text"
-            android:visibility="gone" />
-    </RelativeLayout>
-    <LinearLayout
-        android:id="@+id/formMenuLineLayout"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:orientation="vertical"
-        android:background="@color/wallet_holo_blue_light"
-        android:layout_below="@id/formMenuLayout" />
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:layout_below="@id/formMenuLineLayout">
-        <LinearLayout
-            android:id="@+id/formLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
-    <LinearLayout
-        android:id="@+id/buttonLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
-        <Button
-            android:id="@+id/cancelFormButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/cancel_form_button_text" />
-        <Button
-            android:id="@+id/sendFormButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/send_button_text" />
-    </LinearLayout>
-</RelativeLayout>
+        android:layout_height="match_parent"></ListView>
+</LinearLayout>

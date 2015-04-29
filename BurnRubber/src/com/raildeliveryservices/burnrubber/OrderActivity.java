@@ -1,12 +1,12 @@
 package com.raildeliveryservices.burnrubber;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,7 +37,7 @@ public class OrderActivity extends BaseLoggedInActivity implements OrderListFrag
         Utils.loadRuntimeSetting(this);
         Services.startAll(this);
 
-        _fm = getSupportFragmentManager();
+        _fm = getFragmentManager();
 
         msgIntent = new Intent(this, MessageActivity.class);
         loadOrders();
@@ -49,19 +49,6 @@ public class OrderActivity extends BaseLoggedInActivity implements OrderListFrag
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         Services.startAll(this);
-    }
-
-    @Override
-    public void onTripHistoryButtonClick() {
-
-        Fragment f = new OrderListFragment();
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(Constants.BUNDLE_PARAM_TRIP_HISTORY, true);
-        f.setArguments(bundle);
-
-        _ft = _fm.beginTransaction();
-        _ft.replace(R.id.contentFrameLayout, f);
-        _ft.commit();
     }
 
     private void loadOrders() {
@@ -89,26 +76,6 @@ public class OrderActivity extends BaseLoggedInActivity implements OrderListFrag
         }
 
         Intent intent = new Intent(this, LegActivity.class);
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onMessageButtonClick() {
-        startActivity(new Intent(this, MessageActivity.class));
-    }
-
-    @Override
-    public void onReturnButtonClick() {
-        loadOrders();
-    }
-
-    @Override
-    public void onFormListItemClick(String formName) {
-
-        Bundle bundle = new Bundle();
-        bundle.putString(Constants.BUNDLE_PARAM_FORM_NAME, formName);
-        Intent intent = new Intent(this, FormActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
     }

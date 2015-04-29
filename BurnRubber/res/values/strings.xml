@@ -79,4 +79,8 @@
     <string name="intermodal">Intermodal</string>
     <string name="crossdock">Crossdock</string>
     <string name="select_online_system">Select system</string>
+    <string name="tab_message">MSG</string>
+    <string name="tab_orders">Orders</string>
+    <string name="tab_orders_history">Order History</string>
+    <string name="tab_forms">Forms</string>
 </resources>

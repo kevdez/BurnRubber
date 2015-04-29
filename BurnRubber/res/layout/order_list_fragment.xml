@@ -3,39 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/messageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="@string/msg_button_text" />
-        <Button
-            android:id="@+id/tripHistoryButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/messageButton"
-            android:text="@string/trip_history_button_text" />
-        <Button
-            android:id="@+id/formsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/tripHistoryButton"
-            android:text="@string/forms_button_text" />
-        <Button
-            android:id="@+id/returnButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/formsButton"
-            android:text="@string/return_button_text" />
-    </RelativeLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:orientation="vertical"
-        android:background="@color/wallet_holo_blue_light" />
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="2dp"-->
+        <!--android:orientation="vertical"-->
+        <!--android:background="@color/wallet_holo_blue_light" />-->
 	<ListView
 	    android:id="@id/android:list"
 	    android:layout_width="match_parent"

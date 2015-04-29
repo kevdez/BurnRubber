@@ -2,17 +2,16 @@ package com.raildeliveryservices.burnrubber.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ListFragment;
+import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v4.widget.CursorAdapter;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -30,6 +29,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -147,13 +147,13 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
     @Override
     public void onResume() {
         super.onResume();
-        Utils.setMessageAlertFlag(_activity, Utils.getDriverNo(_activity), false);
+        Utils.setMessageAlertFlag(_activity, Utils.getDriverNo(_activity), 0);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Utils.setMessageAlertFlag(_activity, Utils.getDriverNo(_activity), false);
+        Utils.setMessageAlertFlag(_activity, Utils.getDriverNo(_activity), 0);
     }
 
     @Override

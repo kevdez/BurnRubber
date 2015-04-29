@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.raildeliveryservices.burnrubber.MainActivity;
 import com.raildeliveryservices.burnrubber.OrderActivity;
 import com.raildeliveryservices.burnrubber.R;
 import com.raildeliveryservices.burnrubber.WebServiceConstants;
@@ -75,7 +76,7 @@ public class LoginAsyncTask extends AsyncTask<String, Void, AuthenticationRespon
             Utils.setDriverNo(_context, _driverNo);
             Utils.setUserLoggedIn(_context, true);
 
-            _context.startActivity(new Intent(_context, OrderActivity.class));
+            _context.startActivity(new Intent(_context, MainActivity.class));
         } else {
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(_context);
             alertBuilder.setTitle(_context.getResources().getString(R.string.auth_error_dialog_title));
