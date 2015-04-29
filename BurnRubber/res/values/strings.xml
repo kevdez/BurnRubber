@@ -20,7 +20,7 @@
 	<string name="commodity_label_text">Commodity</string>
 	<string name="count_flag_text">Count</string>
 	<string name="weight_flag_text">Weight</string>
-	<string name="confirm_button_text">CONFIRM</string>
+	<string name="confirm_button_text">ACCEPT</string>
 	<string name="reject_button_text">REJECT</string>
 	<string name="msg_button_text">MSG</string>
 	<string name="forms_button_text">Forms</string>
@@ -33,7 +33,7 @@
 	<string name="return_button_text">Return</string>
 	<string name="arrive_button_text">Arrive</string>
 	<string name="depart_button_text">Depart</string>
-    <string name="endFile_button_text">Done</string>
+    <string name="endFile_button_text">END FILE</string>
     <string name="outbound_form_button_text">Outbound Form</string>
 	<string name="auth_progress_title">User Login</string>
 	<string name="auth_progress_message">Authenticating user&#8230;</string>
