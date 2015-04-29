@@ -5,9 +5,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 
-import com.raildeliveryservices.burnrubber.fragments.MessageListFragment;
+import com.raildeliveryservices.burnrubber.fragments.FormDetailFragment;
 
-public class MessageActivity extends BaseLoggedInActivity{
+public class FormDetailActivity extends BaseAuthActivity implements FormDetailFragment.Callbacks {
 
     private FragmentManager _fm;
     private FragmentTransaction _ft;
@@ -16,11 +16,13 @@ public class MessageActivity extends BaseLoggedInActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayShowTitleEnabled(false);
+
         Bundle bundle = getIntent().getExtras();
 
-        Fragment f = new MessageListFragment();
+        Fragment f = new FormDetailFragment();
 
         if (bundle != null) {
             f.setArguments(bundle);
@@ -30,5 +32,15 @@ public class MessageActivity extends BaseLoggedInActivity{
         _ft = _fm.beginTransaction();
         _ft.replace(R.id.contentFrameLayout, f);
         _ft.commit();
+    }
+
+    @Override
+    public void onFormSendButtonClick() {
+        finish();
+    }
+
+    @Override
+    public void onFormCancelButtonClick() {
+        finish();
     }
 }

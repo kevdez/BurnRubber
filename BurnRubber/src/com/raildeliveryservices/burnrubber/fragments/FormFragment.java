@@ -1,7 +1,6 @@
 package com.raildeliveryservices.burnrubber.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,7 +14,7 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import com.raildeliveryservices.burnrubber.Constants;
-import com.raildeliveryservices.burnrubber.FormActivity;
+import com.raildeliveryservices.burnrubber.FormDetailActivity;
 import com.raildeliveryservices.burnrubber.R;
 import com.raildeliveryservices.burnrubber.data.Form;
 
@@ -78,11 +77,11 @@ public class FormFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        if(mFormCursor != null && mFormCursor.getCount() > 0){
+        if (mFormCursor != null && mFormCursor.getCount() > 0) {
             mFormCursor.moveToPosition(position);
             Bundle bundle = new Bundle();
             bundle.putString(Constants.BUNDLE_PARAM_FORM_NAME, mFormCursor.getString(mFormCursor.getColumnIndex(Form.Columns.FORM_NAME)));
-            Intent intent = new Intent(mActivity, FormActivity.class);
+            Intent intent = new Intent(mActivity, FormDetailActivity.class);
             intent.putExtras(bundle);
             startActivity(intent);
         }

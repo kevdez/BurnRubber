@@ -247,9 +247,6 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.messageButton:
-                    _callbacks.onMessageButtonClick();
-                    break;
                 case R.id.directionsButton:
                     _callbacks.onDirectionsButtonClick();
                     break;
@@ -606,8 +603,6 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     public interface Callbacks {
-        public void onMessageButtonClick();
-
         public void onDirectionsButtonClick();
 
         public void onReturnButtonClick();

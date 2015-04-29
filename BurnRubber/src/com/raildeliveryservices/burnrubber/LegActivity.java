@@ -1,6 +1,5 @@
 package com.raildeliveryservices.burnrubber;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,7 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.raildeliveryservices.burnrubber.fragments.LegListFragment;
 import com.raildeliveryservices.burnrubber.fragments.LegOutboundFragment;
 
-public class LegActivity extends BaseLoggedInActivity implements LegListFragment.Callbacks, LegOutboundFragment.Callbacks {
+public class LegActivity extends BaseAuthActivity implements LegListFragment.Callbacks, LegOutboundFragment.Callbacks {
 
     private long _orderId;
     private FragmentManager _fm;
@@ -34,15 +33,8 @@ public class LegActivity extends BaseLoggedInActivity implements LegListFragment
     }
 
     @Override
-    public void onMessageButtonClick() {
-
-        startActivity(new Intent(OrderActivity.getOriginalMsgIntent()));
-    }
-
-    @Override
     public void onDirectionsButtonClick() {
         // TODO Auto-generated method stub
-
     }
 
     @Override
@@ -73,7 +65,7 @@ public class LegActivity extends BaseLoggedInActivity implements LegListFragment
     @Override
     public void onOrderImageButtonClick() {
         /*
-		Fragment f = new OrderImageFragment();
+        Fragment f = new OrderImageFragment();
 		Bundle b = new Bundle();
 		b.putLong(Constants.BUNDLE_PARAM_ORDER_ID, _orderId);
 		f.setArguments(b);

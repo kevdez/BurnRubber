@@ -45,11 +45,9 @@ import com.raildeliveryservices.burnrubber.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 public class MessageListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -147,13 +145,15 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
     @Override
     public void onResume() {
         super.onResume();
-        Utils.setMessageAlertFlag(_activity, Utils.getDriverNo(_activity), 0);
+        Log.d(TAG, this.getClass().getSimpleName() + " onResume");
+        Utils.addNewMessageCount(_activity, Utils.getDriverNo(_activity), true, 0);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Utils.setMessageAlertFlag(_activity, Utils.getDriverNo(_activity), 0);
+        Log.d(TAG, this.getClass().getSimpleName() + " onPause");
+        Utils.addNewMessageCount(_activity, Utils.getDriverNo(_activity), true, 0);
     }
 
     @Override

@@ -20,7 +20,7 @@ import com.raildeliveryservices.burnrubber.utils.Utils;
 /**
  * Created by nghia on 04/27/2015.
  */
-public class BaseLoggedInActivity extends FragmentActivity {
+public class BaseAuthActivity extends FragmentActivity {
     protected final String TAG = this.getClass().getSimpleName();
     private Button mOnlineActionButton;
     private ImageView mOnlineIndicator;
@@ -45,15 +45,13 @@ public class BaseLoggedInActivity extends FragmentActivity {
         mOnlineActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Utils.isUserOnline(BaseLoggedInActivity.this)){
+                if (Utils.isUserOnline(BaseAuthActivity.this)) {
                     //User is currently online
                     setUserOffline();
-                }
-                else
-                {
+                } else {
                     //User is currently offline.
                     final String[] choices = new String[]{getResources().getString(R.string.intermodal), getResources().getString(R.string.crossdock)};
-                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(BaseLoggedInActivity.this);
+                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(BaseAuthActivity.this);
                     alertBuilder.setTitle(getString(R.string.select_online_system));
                     alertBuilder.setSingleChoiceItems(choices, -1, new DialogInterface.OnClickListener() {
                         @Override
@@ -110,11 +108,9 @@ public class BaseLoggedInActivity extends FragmentActivity {
 
     private void loadOnlineStatus() {
         boolean isOnline = Utils.isUserOnline(this);
-        if(isOnline){
+        if (isOnline) {
             setUserOnline(Utils.getDriverOnlineSystem(this));
-        }
-        else
-        {
+        } else {
             setUserOffline();
         }
     }
@@ -129,7 +125,7 @@ public class BaseLoggedInActivity extends FragmentActivity {
         Utils.sendUserOnlineToServer(this, true, onlineChoice);
     }
 
-    protected void setUserOffline(){
+    protected void setUserOffline() {
         mOnlineActionButton.setText(getString(R.string.you_are_offline));
         mOnlineActionButton.setTextColor(getResources().getColor(R.color.red));
         mOnlineIndicator.setImageResource(R.drawable.ic_action_offline);

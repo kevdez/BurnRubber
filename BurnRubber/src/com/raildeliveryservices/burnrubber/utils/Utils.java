@@ -13,6 +13,7 @@ import android.media.MediaPlayer;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.raildeliveryservices.burnrubber.Constants;
 import com.raildeliveryservices.burnrubber.WebServiceConstants;
@@ -212,34 +213,39 @@ public class Utils {
     }
 
     private static int messageAlertExists(Context context, String driverNo) {
-
         String[] projection = {MessageAlert.Columns._ID,
                 MessageAlert.Columns.DRIVER_NO,
-                MessageAlert.Columns.MESSAGE_FLAG,
                 MessageAlert.Columns.NEW_MESSAGE_COUNT};
         String selection = MessageAlert.Columns.DRIVER_NO + " = " + driverNo;
-
+        int newMessageCount = -1;//There is not any record in the db.
         final Cursor cursor = context.getContentResolver().query(MessageAlert.CONTENT_URI, projection, selection, null, null);
         if(cursor.getCount() > 0){
             cursor.moveToFirst();
-            return cursor.getInt(cursor.getColumnIndex(MessageAlert.Columns.NEW_MESSAGE_COUNT));
+            newMessageCount = cursor.getInt(cursor.getColumnIndex(MessageAlert.Columns.NEW_MESSAGE_COUNT));
         }
-        return  -1;//There is not any record in the db.
+        cursor.close();
+        return newMessageCount;
 
     }
 
-    public static void setMessageAlertFlag(Context context, String driverNo, int newMessageCount) {
-
+    public static void addNewMessageCount(Context context, String driverNo, boolean reset, int newMessageCount) {
         ContentValues values = new ContentValues();
-        values.put(MessageAlert.Columns.MESSAGE_FLAG, newMessageCount > 0? 1 : 0);
         int lastNewMessageCount = Utils.messageAlertExists(context, driverNo);
+
         if (lastNewMessageCount != -1) {
-            values.put(MessageAlert.Columns.NEW_MESSAGE_COUNT, newMessageCount + lastNewMessageCount);
+            newMessageCount = reset ? 0 : (newMessageCount + lastNewMessageCount);
+            values.put(MessageAlert.Columns.NEW_MESSAGE_COUNT, newMessageCount);
             context.getContentResolver().update(MessageAlert.CONTENT_URI, values, MessageAlert.Columns.DRIVER_NO + " = " + driverNo, null);
         } else {
             values.put(MessageAlert.Columns.DRIVER_NO, driverNo);
             values.put(MessageAlert.Columns.NEW_MESSAGE_COUNT, newMessageCount);
             context.getContentResolver().insert(MessageAlert.CONTENT_URI, values);
+        }
+    }
+
+    public static void showMessage(Context context, String message) {
+        if (message != null && !message.isEmpty()) {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
         }
     }
 

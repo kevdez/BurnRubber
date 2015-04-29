@@ -1,7 +1,6 @@
 package com.raildeliveryservices.burnrubber.fragments;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListFragment;
@@ -24,23 +23,19 @@ import android.widget.ListView;
 import com.raildeliveryservices.burnrubber.Constants;
 import com.raildeliveryservices.burnrubber.R;
 import com.raildeliveryservices.burnrubber.adapters.OrderListCursorAdapter;
-import com.raildeliveryservices.burnrubber.data.MessageAlert;
 import com.raildeliveryservices.burnrubber.data.Order;
 import com.raildeliveryservices.burnrubber.tasks.DeleteOrderAsyncTask;
-import com.raildeliveryservices.burnrubber.utils.Utils;
 
 @SuppressLint("NewApi")
 public class OrderListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int LOADER_ORDERS = -11;
     private static final int LOADER_HISTORY_ORDERS = -2;
-    private static final int LOADER_MESSAGE_ALERTS = -3;
 
     private Activity _activity;
     private OrderListCursorAdapter _listAdapter;
     private boolean _tripHistory;
     private Callbacks _callbacks;
-    private ActionBar.Tab mMsgTab;
 
     public OrderListFragment() {
     }
@@ -49,7 +44,6 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         _activity = getActivity();
-        mMsgTab = _activity.getActionBar().getTabAt(0);
 
         Bundle bundle = getArguments();
         _tripHistory = bundle.getBoolean(Constants.BUNDLE_PARAM_TRIP_HISTORY);
@@ -77,12 +71,6 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
             }
         }
 
-        Loader<Cursor> messageAlertLoader = getLoaderManager().getLoader(LOADER_MESSAGE_ALERTS);
-        if (messageAlertLoader != null && !messageAlertLoader.isReset()) {
-            getLoaderManager().restartLoader(LOADER_MESSAGE_ALERTS, null, this);
-        } else {
-            getLoaderManager().initLoader(LOADER_MESSAGE_ALERTS, null, this);
-        }
     }
 
     @Override
@@ -178,12 +166,6 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
                     Order.Columns.MOVE_TYPE,
                     Order.Columns.CONFIRMED_FLAG,
                     Order.Columns.COMPLETED_FLAG};
-        } else if (loaderId == LOADER_MESSAGE_ALERTS) {
-            uri = MessageAlert.CONTENT_URI;
-            projection = new String[]{MessageAlert.Columns._ID,
-                    MessageAlert.Columns.DRIVER_NO,
-                    MessageAlert.Columns.MESSAGE_FLAG,
-                    MessageAlert.Columns.NEW_MESSAGE_COUNT};
         }
 
         if (loaderId == LOADER_ORDERS) {
@@ -192,8 +174,6 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
         } else if (loaderId == LOADER_HISTORY_ORDERS) {
             selection = Order.Columns.COMPLETED_FLAG + " = 1";
             sortOrder = Order.Columns.APPT_DATE_TIME + " DESC";
-        } else if (loaderId == LOADER_MESSAGE_ALERTS) {
-            selection = MessageAlert.Columns.DRIVER_NO + " = " + Utils.getDriverNo(_activity);
         }
 
         return new CursorLoader(_activity, uri, projection, selection, null, sortOrder);
@@ -201,30 +181,13 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        if (loader.getId() == LOADER_MESSAGE_ALERTS) {
-            if (cursor.moveToFirst()) {
-                int newMessageCount = cursor.getInt(cursor.getColumnIndex(MessageAlert.Columns.NEW_MESSAGE_COUNT));
-                if (newMessageCount > 0) {
-                    mMsgTab.setText("MSG(" + newMessageCount + ")");
-                    mMsgTab.setIcon(R.drawable.ic_new_incoming);
-                }
-                else
-                {
-                    mMsgTab.setText("MSG");
-                    mMsgTab.setIcon(null);
-                }
-            }
-        } else {
-            cursor.moveToFirst();
-            _listAdapter.swapCursor(cursor);
-        }
+        cursor.moveToFirst();
+        _listAdapter.swapCursor(cursor);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        if (loader.getId() != LOADER_MESSAGE_ALERTS) {
-            _listAdapter.swapCursor(null);
-        }
+        _listAdapter.swapCursor(null);
     }
 
     public interface Callbacks {

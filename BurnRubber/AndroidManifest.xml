@@ -22,33 +22,28 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
-            android:noHistory="true"
-            android:finishOnTaskLaunch="true">
+            android:finishOnTaskLaunch="true"
+            android:noHistory="true">
 
         </activity>
-        <activity android:name=".OrderActivity"
-            android:launchMode="singleTask"
-            android:finishOnTaskLaunch="true"/>
+
         <activity android:name=".LegActivity"
             android:finishOnTaskLaunch="true"/>
-        <activity android:name=".MessageActivity"
-            android:finishOnTaskLaunch="true"
-            android:parentActivityName=".OrderActivity"/>
 
-        <activity android:name=".FormActivity"
-            android:parentActivityName=".OrderActivity"
-            android:finishOnTaskLaunch="true"/>
+        <activity
+            android:name=".FormDetailActivity"
+            android:finishOnTaskLaunch="true"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTask"
-            android:finishOnTaskLaunch="true">
-        </activity>
+            android:finishOnTaskLaunch="true"
+            android:launchMode="singleTask"></activity>
         <activity
             android:name=".SplashActivity"
-            android:launchMode="singleTask"
             android:clearTaskOnLaunch="true"
-            android:noHistory="true"
             android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
+            android:noHistory="true"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

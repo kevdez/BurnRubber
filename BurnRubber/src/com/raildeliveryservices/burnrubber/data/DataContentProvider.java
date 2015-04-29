@@ -209,7 +209,7 @@ public class DataContentProvider extends ContentProvider {
 
         Cursor cursor = qb.query(db, projection, selection, selectionArgs, null, null, sortOrder);
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
-        Log.d(DataContentProvider.class.getSimpleName(), "Count:  " + cursor.getCount() + ", Query: "  + selection + ", Sort order: " +  sortOrder + " Uri: " + uri);
+        Log.d(DataContentProvider.class.getSimpleName(), "Count:  " + cursor.getCount() + ", Query: " + selection + ", Sort order: " + sortOrder + " Uri: " + uri);
         return cursor;
     }
 
@@ -260,7 +260,6 @@ public class DataContentProvider extends ContentProvider {
                 break;
             case MESSAGE_ALERTS:
                 tableName = MessageAlert.TABLE_NAME;
-                nullColHack = MessageAlert.Columns.MESSAGE_FLAG;
                 contentUri = MessageAlert.CONTENT_URI;
                 break;
             default:

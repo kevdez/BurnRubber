@@ -103,7 +103,7 @@ public class DownloadMessagesServiceAsyncTask extends AsyncTask<Void, Void, Void
         }
 
         if (newMessageCount > 0) {
-            Utils.setMessageAlertFlag(_context, Utils.getDriverNo(_context), newMessageCount);
+            Utils.addNewMessageCount(_context, Utils.getDriverNo(_context), false, newMessageCount);
             SoundPlayer.playSound(_context, com.raildeliveryservices.burnrubber.R.raw.notification);
         }
     }

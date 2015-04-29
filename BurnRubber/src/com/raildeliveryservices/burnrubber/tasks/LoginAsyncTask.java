@@ -9,11 +9,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.raildeliveryservices.burnrubber.MainActivity;
-import com.raildeliveryservices.burnrubber.OrderActivity;
 import com.raildeliveryservices.burnrubber.R;
 import com.raildeliveryservices.burnrubber.WebServiceConstants;
 import com.raildeliveryservices.burnrubber.models.AuthenticationResponse;
-import com.raildeliveryservices.burnrubber.utils.RuntimeSetting;
 import com.raildeliveryservices.burnrubber.utils.Utils;
 import com.raildeliveryservices.burnrubber.utils.WebPost;
 
@@ -21,10 +19,10 @@ import org.json.JSONObject;
 
 public class LoginAsyncTask extends AsyncTask<String, Void, AuthenticationResponse> {
 
+    private static final String LOG_TAG = LoginAsyncTask.class.getSimpleName();
     private Context _context;
     private ProgressDialog _progressDialog;
     private String _driverNo;
-    private static final String LOG_TAG = LoginAsyncTask.class.getSimpleName();
 
     public LoginAsyncTask(Context context) {
         _context = context;
