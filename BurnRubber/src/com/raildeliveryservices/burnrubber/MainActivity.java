@@ -1,8 +1,6 @@
 package com.raildeliveryservices.burnrubber;
 
 import android.app.ActionBar;
-import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
@@ -10,23 +8,23 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.view.ViewPager;
 
+import com.raildeliveryservices.burnrubber.adapters.AppFragmentPagerAdapter;
 import com.raildeliveryservices.burnrubber.data.MessageAlert;
-import com.raildeliveryservices.burnrubber.fragments.FormFragment;
-import com.raildeliveryservices.burnrubber.fragments.MessageListFragment;
 import com.raildeliveryservices.burnrubber.fragments.OrderListFragment;
 import com.raildeliveryservices.burnrubber.utils.Services;
 import com.raildeliveryservices.burnrubber.utils.Utils;
 
-public class MainActivity extends BaseAuthActivity implements OrderListFragment.Callbacks, LoaderManager.LoaderCallbacks<Cursor> {
+public class MainActivity extends BaseAuthActivity implements OrderListFragment.Callbacks, LoaderManager.LoaderCallbacks<Cursor>, ActionBar.TabListener, ViewPager.OnPageChangeListener {
     private final int LOADER_MESSAGE_ALERT = 1;
     private ActionBar.Tab mMsgTab;
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.main);
 
         Utils.loadRuntimeSetting(this);
         Services.startAll(this);
@@ -34,21 +32,33 @@ public class MainActivity extends BaseAuthActivity implements OrderListFragment.
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayShowTitleEnabled(false);
+        setupViewPager();
 
-        mMsgTab = actionBar.newTab().setText(getString(R.string.tab_message)).setTabListener(new AppTabListener<MessageListFragment>(this, getString(R.string.tab_message), MessageListFragment.class));
+
+        //Setup action bar tab
+        mMsgTab = actionBar.newTab().setText(getString(R.string.tab_message)).setTabListener(this);
         actionBar.addTab(mMsgTab);
 
-        ActionBar.Tab orderTab = actionBar.newTab().setText(getString(R.string.tab_orders)).setTabListener(new AppTabListener<OrderListFragment>(this, getString(R.string.tab_orders), OrderListFragment.class));
+        ActionBar.Tab orderTab = actionBar.newTab().setText(getString(R.string.tab_orders)).setTabListener(this);
         actionBar.addTab(orderTab);
 
-        ActionBar.Tab orderHistoryTab = actionBar.newTab().setText(getString(R.string.tab_orders_history)).setTabListener(new AppTabListener<OrderListFragment>(this, getString(R.string.tab_orders_history), OrderListFragment.class));
+        ActionBar.Tab orderHistoryTab = actionBar.newTab().setText(getString(R.string.tab_orders_history)).setTabListener(this);
         actionBar.addTab(orderHistoryTab);
 
-        ActionBar.Tab formTab = actionBar.newTab().setText(getString(R.string.tab_forms)).setTabListener(new AppTabListener<FormFragment>(this, getString(R.string.tab_forms), FormFragment.class));
+        ActionBar.Tab formTab = actionBar.newTab().setText(getString(R.string.tab_forms)).setTabListener(this);
         actionBar.addTab(formTab);
         actionBar.setSelectedNavigationItem(1);
 
+        //Loading message alert
         startLoader();
+    }
+
+    private void setupViewPager() {
+        //Setup view pager
+        mViewPager = (ViewPager) findViewById(R.id.app_pager);
+        AppFragmentPagerAdapter appFragmentPagerAdapter = new AppFragmentPagerAdapter(getFragmentManager());
+        mViewPager.setAdapter(appFragmentPagerAdapter);
+        mViewPager.setOnPageChangeListener(this);
     }
 
     private void startLoader() {
@@ -118,59 +128,33 @@ public class MainActivity extends BaseAuthActivity implements OrderListFragment.
 
     }
 
-    private class AppTabListener<T extends Fragment> implements ActionBar.TabListener {
-        private final Activity mActivity;
-        private final String mTag;
-        private final Class<T> mClass;
-        private Fragment mFragment;
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+        mViewPager.setCurrentItem(tab.getPosition());
+    }
 
-        public AppTabListener(Activity activity, String tag, Class<T> clz) {
-            mActivity = activity;
-            mTag = tag;
-            mClass = clz;
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
 
-            //Check for previously attached fragments.
-            mFragment = mActivity.getFragmentManager().findFragmentByTag(mTag);
-            if (mFragment != null) {
-                FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
-                ft.detach(mFragment);
-                ft.commit();
-            }
-        }
+    }
 
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
 
-        @Override
-        public void onTabSelected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
-            if (mFragment == null) {
-                mFragment = Fragment.instantiate(mActivity, mClass.getName());
+    }
 
-                if (mTag == getString(R.string.tab_orders)) {
-                    Bundle bundle = new Bundle();
-                    bundle.putBoolean(Constants.BUNDLE_PARAM_TRIP_HISTORY, false);
-                    mFragment.setArguments(bundle);
-                } else if (mTag == getString(R.string.tab_orders_history)) {
-                    Bundle bundle = new Bundle();
-                    bundle.putBoolean(Constants.BUNDLE_PARAM_TRIP_HISTORY, true);
-                    mFragment.setArguments(bundle);
-                }
+    @Override
+    public void onPageScrolled(int i, float v, int i2) {
 
-                ft.add(android.R.id.content, mFragment, mTag);
-            } else {
-                ft.attach(mFragment);
-            }
-        }
+    }
 
-        @Override
-        public void onTabUnselected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
-            Log.d(TAG, "onTabUnselected");
-            if (mFragment != null) {
-                ft.detach(mFragment);
-            }
-        }
+    @Override
+    public void onPageSelected(int i) {
+        getActionBar().setSelectedNavigationItem(i);
+    }
 
-        @Override
-        public void onTabReselected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
+    @Override
+    public void onPageScrollStateChanged(int i) {
 
-        }
     }
 }

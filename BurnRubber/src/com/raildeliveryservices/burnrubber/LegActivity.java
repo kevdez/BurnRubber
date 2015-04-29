@@ -17,7 +17,7 @@ public class LegActivity extends BaseAuthActivity implements LegListFragment.Cal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.empty);
 
         Bundle bundle = getIntent().getExtras();
         _orderId = bundle.getLong(Constants.BUNDLE_PARAM_ORDER_ID);

@@ -15,7 +15,7 @@ public class FormDetailActivity extends BaseAuthActivity implements FormDetailFr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.empty);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayShowTitleEnabled(false);
