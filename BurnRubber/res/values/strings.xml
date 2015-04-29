@@ -33,7 +33,7 @@
 	<string name="return_button_text">Return</string>
 	<string name="arrive_button_text">Arrive</string>
 	<string name="depart_button_text">Depart</string>
-    <string name="endFile_button_text">END FILE</string>
+    <string name="endFile_button_text">End File</string>
     <string name="outbound_form_button_text">Outbound Form</string>
 	<string name="auth_progress_title">User Login</string>
 	<string name="auth_progress_message">Authenticating user&#8230;</string>

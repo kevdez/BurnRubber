@@ -79,6 +79,61 @@
 	    android:paddingRight="5dp"
 	    android:paddingBottom="2dp"
 	    android:paddingTop="2dp" />
+	<Button
+		android:id="@+id/outboundFormButton"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerInParent="true"
+		android:layout_gravity="center"
+		android:background="@drawable/button"
+		android:text="@string/outbound_form_button_text" />
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:layout_marginTop="10dp"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp">
+		<TextView
+			android:id="@+id/countFlagText"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:text="@string/count_flag_text" />
+		<TextView
+			android:id="@+id/weightFlagText"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:text="@string/weight_flag_text" />
+		<TextView
+			android:id="@+id/yardLocationText"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:text="yardloc" />
+		<TextView
+			android:id="@+id/commodityText"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:text="commodity" />
+		<TextView
+			android:id="@+id/bolText"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:text="bol" />
+	</LinearLayout>
+	<ImageView
+		android:src="@android:drawable/divider_horizontal_dark"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:scaleType="fitXY"
+		android:paddingLeft="5dp"
+		android:paddingRight="5dp"
+		android:paddingBottom="2dp"
+		android:paddingTop="2dp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -135,24 +190,7 @@
 			    android:layout_weight="2"
 			    android:orientation="vertical" />
 	    </LinearLayout>
-	    <LinearLayout
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:orientation="vertical"
-	        android:layout_marginTop="10dp"
-		    android:layout_marginLeft="10dp"
-		    android:layout_marginRight="10dp">
-	        <TextView
-	            android:id="@+id/countFlagText"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="@string/count_flag_text" />
-	        <TextView
-	            android:id="@+id/weightFlagText"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="@string/weight_flag_text" />
-	    </LinearLayout>
+
     </LinearLayout>
     <RelativeLayout
 	    android:layout_width="match_parent"
@@ -165,13 +203,6 @@
 	        android:layout_alignParentStart="true"
 			android:background="@drawable/button"
 	        android:text="@string/arrive_button_text" />
-	    <Button
-	        android:id="@+id/outboundFormButton"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_centerInParent="true"
-			android:background="@drawable/button"
-	        android:text="@string/outbound_form_button_text" />
 	    <Button
 	        android:id="@+id/departToButton"
 	        android:layout_width="wrap_content"

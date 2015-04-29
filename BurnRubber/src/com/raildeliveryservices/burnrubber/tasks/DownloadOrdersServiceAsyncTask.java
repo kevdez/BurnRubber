@@ -150,6 +150,9 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
                 values.put(Leg.Columns.COUNT_FLAG, legObject.getBoolean("CountFlag") ? 1 : 0);
                 values.put(Leg.Columns.OUTBOUND_FLAG, legObject.getBoolean("OutboundFlag") ? 1 : 0);
                 values.put(Leg.Columns.WEIGHT_FLAG, legObject.getBoolean("WeightFlag") ? 1 : 0);
+                values.put(Leg.Columns.YARD_LOCATION, legObject.getString("YardLocation"));
+                values.put(Leg.Columns.COMMODITY, legObject.getString("Commodity"));
+                values.put(Leg.Columns.BOL, legObject.getString("BOL"));
                 values.put(Leg.Columns.ORDER_ID, orderId);
                 values.put(Leg.Columns.COMPLETED_FLAG, 0);
                 _context.getContentResolver().insert(uri, values);
