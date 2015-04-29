@@ -226,7 +226,6 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
         values.put(Message.Columns.MESSAGE_TYPE, "User");
         values.put(Message.Columns.MESSAGE_TEXT, label.equals("MSG") ? _messageEditText.getText().toString() : label + " " + _messageEditText.getText().toString());
         values.put(Message.Columns.CREATED_DATE_TIME, Constants.SQLiteDateFormat.format(new Date()));
-        Log.d(TAG, new Date().toString());
 
         if (_orderId > 0) {
             values.put(Message.Columns.ORDER_ID, _orderId);
@@ -378,14 +377,19 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+
         cursor.moveToFirst();
         _listAdapter.swapCursor(cursor);
+        _listAdapter.notifyDataSetChanged();
 
         if (!cursor.isAfterLast()) {
             if (cursor.isNull(cursor.getColumnIndex(Message.Columns.FILE_NO))) {
                 _fileNo = cursor.getInt(cursor.getColumnIndex(Message.Columns.FILE_NO));
             }
         }
+
+        getListView().setSelectionAfterHeaderView();
+        Log.d(TAG, "listAdapter.notifyDataSetChanged");
     }
 
     @Override
