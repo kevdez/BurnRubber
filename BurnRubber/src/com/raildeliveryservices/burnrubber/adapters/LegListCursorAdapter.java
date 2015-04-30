@@ -91,6 +91,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
         departFromButton.setTag(legId);
         arriveToButton.setTag(legId);
         departToButton.setTag(legId);
+
         arriveFromButton.setText(_context.getString(R.string.arrive_button_text));
         arriveToButton.setText(_context.getString(R.string.arrive_button_text));
         departFromButton.setText(_context.getString(R.string.depart_button_text));
@@ -103,9 +104,9 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
         stateToText.setText(cursor.getString(cursor.getColumnIndex(Leg.Columns.STATE_TO)) + " ");
         zipcodeToText.setText(cursor.getString(cursor.getColumnIndex(Leg.Columns.ZIP_CODE_TO)));
 
-        yardLocationText.setText(cursor.getString(cursor.getColumnIndex(Leg.Columns.YARD_LOCATION)));
-        commodityText.setText(cursor.getString(cursor.getColumnIndex(Leg.Columns.COMMODITY)));
-        bolText.setText(cursor.getString(cursor.getColumnIndex(Leg.Columns.BOL)));
+        yardLocationText.setText("Yard Location: " + cursor.getString(cursor.getColumnIndex(Leg.Columns.YARD_LOCATION)));
+        commodityText.setText("Commodity: " + cursor.getString(cursor.getColumnIndex(Leg.Columns.COMMODITY)));
+        bolText.setText("BOL: " + cursor.getString(cursor.getColumnIndex(Leg.Columns.BOL)));
 
         if (parentLegNo > 0) {
             Cursor parentLegCursor = getParentLeg(orderId, parentLegNo);

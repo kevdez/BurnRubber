@@ -70,6 +70,12 @@ public class DownloadOrdersServiceAsyncTask extends AsyncTask<Void, Void, Void> 
                 values.put(Order.Columns.DRIVER_NO, orderObject.getInt("DriverNo"));
                 values.put(Order.Columns.VOYAGE_NO, orderObject.getString("VoyageNo"));
                 values.put(Order.Columns.TRIP_NO, orderObject.getString("TripNo"));
+                values.put(Order.Columns.PO_NO, orderObject.getString("PONo"));
+                values.put(Order.Columns.PICKUP_NO, orderObject.getString("PickupNo"));
+                values.put(Order.Columns.RAIL_NO, orderObject.getString("RailNo"));
+                values.put(Order.Columns.MANIFEST_NO, orderObject.getString("ManifestNo"));
+                values.put(Order.Columns.BOOKING_NO, orderObject.getString("BookingNo"));
+
                 values.put(Order.Columns.HAZMAT_FLAG, orderObject.getBoolean("HazmatFlag"));
 
                 // show only the date portion

@@ -23,7 +23,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.raildeliveryservices.burnrubber.Constants;
 import com.raildeliveryservices.burnrubber.R;
@@ -32,8 +31,6 @@ import com.raildeliveryservices.burnrubber.data.Form;
 import com.raildeliveryservices.burnrubber.data.MessageAlert;
 import com.raildeliveryservices.burnrubber.data.Order;
 import com.raildeliveryservices.burnrubber.tasks.DeleteOrderAsyncTask;
-import com.raildeliveryservices.burnrubber.utils.RuntimeSetting;
-import com.raildeliveryservices.burnrubber.utils.Services;
 import com.raildeliveryservices.burnrubber.utils.Utils;
 
 @SuppressLint("NewApi")
@@ -44,6 +41,11 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
     private static final int LOADER_MESSAGE_ALERTS = -3;
 
     private Activity _activity;
+    private Button _messageButton;
+    private Button _tripHistoryButton;
+    private OrderListCursorAdapter _listAdapter;
+    private boolean _tripHistory;
+    private Callbacks _callbacks;
     private OnClickListener _buttonListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -63,11 +65,6 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
             }
         }
     };
-    private Button _messageButton;
-    private Button _tripHistoryButton;
-    private OrderListCursorAdapter _listAdapter;
-    private boolean _tripHistory;
-    private Callbacks _callbacks;
 
     public OrderListFragment() {
     }
@@ -266,6 +263,12 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
             projection = new String[]{Order.Columns._ID,
                     Order.Columns.FILE_NO,
                     Order.Columns.VOYAGE_NO,
+                    Order.Columns.TRIP_NO,
+                    Order.Columns.PO_NO,
+                    Order.Columns.PICKUP_NO,
+                    Order.Columns.RAIL_NO,
+                    Order.Columns.MANIFEST_NO,
+                    Order.Columns.BOOKING_NO,
                     Order.Columns.HAZMAT_FLAG,
                     Order.Columns.APPT_DATE_TIME,
                     Order.Columns.APPT_TIME,
