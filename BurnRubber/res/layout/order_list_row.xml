@@ -4,155 +4,241 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
+        android:layout_weight="0.04"
+        android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingBottom="5dp"
-        android:layout_weight="0.04">
+        android:paddingTop="10dp">
+
         <LinearLayout
-	        android:id="@+id/fileNoLayout"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:orientation="horizontal">
-			<TextView
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:paddingRight="1dp"
-			    android:text="@string/file_no_label_text"
-			    android:clickable="false"
-			    android:focusableInTouchMode="false"
-			    android:focusable="false" />
-			<TextView
-			    android:id="@+id/fileNoText"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:clickable="false"
-			    android:focusableInTouchMode="false"
-			    android:focusable="false" />
-	 	</LinearLayout>
-	 	<LinearLayout
-	        android:id="@+id/hazmatLayout"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:orientation="horizontal"
-	        android:layout_toRightOf="@id/fileNoLayout"
-	        android:paddingLeft="10dp">
-	        <TextView
-	            android:id="@+id/hazmatText"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:clickable="false"
-	            android:focusable="false"
-	            android:focusableInTouchMode="false"
-	            android:text="@string/hazmat_flag_text"
-	            android:textColor="@color/red" />
-	    </LinearLayout>
-	    <LinearLayout
-	    	android:id="@+id/apptDateLayout"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:gravity="right"
-	        android:orientation="horizontal"
-	        android:layout_alignParentRight="true">
-	        <TextView
+            android:id="@+id/fileNoLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:paddingRight="1dp"
+                android:text="@string/file_no_label_text" />
+
+            <TextView
+                android:id="@+id/fileNoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/hazmatLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/fileNoLayout"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp">
+
+            <TextView
+                android:id="@+id/hazmatText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:text="@string/hazmat_flag_text"
+                android:textColor="@color/red" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/apptDateLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <TextView
                 android:id="@+id/apptDateLabel"
-	            android:layout_width="208dp"
-	            android:layout_height="wrap_content"
-	            android:paddingRight="1dp"
-	            android:text="@string/appt_date_label_text"
-	            android:clickable="false"
-	            android:focusableInTouchMode="false"
-		        android:focusable="false" />
-	        <TextView
-	            android:id="@+id/apptDateText"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:clickable="false"
-	            android:focusableInTouchMode="false"
-		        android:focusable="false" />
+                android:layout_width="208dp"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:paddingRight="1dp"
+                android:text="@string/appt_date_label_text" />
+
+            <TextView
+                android:id="@+id/apptDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false" />
 
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/apptTimeLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
             android:layout_alignParentRight="true"
-            android:orientation="horizontal"
-            android:layout_below="@id/apptDateLayout">
+            android:layout_below="@id/apptDateLayout"
+            android:gravity="right"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/apptTimeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="false"
-                android:focusableInTouchMode="false"
-                android:focusable="false" />
+                android:focusable="false"
+                android:focusableInTouchMode="false" />
         </LinearLayout>
 
         <TextView
+            android:id="@+id/apptTimeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/appt_time_label"
-            android:id="@+id/apptTimeLabel"
-            android:layout_gravity="right"
-            android:layout_below="@+id/apptDateLayout"
             android:layout_alignLeft="@+id/apptDateLayout"
-            android:layout_alignStart="@+id/apptDateLayout" />
+            android:layout_alignStart="@+id/apptDateLayout"
+            android:layout_below="@+id/apptDateLayout"
+            android:layout_gravity="right"
+            android:text="@string/appt_time_label" />
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="5dp"
-        android:orientation="horizontal">
-	   <TextView
-	       android:id="@+id/voyageNoText"
-	       android:layout_width="wrap_content"
-	       android:layout_height="wrap_content"
-	       android:clickable="false"
-	       android:focusableInTouchMode="false"
-	       android:focusable="false" />
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:id="@+id/firstLinearLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/moveTypeText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="center"
+                android:text="movetype" />
+
+            <TextView
+                android:id="@+id/voyageNoText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="center"
+                android:text="voyage" />
+
+            <TextView
+                android:id="@+id/tripNoText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="center"
+                android:text="tripno" />
+
+            <TextView
+                android:id="@+id/pickupNoText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="center"
+                android:text="pickupno" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/secondLinearLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/railNoText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="center"
+                android:text="railno" />
+
+            <TextView
+                android:id="@+id/manifestNoText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="center"
+                android:text="manifestno" />
+
+            <TextView
+                android:id="@+id/bookingNoText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="center"
+                android:text="bookingno" />
+
+            <TextView
+                android:id="@+id/poNoText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="center"
+                android:text="pono" />
+        </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:orientation="horizontal">
-	    <TextView
-	        android:id="@+id/moveTypeText"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:clickable="false"
-	        android:focusableInTouchMode="false"
-	     	android:focusable="false" />
-	</LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp">
+
         <Button
             android:id="@+id/confirmButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:textColor="@color/blue"
+            android:focusable="false"
             android:text="@string/confirm_button_text"
-            android:focusable="false" />
+            android:textColor="@color/wallet_holo_blue_light" />
+
         <Button
             android:id="@+id/rejectButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textColor="@color/orange"
+            android:focusable="false"
             android:text="@string/reject_button_text"
-            android:focusable="false" />
+            android:textColor="@color/orange" />
     </RelativeLayout>
 </LinearLayout>

@@ -248,6 +248,7 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
         }
     };
 
+
     public LegListFragment() {
     }
 

@@ -194,20 +194,10 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        if (loader.getId() != LOADER_MESSAGE_ALERTS) {
-            _listAdapter.swapCursor(null);
-        }
+        _listAdapter.swapCursor(null);
     }
 
     public interface Callbacks {
-        public void onMessageButtonClick();
-
-        public void onTripHistoryButtonClick();
-
-        public void onReturnButtonClick();
-
         public void onOrderListItemClick(long orderId, boolean readOnly);
-
-        public void onFormListItemClick(String formName);
     }
 }
