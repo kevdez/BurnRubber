@@ -36,6 +36,10 @@ public final class Leg {
                     Columns.YARD_LOCATION + " text, " +
                     Columns.COMMODITY + " text, " +
                     Columns.BOL + " text, " +
+                    Columns.ARRIVE_FROM_ACTION_NO + " text, " +
+                    Columns.DEPART_FROM_ACTION_NO + " text, " +
+                    Columns.ARRIVE_TO_ACTION_NO + " text, " +
+                    Columns.DEPART_TO_ACTION_NO + " text, " +
                     Columns.COMPLETED_FLAG + " integer " +
                     ");";
     public static final Uri CONTENT_URI = Uri.parse("content://" + DataContentProvider.AUTHORITY + "/legs");
@@ -66,6 +70,10 @@ public final class Leg {
         PROJECTION_MAP.put(Columns.YARD_LOCATION, TABLE_NAME + "." + Columns.YARD_LOCATION);
         PROJECTION_MAP.put(Columns.COMMODITY, TABLE_NAME + "." + Columns.COMMODITY);
         PROJECTION_MAP.put(Columns.BOL, TABLE_NAME + "." + Columns.BOL);
+        PROJECTION_MAP.put(Columns.ARRIVE_FROM_ACTION_NO, TABLE_NAME + "." + Columns.ARRIVE_FROM_ACTION_NO);
+        PROJECTION_MAP.put(Columns.DEPART_FROM_ACTION_NO, TABLE_NAME + "." + Columns.DEPART_FROM_ACTION_NO);
+        PROJECTION_MAP.put(Columns.ARRIVE_TO_ACTION_NO, TABLE_NAME + "." + Columns.ARRIVE_TO_ACTION_NO);
+        PROJECTION_MAP.put(Columns.DEPART_TO_ACTION_NO, TABLE_NAME + "." + Columns.DEPART_TO_ACTION_NO);
         PROJECTION_MAP.put(Columns.COMPLETED_FLAG, TABLE_NAME + "." + Columns.COMPLETED_FLAG);
     }
 
@@ -94,6 +102,10 @@ public final class Leg {
         public static final String YARD_LOCATION = "yard_location";
         public static final String COMMODITY = "commodity";
         public static final String BOL = "bol";
+        public static final String ARRIVE_FROM_ACTION_NO = "arrive_from_action_no";
+        public static final String DEPART_FROM_ACTION_NO = "depart_from_action_no";
+        public static final String ARRIVE_TO_ACTION_NO = "arrive_to_action_no";
+        public static final String DEPART_TO_ACTION_NO = "depart_to_action_no";
         public static final String COMPLETED_FLAG = "completed_flag";
     }
 }
