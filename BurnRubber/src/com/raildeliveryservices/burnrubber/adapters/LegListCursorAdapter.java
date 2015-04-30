@@ -70,6 +70,9 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
         final TextView zipcodeToText = (TextView) view.findViewById(R.id.zipcodeToText);
         final TextView countFlagText = (TextView) view.findViewById(R.id.countFlagText);
         final TextView weightFlagText = (TextView) view.findViewById(R.id.weightFlagText);
+        final TextView yardLocationText = (TextView) view.findViewById(R.id.yardLocationText);
+        final TextView commodityText = (TextView) view.findViewById(R.id.commodityText);
+        final TextView bolText = (TextView) view.findViewById(R.id.bolText);
         final boolean countFlag = cursor.getInt(cursor.getColumnIndex(Leg.Columns.COUNT_FLAG)) == 1;
         final boolean weightFlag = cursor.getInt(cursor.getColumnIndex(Leg.Columns.WEIGHT_FLAG)) == 1;
         final boolean outboundFlag = cursor.getInt(cursor.getColumnIndex(Leg.Columns.OUTBOUND_FLAG)) == 1;
@@ -88,11 +91,22 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
         departFromButton.setTag(legId);
         arriveToButton.setTag(legId);
         departToButton.setTag(legId);
+
         arriveFromButton.setText(_context.getString(R.string.arrive_button_text));
         arriveToButton.setText(_context.getString(R.string.arrive_button_text));
         departFromButton.setText(_context.getString(R.string.depart_button_text));
         departToButton.setText(_context.getString(R.string.depart_button_text));
         endFileButton.setText(_context.getString(R.string.endFile_button_text));
+
+        companyNameToText.setText(cursor.getString(cursor.getColumnIndex(Leg.Columns.COMPANY_NAME_TO)));
+        addressToText.setText(cursor.getString(cursor.getColumnIndex(Leg.Columns.ADDRESS_TO)));
+        cityToText.setText(cursor.getString(cursor.getColumnIndex(Leg.Columns.CITY_TO)) + ", ");
+        stateToText.setText(cursor.getString(cursor.getColumnIndex(Leg.Columns.STATE_TO)) + " ");
+        zipcodeToText.setText(cursor.getString(cursor.getColumnIndex(Leg.Columns.ZIP_CODE_TO)));
+
+        yardLocationText.setText("Yard Location: " + cursor.getString(cursor.getColumnIndex(Leg.Columns.YARD_LOCATION)));
+        commodityText.setText("Commodity: " + cursor.getString(cursor.getColumnIndex(Leg.Columns.COMMODITY)));
+        bolText.setText("BOL: " + cursor.getString(cursor.getColumnIndex(Leg.Columns.BOL)));
 
         if (parentLegNo > 0) {
             Cursor parentLegCursor = getParentLeg(orderId, parentLegNo);
@@ -142,11 +156,6 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
             }
         }
 
-        companyNameToText.setText(cursor.getString(cursor.getColumnIndex(Leg.Columns.COMPANY_NAME_TO)));
-        addressToText.setText(cursor.getString(cursor.getColumnIndex(Leg.Columns.ADDRESS_TO)));
-        cityToText.setText(cursor.getString(cursor.getColumnIndex(Leg.Columns.CITY_TO)) + ", ");
-        stateToText.setText(cursor.getString(cursor.getColumnIndex(Leg.Columns.STATE_TO)) + " ");
-        zipcodeToText.setText(cursor.getString(cursor.getColumnIndex(Leg.Columns.ZIP_CODE_TO)));
 
         try {
             if (!TextUtils.isEmpty(cursor.getString(cursor.getColumnIndex(Leg.Columns.ARRIVE_TO_DATE_TIME)))) {
@@ -490,6 +499,9 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
                 Leg.Columns.COUNT_FLAG,
                 Leg.Columns.WEIGHT_FLAG,
                 Leg.Columns.OUTBOUND_FLAG,
+                Leg.Columns.YARD_LOCATION,
+                Leg.Columns.COMMODITY,
+                Leg.Columns.BOL,
                 Leg.Columns.COMPLETED_FLAG};
 
         Cursor childCursor = _context.getContentResolver().query(uri, projection, null, null, null);

@@ -55,6 +55,12 @@ public class OrderListCursorAdapter extends SimpleCursorAdapter {
 
         final TextView fileNoText = (TextView) view.findViewById(com.raildeliveryservices.burnrubber.R.id.fileNoText);
         final TextView voyageNoText = (TextView) view.findViewById(R.id.voyageNoText);
+        final TextView tripNoText = (TextView) view.findViewById(R.id.tripNoText);
+        final TextView poNoText = (TextView) view.findViewById(R.id.poNoText);
+        final TextView pickupNoText = (TextView) view.findViewById(R.id.pickupNoText);
+        final TextView railNoText = (TextView) view.findViewById(R.id.railNoText);
+        final TextView manifestNoText = (TextView) view.findViewById(R.id.manifestNoText);
+        final TextView bookingNoText = (TextView) view.findViewById(R.id.bookingNoText);
         final TextView hazmatText = (TextView) view.findViewById(R.id.hazmatText);
         final TextView apptDateText = (TextView) view.findViewById(R.id.apptDateText);
         final TextView apptTimeText = (TextView) view.findViewById(R.id.apptTimeText);
@@ -65,7 +71,13 @@ public class OrderListCursorAdapter extends SimpleCursorAdapter {
         final boolean hazmatFlag = cursor.getInt(cursor.getColumnIndex(Order.Columns.HAZMAT_FLAG)) == 1 ? true : false;
 
         fileNoText.setText(String.valueOf(fileNo));
-        voyageNoText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.VOYAGE_NO)));
+        voyageNoText.setText("Leg No.: " + cursor.getString(cursor.getColumnIndex(Order.Columns.VOYAGE_NO)));
+        tripNoText.setText("Trip No.: " + cursor.getString(cursor.getColumnIndex(Order.Columns.TRIP_NO)));
+        poNoText.setText("PO No.: " + cursor.getString(cursor.getColumnIndex(Order.Columns.PO_NO)));
+        pickupNoText.setText("Pickup No.: " + cursor.getString(cursor.getColumnIndex(Order.Columns.PICKUP_NO)));
+        railNoText.setText("Rail No.: " + cursor.getString(cursor.getColumnIndex(Order.Columns.RAIL_NO)));
+        manifestNoText.setText("Manifest No.: " + cursor.getString(cursor.getColumnIndex(Order.Columns.MANIFEST_NO)));
+        bookingNoText.setText("Booking No.: " + cursor.getString(cursor.getColumnIndex(Order.Columns.BOOKING_NO)));
 
         if (hazmatFlag) {
             hazmatText.setVisibility(View.VISIBLE);

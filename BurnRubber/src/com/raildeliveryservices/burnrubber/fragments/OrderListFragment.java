@@ -106,6 +106,7 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
+
         menu.setHeaderTitle(_activity.getString(R.string.order_options_menu_title));
         MenuInflater inflater = new MenuInflater(_activity);
         inflater.inflate(R.menu.order_list_context_menu, menu);
@@ -160,6 +161,12 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
             projection = new String[]{Order.Columns._ID,
                     Order.Columns.FILE_NO,
                     Order.Columns.VOYAGE_NO,
+                    Order.Columns.TRIP_NO,
+                    Order.Columns.PO_NO,
+                    Order.Columns.PICKUP_NO,
+                    Order.Columns.RAIL_NO,
+                    Order.Columns.MANIFEST_NO,
+                    Order.Columns.BOOKING_NO,
                     Order.Columns.HAZMAT_FLAG,
                     Order.Columns.APPT_DATE_TIME,
                     Order.Columns.APPT_TIME,
@@ -187,10 +194,20 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        _listAdapter.swapCursor(null);
+        if (loader.getId() != LOADER_MESSAGE_ALERTS) {
+            _listAdapter.swapCursor(null);
+        }
     }
 
     public interface Callbacks {
+        public void onMessageButtonClick();
+
+        public void onTripHistoryButtonClick();
+
+        public void onReturnButtonClick();
+
         public void onOrderListItemClick(long orderId, boolean readOnly);
+
+        public void onFormListItemClick(String formName);
     }
 }

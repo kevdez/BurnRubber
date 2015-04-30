@@ -33,6 +33,9 @@ public final class Leg {
                     Columns.COUNT_FLAG + " integer, " +
                     Columns.WEIGHT_FLAG + " integer, " +
                     Columns.OUTBOUND_FLAG + " integer, " +
+                    Columns.YARD_LOCATION + " text, " +
+                    Columns.COMMODITY + " text, " +
+                    Columns.BOL + " text, " +
                     Columns.COMPLETED_FLAG + " integer " +
                     ");";
     public static final Uri CONTENT_URI = Uri.parse("content://" + DataContentProvider.AUTHORITY + "/legs");
@@ -60,6 +63,9 @@ public final class Leg {
         PROJECTION_MAP.put(Columns.COUNT_FLAG, TABLE_NAME + "." + Columns.COUNT_FLAG);
         PROJECTION_MAP.put(Columns.WEIGHT_FLAG, TABLE_NAME + "." + Columns.WEIGHT_FLAG);
         PROJECTION_MAP.put(Columns.OUTBOUND_FLAG, TABLE_NAME + "." + Columns.OUTBOUND_FLAG);
+        PROJECTION_MAP.put(Columns.YARD_LOCATION, TABLE_NAME + "." + Columns.YARD_LOCATION);
+        PROJECTION_MAP.put(Columns.COMMODITY, TABLE_NAME + "." + Columns.COMMODITY);
+        PROJECTION_MAP.put(Columns.BOL, TABLE_NAME + "." + Columns.BOL);
         PROJECTION_MAP.put(Columns.COMPLETED_FLAG, TABLE_NAME + "." + Columns.COMPLETED_FLAG);
     }
 
@@ -85,6 +91,9 @@ public final class Leg {
         public static final String COUNT_FLAG = "count_flag";
         public static final String WEIGHT_FLAG = "weight_flag";
         public static final String OUTBOUND_FLAG = "outbound_flag";
+        public static final String YARD_LOCATION = "yard_location";
+        public static final String COMMODITY = "commodity";
+        public static final String BOL = "bol";
         public static final String COMPLETED_FLAG = "completed_flag";
     }
 }

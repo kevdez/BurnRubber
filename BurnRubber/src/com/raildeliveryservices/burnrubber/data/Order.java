@@ -17,6 +17,11 @@ public final class Order {
                     Columns.PARENT_FILE_NO + " integer, " +
                     Columns.VOYAGE_NO + " text, " +
                     Columns.TRIP_NO + " text, " +
+                    Columns.PO_NO + " text, " +
+                    Columns.PICKUP_NO + " text, " +
+                    Columns.RAIL_NO + " text, " +
+                    Columns.MANIFEST_NO + " text, " +
+                    Columns.BOOKING_NO + " text, " +
                     Columns.HAZMAT_FLAG + " integer, " +
                     Columns.APPT_DATE_TIME + " text, " +
                     Columns.APPT_TIME + " text, " +
@@ -40,6 +45,11 @@ public final class Order {
         PROJECTION_MAP.put(Columns.PARENT_FILE_NO, TABLE_NAME + "." + Columns.PARENT_FILE_NO);
         PROJECTION_MAP.put(Columns.VOYAGE_NO, TABLE_NAME + "." + Columns.VOYAGE_NO);
         PROJECTION_MAP.put(Columns.TRIP_NO, TABLE_NAME + "." + Columns.TRIP_NO);
+        PROJECTION_MAP.put(Columns.PO_NO, TABLE_NAME + "." + Columns.PO_NO);
+        PROJECTION_MAP.put(Columns.PICKUP_NO, TABLE_NAME + "." + Columns.PICKUP_NO);
+        PROJECTION_MAP.put(Columns.RAIL_NO, TABLE_NAME + "." + Columns.RAIL_NO);
+        PROJECTION_MAP.put(Columns.MANIFEST_NO, TABLE_NAME + "." + Columns.MANIFEST_NO);
+        PROJECTION_MAP.put(Columns.BOOKING_NO, TABLE_NAME + "." + Columns.BOOKING_NO);
         PROJECTION_MAP.put(Columns.HAZMAT_FLAG, TABLE_NAME + "." + Columns.HAZMAT_FLAG);
         PROJECTION_MAP.put(Columns.APPT_DATE_TIME, TABLE_NAME + "." + Columns.APPT_DATE_TIME);
         PROJECTION_MAP.put(Columns.APPT_TIME, TABLE_NAME + "." + Columns.APPT_TIME);
@@ -50,6 +60,7 @@ public final class Order {
         PROJECTION_MAP.put(Columns.SCALE_FLAG, TABLE_NAME + "." + Columns.SCALE_FLAG);
         PROJECTION_MAP.put(Columns.WEIGHT_FLAG, TABLE_NAME + "." + Columns.WEIGHT_FLAG);
         PROJECTION_MAP.put(Columns.COMMENTS, TABLE_NAME + "." + Columns.COMMENTS);
+
         PROJECTION_MAP.put(Columns.CONFIRMED_FLAG, TABLE_NAME + "." + Columns.CONFIRMED_FLAG);
         PROJECTION_MAP.put(Columns.STARTED_FLAG, TABLE_NAME + "." + Columns.STARTED_FLAG);
         PROJECTION_MAP.put(Columns.COMPLETED_FLAG, TABLE_NAME + "." + Columns.COMPLETED_FLAG);
@@ -61,6 +72,11 @@ public final class Order {
         public static final String PARENT_FILE_NO = "parent_file_no";
         public static final String VOYAGE_NO = "voyage_no";
         public static final String TRIP_NO = "trip_no";
+        public static final String PO_NO = "po_no";
+        public static final String PICKUP_NO = "pickup_no";
+        public static final String RAIL_NO = "rail_no";
+        public static final String MANIFEST_NO = "manifest_no";
+        public static final String BOOKING_NO = "booking_no";
         public static final String HAZMAT_FLAG = "hazmat_flag";
         public static final String APPT_DATE_TIME = "appt_date_time";
         public static final String APPT_TIME = "appt_time";

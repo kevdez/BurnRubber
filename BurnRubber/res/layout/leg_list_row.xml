@@ -7,10 +7,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="10dp"
+		android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingBottom="10dp">
+		android:paddingTop="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,10 +45,10 @@
 		    android:id="@+id/legFromExtrasLayout"
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
-		    android:orientation="vertical"
-		    android:layout_marginTop="10dp"
 		    android:layout_marginLeft="10dp"
-		    android:layout_marginRight="10dp" />       
+			android:layout_marginRight="10dp"
+			android:layout_marginTop="10dp"
+			android:orientation="vertical" />
     </LinearLayout>
     <RelativeLayout
 	    android:layout_width="match_parent"
@@ -65,28 +65,80 @@
 	        android:id="@+id/departFromButton"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_alignParentRight="true"
 	        android:layout_alignParentEnd="true"
+			android:layout_alignParentRight="true"
 			android:background="@drawable/button"
 	        android:text="@string/depart_button_text" />
 	</RelativeLayout>
     <ImageView
-	    android:src="@android:drawable/divider_horizontal_dark"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:scaleType="fitXY"
+		android:paddingBottom="2dp"
 	    android:paddingLeft="5dp"
 	    android:paddingRight="5dp"
-	    android:paddingBottom="2dp"
-	    android:paddingTop="2dp" />
+		android:paddingTop="2dp"
+		android:scaleType="fitXY"
+		android:src="@android:drawable/divider_horizontal_dark" />
+	<Button
+		android:id="@+id/outboundFormButton"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerInParent="true"
+		android:layout_gravity="center"
+		android:background="@drawable/button"
+		android:text="@string/outbound_form_button_text" />
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:layout_marginTop="10dp"
+		android:orientation="vertical">
+		<TextView
+			android:id="@+id/countFlagText"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:text="@string/count_flag_text" />
+		<TextView
+			android:id="@+id/weightFlagText"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:text="@string/weight_flag_text" />
+		<TextView
+			android:id="@+id/yardLocationText"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center" />
+		<TextView
+			android:id="@+id/commodityText"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center" />
+		<TextView
+			android:id="@+id/bolText"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center" />
+	</LinearLayout>
+	<ImageView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:paddingBottom="2dp"
+		android:paddingLeft="5dp"
+		android:paddingRight="5dp"
+		android:paddingTop="2dp"
+		android:scaleType="fitXY"
+		android:src="@android:drawable/divider_horizontal_dark" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="10dp"
+		android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingBottom="10dp">
+		android:paddingTop="10dp">
         <TextView
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
@@ -95,8 +147,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
+			android:baselineAligned="false"
+			android:orientation="horizontal">
 	        <LinearLayout
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
@@ -135,24 +187,7 @@
 			    android:layout_weight="2"
 			    android:orientation="vertical" />
 	    </LinearLayout>
-	    <LinearLayout
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:orientation="vertical"
-	        android:layout_marginTop="10dp"
-		    android:layout_marginLeft="10dp"
-		    android:layout_marginRight="10dp">
-	        <TextView
-	            android:id="@+id/countFlagText"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="@string/count_flag_text" />
-	        <TextView
-	            android:id="@+id/weightFlagText"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="@string/weight_flag_text" />
-	    </LinearLayout>
+
     </LinearLayout>
     <RelativeLayout
 	    android:layout_width="match_parent"
@@ -166,26 +201,19 @@
 			android:background="@drawable/button"
 	        android:text="@string/arrive_button_text" />
 	    <Button
-	        android:id="@+id/outboundFormButton"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_centerInParent="true"
-			android:background="@drawable/button"
-	        android:text="@string/outbound_form_button_text" />
-	    <Button
 	        android:id="@+id/departToButton"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_alignParentRight="true"
 	        android:layout_alignParentEnd="true"
+			android:layout_alignParentRight="true"
 			android:background="@drawable/button"
 	        android:text="@string/depart_button_text" />
         <Button
             android:id="@+id/endFileButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+			android:layout_alignParentRight="true"
 			android:background="@drawable/button"
             android:text="@string/endFile_button_text" />
 	</RelativeLayout>
