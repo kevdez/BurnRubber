@@ -26,6 +26,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupExpandListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -105,7 +106,6 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
                     // also renders the ORDER complete
                     Uri uri2 = Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(_orderId));
                     ContentValues values2 = new ContentValues();
-                    _sendContainerChassisButton.setEnabled(false);
                     values2.put(Order.Columns.COMPLETED_FLAG, true);
                     _activity.getContentResolver().update(uri2, values2, null, null);
                     break;
@@ -226,14 +226,9 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
     };
     private boolean _readOnly;
     private ExpandableListView _listView;
-    private Button _messageButton;
-    private Button _directionsButton;
     private Button _startFileButton;
-    private Button _orderImageButton;
-    private Button _returnButton;
-    private Button _sendContainerChassisButton;
     private TextView _fileNoText;
-    private TextView _hazmatText;
+    private ImageView mHazmatImage;
     private TextView _apptDateText;
     private TextView _apptTimeText;
     private TextView _voyageNoText;
@@ -247,21 +242,8 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.directionsButton:
-                    _callbacks.onDirectionsButtonClick();
-                    break;
                 case R.id.startFileButton:
                     startFile();
-                    break;
-                case R.id.orderImageButton:
-                    _callbacks.onOrderImageButtonClick();
-                    break;
-                case R.id.returnButton:
-                    _callbacks.onReturnButtonClick();
-                    break;
-                case R.id.sendContainerChassisButton:
-                    sendContainerOrChassis();
-                    break;
             }
         }
     };
@@ -275,15 +257,11 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
 
         _activity = getActivity();
 
-        _messageButton = (Button) _activity.findViewById(R.id.messageButton);
-        _directionsButton = (Button) _activity.findViewById(R.id.directionsButton);
         _startFileButton = (Button) _activity.findViewById(R.id.startFileButton);
-        _orderImageButton = (Button) _activity.findViewById(R.id.orderImageButton);
-        _returnButton = (Button) _activity.findViewById(R.id.returnButton);
-        _sendContainerChassisButton = (Button) _activity.findViewById(R.id.sendContainerChassisButton);
+//        _sendContainerChassisButton = (Button) _activity.findViewById(R.id.sendContainerChassisButton);
 
         _fileNoText = (TextView) _activity.findViewById(R.id.fileNoText);
-        _hazmatText = (TextView) _activity.findViewById(R.id.hazmatText);
+        mHazmatImage = (ImageView) _activity.findViewById(R.id.hazmatImage);
         _apptDateText = (TextView) _activity.findViewById(R.id.apptDateText);
         _apptTimeText = (TextView) _activity.findViewById(R.id.apptTimeText);
         _voyageNoText = (TextView) _activity.findViewById(R.id.voyageNoText);
@@ -295,12 +273,8 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
         _containerNoEditText.setOnFocusChangeListener(_focusChangeListener);
         _chassisNoEditText.setOnFocusChangeListener(_focusChangeListener);
 
-        _messageButton.setOnClickListener(_buttonListener);
-        _directionsButton.setOnClickListener(_buttonListener);
         _startFileButton.setOnClickListener(_buttonListener);
-        _orderImageButton.setOnClickListener(_buttonListener);
-        _returnButton.setOnClickListener(_buttonListener);
-        _sendContainerChassisButton.setOnClickListener(_buttonListener);
+//        _sendContainerChassisButton.setOnClickListener(_buttonListener);
 
         Bundle bundle = getArguments();
         _orderId = bundle.getLong(Constants.BUNDLE_PARAM_ORDER_ID);
@@ -524,9 +498,9 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
             _fileNoText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.FILE_NO)));
 
             if (cursor.getInt(cursor.getColumnIndex(Order.Columns.HAZMAT_FLAG)) == 1) {
-                _hazmatText.setVisibility(View.VISIBLE);
+                mHazmatImage.setVisibility(View.VISIBLE);
             } else {
-                _hazmatText.setVisibility(View.GONE);
+                mHazmatImage.setVisibility(View.GONE);
             }
 
             _apptDateText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.APPT_DATE_TIME)));
@@ -545,17 +519,14 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
                     _containerNoEditText.setEnabled(true);
                     _chassisNoEditText.setEnabled(true);
                     _listAdapter.setStartedFlag(true);
-                    _sendContainerChassisButton.setEnabled(true);
                 } else {
                     _startFileButton.setEnabled(true);
                     _containerNoEditText.setEnabled(false);
                     _chassisNoEditText.setEnabled(false);
                     _listAdapter.setStartedFlag(false);
-                    _sendContainerChassisButton.setEnabled(false);
                 }
             } else {
                 _startFileButton.setEnabled(false);
-                _sendContainerChassisButton.setEnabled(false);
             }
 
             Loader<Cursor> l = getLoaderManager().getLoader(LOADER_LEGS);
@@ -603,12 +574,7 @@ public class LegListFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     public interface Callbacks {
-        public void onDirectionsButtonClick();
-
-        public void onReturnButtonClick();
-
         public void onOutboundFormClick(long legId, int fileNo);
 
-        public void onOrderImageButtonClick();
     }
 }

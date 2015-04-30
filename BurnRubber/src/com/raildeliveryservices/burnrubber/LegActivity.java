@@ -1,5 +1,6 @@
 package com.raildeliveryservices.burnrubber;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -30,12 +31,12 @@ public class LegActivity extends BaseAuthActivity implements LegListFragment.Cal
         _ft = _fm.beginTransaction();
         _ft.replace(R.id.contentFrameLayout, f);
         _ft.commit();
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Back");
     }
 
-    @Override
-    public void onDirectionsButtonClick() {
-        // TODO Auto-generated method stub
-    }
 
     @Override
     public void onLegOutboundReturnButtonClick() {
@@ -55,25 +56,5 @@ public class LegActivity extends BaseAuthActivity implements LegListFragment.Cal
         _ft.addToBackStack(null);
         _ft.replace(R.id.contentFrameLayout, f);
         _ft.commit();
-    }
-
-    @Override
-    public void onReturnButtonClick() {
-        finish();
-    }
-
-    @Override
-    public void onOrderImageButtonClick() {
-        /*
-        Fragment f = new OrderImageFragment();
-		Bundle b = new Bundle();
-		b.putLong(Constants.BUNDLE_PARAM_ORDER_ID, _orderId);
-		f.setArguments(b);
-
-		_ft = _fm.beginTransaction();
-		_ft.addToBackStack(null);
-		_ft.replace(R.id.contentFrameLayout, f);
-		_ft.commit();
-		*/
     }
 }
