@@ -45,11 +45,9 @@ import com.raildeliveryservices.burnrubber.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 public class MessageListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -359,7 +357,7 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
                 Message.Columns.MESSAGE_TYPE,
                 Message.Columns.MESSAGE_TEXT,
                 Message.Columns.CREATED_DATE_TIME};
-        String sortOrder = Message.Columns.CREATED_DATE_TIME + " desc";
+        String sortOrder = Message.Columns.CREATED_DATE_TIME + " asc";
         String selection = null;
 
         if (_orderId > 0) {
