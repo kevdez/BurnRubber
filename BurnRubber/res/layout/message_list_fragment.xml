@@ -3,47 +3,74 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/sendMessageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="@string/send_button_text" />
-        <Button
-            android:id="@+id/cannedMessageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/sendMessageButton"
-            android:text="@string/canned_message_button_text" />
-        <Button
-            android:id="@+id/purgeMessageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/cannedMessageButton"
-            android:text="@string/purge_message_button_text" />
 
-    </RelativeLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <EditText
-            android:id="@+id/messageEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:lines="4"
-            android:minLines="4"
-            android:gravity="top|left"
-            android:hint="@string/message_edittext_hint" />
-    </LinearLayout>
     <ListView
         android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:divider="@color/white"
-        android:dividerHeight="1px" />
+        android:dividerHeight="1px"
+        android:fastScrollAlwaysVisible="true"
+        android:fastScrollEnabled="true"
+        android:smoothScrollbar="true"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="6"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/messageEditText"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:gravity="top|left"
+            android:hint="@string/message_edittext_hint"
+            android:inputType="textMultiLine"
+            android:lines="4"
+            android:minLines="4" />
+    </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="5">
+
+            <Button
+                android:id="@+id/purgeMessageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/cannedMessageButton"
+                android:text="@string/purge_message_button_text" />
+
+            <Button
+                android:id="@+id/cannedMessageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/sendMessageButton"
+
+                android:text="@string/canned_message_button_text" />
+
+            <Button
+                android:id="@+id/sendMessageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:text="@string/send_button_text" />
+        </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

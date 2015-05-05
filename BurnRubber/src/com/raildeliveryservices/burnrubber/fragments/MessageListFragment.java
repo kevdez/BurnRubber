@@ -359,7 +359,7 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
                 Message.Columns.MESSAGE_TYPE,
                 Message.Columns.MESSAGE_TEXT,
                 Message.Columns.CREATED_DATE_TIME};
-        String sortOrder = Message.Columns.CREATED_DATE_TIME + " desc";
+        String sortOrder = Message.Columns.CREATED_DATE_TIME + " asc";
         String selection = null;
 
         if (_orderId > 0) {
