@@ -48,6 +48,7 @@ public class BaseAuthActivity extends FragmentActivity {
                 if (Utils.isUserOnline(BaseAuthActivity.this)) {
                     //User is currently online
                     setUserOffline();
+                    Utils.sendUserOnlineToServer(BaseAuthActivity.this, false, null);
                 } else {
                     //User is currently offline.
                     final String[] choices = new String[]{getResources().getString(R.string.intermodal), getResources().getString(R.string.crossdock)};
@@ -57,6 +58,7 @@ public class BaseAuthActivity extends FragmentActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             setUserOnline(choices[which]);
+                            Utils.sendUserOnlineToServer(BaseAuthActivity.this, true, choices[which]);
                             dialog.cancel();
                         }
                     });
@@ -119,10 +121,9 @@ public class BaseAuthActivity extends FragmentActivity {
         mOnlineActionButton.setText("Online " + onlineChoice);
         mOnlineActionButton.setTextColor(getResources().getColor(R.color.green));
         mOnlineIndicator.setImageResource(R.drawable.ic_action_online);
-
         Utils.setUserOnline(this, true);
         Utils.setDriverOnlineSystem(this, onlineChoice);
-        Utils.sendUserOnlineToServer(this, true, onlineChoice);
+
     }
 
     protected void setUserOffline() {
@@ -132,7 +133,7 @@ public class BaseAuthActivity extends FragmentActivity {
 
         Utils.setUserOnline(this, false);
         Utils.setDriverOnlineSystem(this, "");
-        Utils.sendUserOnlineToServer(this, false, null);
+
     }
 
     @Override
