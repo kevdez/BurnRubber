@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,7 +19,7 @@ import com.raildeliveryservices.burnrubber.Constants;
 import com.raildeliveryservices.burnrubber.R;
 import com.raildeliveryservices.burnrubber.data.Leg;
 import com.raildeliveryservices.burnrubber.data.LegExtra;
-import com.raildeliveryservices.burnrubber.utils.Utils;
+import com.raildeliveryservices.burnrubber.data.Order;
 
 import java.text.ParseException;
 import java.util.HashMap;
@@ -31,25 +32,23 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
 
     private Context _context;
     private boolean _readOnly;
-    private boolean _startedFlag;
     private LayoutInflater _layoutInflater;
     private HashMap<Integer, Boolean> _completed = new HashMap<Integer, Boolean>();
     private AdapterCallbacks _adapterCallbacks;
+    private Order mOrder;
 
-    public LegListCursorAdapter(Context context, boolean readOnly) {
+    public LegListCursorAdapter(Context context, boolean historyMode, Order order) {
         super(null, context);
         _context = context;
-        _readOnly = readOnly;
+        _readOnly = historyMode;
         _layoutInflater = LayoutInflater.from(context);
+        mOrder = order;
     }
 
     public void setButtonListener(AdapterCallbacks listener) {
         _adapterCallbacks = listener;
     }
 
-    public void setStartedFlag(boolean value) {
-        _startedFlag = value;
-    }
 
     @Override
     protected void bindChildView(View view, Context context, Cursor cursor, boolean isLastChild) {
@@ -110,7 +109,6 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
 
         if (parentLegNo > 0) {
             Cursor parentLegCursor = getParentLeg(orderId, parentLegNo);
-
             companyNameFromText.setText(parentLegCursor.getString(parentLegCursor.getColumnIndex(Leg.Columns.COMPANY_NAME_TO)));
             addressFromText.setText(parentLegCursor.getString(parentLegCursor.getColumnIndex(Leg.Columns.ADDRESS_TO)));
             cityFromText.setText(parentLegCursor.getString(parentLegCursor.getColumnIndex(Leg.Columns.CITY_TO)) + ", ");
@@ -222,9 +220,8 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
             if (TextUtils.isEmpty(arriveFromDate)) {
                 arriveFromButton.setVisibility(View.VISIBLE);
 
-                if (previousCompleted && Utils.isUserOnline(_context) && _startedFlag) {
+                if (previousCompleted && (mOrder.getStartFlag() == 1)) {
                     arriveFromButton.setEnabled(true);
-
                     arriveFromButton.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -253,7 +250,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
             if (TextUtils.isEmpty(departFromDate)) {
                 departFromButton.setVisibility(View.VISIBLE);
 
-                if (previousCompleted && Utils.isUserOnline(_context) && _startedFlag && !TextUtils.isEmpty(arriveFromDate)) {
+                if (previousCompleted && (mOrder.getStartFlag() == 1) && !TextUtils.isEmpty(arriveFromDate)) {
                     departFromButton.setEnabled(true);
 
                     departFromButton.setOnClickListener(new OnClickListener() {
@@ -284,7 +281,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
             if (TextUtils.isEmpty(arriveToDate)) {
                 arriveToButton.setVisibility(View.VISIBLE);
 
-                if (previousCompleted && Utils.isUserOnline(_context) && _startedFlag && !TextUtils.isEmpty(departFromDate)) {
+                if (previousCompleted && (mOrder.getStartFlag() == 1) && !TextUtils.isEmpty(departFromDate)) {
                     arriveToButton.setEnabled(true);
 
                     arriveToButton.setOnClickListener(new OnClickListener() {
@@ -322,7 +319,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
                     endFileButton.setVisibility(View.GONE);
                     departToButton.setVisibility(View.VISIBLE);
                 }
-                if (previousCompleted && Utils.isUserOnline(_context) && _startedFlag && !TextUtils.isEmpty(arriveToDate)) {
+                if (previousCompleted && (mOrder.getStartFlag() == 1) && !TextUtils.isEmpty(arriveToDate)) {
                     if (isLastLeg(orderId, legNo)) {
                         endFileButton.setEnabled(true);
                         departToButton.setEnabled(false);
@@ -381,7 +378,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
             if (outboundFlag) {
                 outboundFormButton.setVisibility(View.VISIBLE);
 
-                if (Utils.isUserOnline(_context) && _startedFlag) {
+                if (mOrder.getStartFlag() == 1) {
                     outboundFormButton.setEnabled(true);
 
                     outboundFormButton.setOnClickListener(new OnClickListener() {
@@ -408,7 +405,7 @@ public class LegListCursorAdapter extends CursorTreeAdapter {
 
     @Override
     protected void bindGroupView(View view, Context context, Cursor cursor, boolean isExpanded) {
-
+        Log.d(this.getClass().getSimpleName(), "bindGroupView");
         final int legNo = cursor.getInt(cursor.getColumnIndex(Leg.Columns.LEG_NO));
         boolean completeFlag = cursor.getInt(cursor.getColumnIndex(Leg.Columns.COMPLETED_FLAG)) == 1 ? true : false;
         final TextView legNoText = (TextView) view.findViewById(R.id.legNoText);

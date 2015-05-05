@@ -3,68 +3,42 @@ package com.raildeliveryservices.burnrubber.fragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ListFragment;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
-import android.database.MatrixCursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.raildeliveryservices.burnrubber.Constants;
+import com.raildeliveryservices.burnrubber.LegActivity;
 import com.raildeliveryservices.burnrubber.R;
 import com.raildeliveryservices.burnrubber.adapters.OrderListCursorAdapter;
-import com.raildeliveryservices.burnrubber.data.Form;
-import com.raildeliveryservices.burnrubber.data.MessageAlert;
 import com.raildeliveryservices.burnrubber.data.Order;
 import com.raildeliveryservices.burnrubber.tasks.DeleteOrderAsyncTask;
-import com.raildeliveryservices.burnrubber.utils.Utils;
 
 @SuppressLint("NewApi")
 public class OrderListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int LOADER_ORDERS = -11;
     private static final int LOADER_HISTORY_ORDERS = -2;
-    private static final int LOADER_MESSAGE_ALERTS = -3;
 
     private Activity _activity;
-    private Button _messageButton;
-    private Button _tripHistoryButton;
     private OrderListCursorAdapter _listAdapter;
     private boolean _tripHistory;
-    private Callbacks _callbacks;
-    private OnClickListener _buttonListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.messageButton:
-                    _callbacks.onMessageButtonClick();
-                    break;
-                case R.id.tripHistoryButton:
-                    _callbacks.onTripHistoryButtonClick();
-                    break;
-                case R.id.formsButton:
-                    showFormDialog();
-                    break;
-                case R.id.returnButton:
-                    _callbacks.onReturnButtonClick();
-                    break;
-            }
-        }
-    };
 
     public OrderListFragment() {
     }
@@ -72,34 +46,10 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         _activity = getActivity();
-
-        _messageButton = (Button) _activity.findViewById(R.id.messageButton);
-        _tripHistoryButton = (Button) _activity.findViewById(R.id.tripHistoryButton);
-        Button formsButton = (Button) _activity.findViewById(R.id.formsButton);
-        Button returnButton = (Button) _activity.findViewById(R.id.returnButton);
-
-        _messageButton.setOnClickListener(_buttonListener);
-        _tripHistoryButton.setOnClickListener(_buttonListener);
-        formsButton.setOnClickListener(_buttonListener);
-        returnButton.setOnClickListener(_buttonListener);
 
         Bundle bundle = getArguments();
         _tripHistory = bundle.getBoolean(Constants.BUNDLE_PARAM_TRIP_HISTORY);
-
-        if (_tripHistory) {
-            _messageButton.setVisibility(View.GONE);
-            formsButton.setVisibility(View.GONE);
-            _tripHistoryButton.setVisibility(View.GONE);
-
-            returnButton.setVisibility(View.VISIBLE);
-        } else {
-            _messageButton.setVisibility(View.VISIBLE);
-            formsButton.setVisibility(View.VISIBLE);
-            _tripHistoryButton.setVisibility(View.VISIBLE);
-            returnButton.setVisibility(View.GONE);
-        }
 
         _listAdapter = new OrderListCursorAdapter(_activity, R.layout.order_list_row, _tripHistory);
         setListAdapter(_listAdapter);
@@ -124,12 +74,6 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
             }
         }
 
-        Loader<Cursor> messageAlertLoader = getLoaderManager().getLoader(LOADER_MESSAGE_ALERTS);
-        if (messageAlertLoader != null && !messageAlertLoader.isReset()) {
-            getLoaderManager().restartLoader(LOADER_MESSAGE_ALERTS, null, this);
-        } else {
-            getLoaderManager().initLoader(LOADER_MESSAGE_ALERTS, null, this);
-        }
     }
 
     @Override
@@ -140,12 +84,6 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
-        try {
-            _callbacks = (Callbacks) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement Callbacks");
-        }
     }
 
     @Override
@@ -155,11 +93,47 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
         Cursor cursor = _listAdapter.getCursor();
         cursor.moveToPosition(position);
 
-        boolean confirmedFlag = cursor.getInt(cursor.getColumnIndex(Order.Columns.CONFIRMED_FLAG)) == 1;
-        boolean completedFlag = cursor.getInt(cursor.getColumnIndex(Order.Columns.COMPLETED_FLAG)) == 1;
-        boolean readOnly = !confirmedFlag || completedFlag;
+        //Get information of selected order
+        Order selectedOrder = getOrderFromCursor(cursor);
 
-        _callbacks.onOrderListItemClick(id, readOnly);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.BUNDLE_PARAM_SELECTED_ORDER, selectedOrder);
+        bundle.putBoolean(Constants.BUNDLE_PARAM_TRIP_HISTORY, _tripHistory);
+
+        Intent intent = new Intent(_activity, LegActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+
+    }
+
+    private Order getOrderFromCursor(Cursor cursor) {
+        Order order = new Order();
+        order.setId(cursor.getInt(cursor.getColumnIndex(Order.Columns._ID)));
+        order.setFileNo(cursor.getInt(cursor.getColumnIndex(Order.Columns.FILE_NO)));
+        order.setDriverNo(cursor.getInt(cursor.getColumnIndex(Order.Columns.DRIVER_NO)));
+        order.setParentFileNo(cursor.getInt(cursor.getColumnIndex(Order.Columns.PARENT_FILE_NO)));
+        order.setVoyageNo(cursor.getString(cursor.getColumnIndex(Order.Columns.VOYAGE_NO)));
+        order.setTripNo(cursor.getString(cursor.getColumnIndex(Order.Columns.TRIP_NO)));
+        order.setPoNo(cursor.getString(cursor.getColumnIndex(Order.Columns.PO_NO)));
+        order.setPickUpNo(cursor.getString(cursor.getColumnIndex(Order.Columns.PICKUP_NO)));
+        order.setRailNo(cursor.getString(cursor.getColumnIndex(Order.Columns.RAIL_NO)));
+        order.setManifestNo(cursor.getString(cursor.getColumnIndex(Order.Columns.MANIFEST_NO)));
+        order.setBookingNo(cursor.getString(cursor.getColumnIndex(Order.Columns.BOOKING_NO)));
+        order.setAppointmentDate(cursor.getString(cursor.getColumnIndex(Order.Columns.APPT_DATE_TIME)));
+        order.setAppointmentTime(cursor.getString(cursor.getColumnIndex(Order.Columns.APPT_TIME)));
+        order.setMoveType(cursor.getString(cursor.getColumnIndex(Order.Columns.MOVE_TYPE)));
+        order.setContainerNo(cursor.getString(cursor.getColumnIndex(Order.Columns.CONTAINER_NO)));
+        order.setChassisNo(cursor.getString(cursor.getColumnIndex(Order.Columns.CHASSIS_NO)));
+        order.setHazmatFlag(cursor.getInt(cursor.getColumnIndex(Order.Columns.HAZMAT_FLAG)));
+        order.setComment(cursor.getString(cursor.getColumnIndex(Order.Columns.COMMENTS)));
+        order.setLumperFlag(cursor.getInt(cursor.getColumnIndex(Order.Columns.LUMPER_FLAG)));
+        order.setScaleFlag(cursor.getInt(cursor.getColumnIndex(Order.Columns.SCALE_FLAG)));
+        order.setWeightFlag(cursor.getInt(cursor.getColumnIndex(Order.Columns.WEIGHT_FLAG)));
+        order.setConfirmFlag(cursor.getInt(cursor.getColumnIndex(Order.Columns.CONFIRMED_FLAG)));
+        order.setStartFlag(cursor.getInt(cursor.getColumnIndex(Order.Columns.STARTED_FLAG)));
+        order.setCompletedFlag(cursor.getInt(cursor.getColumnIndex(Order.Columns.COMPLETED_FLAG)));
+
+        return order;
     }
 
     @Override
@@ -173,12 +147,22 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-
-        Cursor cursor = _listAdapter.getCursor();
-        final long orderId = cursor.getLong(cursor.getColumnIndex(Order.Columns._ID));
+        Log.d(this.getClass().getSimpleName(), "Order  - onContextItemSelected - Hisotry Order: " + _tripHistory);
+        if (!getUserVisibleHint()) {
+            return false;
+        }
 
         switch (item.getItemId()) {
             case R.id.delete_order:
+                AdapterView.AdapterContextMenuInfo adapterContextMenuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+                Cursor cursor = _listAdapter.getCursor();
+
+                int orderPosition = adapterContextMenuInfo.position;
+                if (cursor != null) {
+                    cursor.moveToPosition(orderPosition);
+                }
+                final long orderId = cursor.getLong(cursor.getColumnIndex(Order.Columns._ID));
                 AlertDialog.Builder alertBuilder = new AlertDialog.Builder(_activity);
                 alertBuilder.setTitle(_activity.getString(R.string.delete_order_dialog_title));
                 alertBuilder.setMessage(_activity.getString(R.string.delete_order_dialog_message));
@@ -207,49 +191,6 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
         deleteOrder.execute(new Long[]{orderId});
     }
 
-    private void showFormDialog() {
-
-        String[] projection = {Form.Columns._ID,
-                Form.Columns.LABEL,
-                Form.Columns.FORM_NAME,
-                Form.Columns.FILL_IN,
-                Form.Columns.FORM_TYPE};
-        String selection = Form.Columns.FORM_NAME + " != 'CANNED'";
-        String sortOrder = Form.Columns.FORM_NAME + "," + Form.Columns._ID;
-
-        final Cursor cursor = _activity.getContentResolver().query(Form.CONTENT_URI, projection, selection, null, sortOrder);
-        cursor.moveToFirst();
-
-        final MatrixCursor newCursor = new MatrixCursor(new String[]{Form.Columns._ID, Form.Columns.FORM_NAME});
-        newCursor.moveToFirst();
-        String formName = "";
-
-        try {
-            do {
-                if (!cursor.getString(cursor.getColumnIndex(Form.Columns.FORM_NAME)).equals(formName)) {
-                    newCursor.addRow(new Object[]{cursor.getLong(cursor.getColumnIndex(Form.Columns._ID)), cursor.getString(cursor.getColumnIndex(Form.Columns.FORM_NAME))});
-                }
-
-                formName = cursor.getString(cursor.getColumnIndex(Form.Columns.FORM_NAME));
-            } while (cursor.moveToNext());
-        } catch (Exception e) {
-
-        }
-
-        cursor.close();
-
-        new AlertDialog.Builder(_activity)
-                .setTitle("Select Form")
-                .setCursor(newCursor, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        newCursor.moveToPosition(which);
-                        _callbacks.onFormListItemClick(newCursor.getString(newCursor.getColumnIndex(Form.Columns.FORM_NAME)));
-                    }
-                }, Form.Columns.FORM_NAME)
-                .create().show();
-    }
-
     @Override
     public Loader<Cursor> onCreateLoader(int loaderId, Bundle bundle) {
 
@@ -260,8 +201,11 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
 
         if (loaderId == LOADER_ORDERS || loaderId == LOADER_HISTORY_ORDERS) {
             uri = Order.CONTENT_URI;
-            projection = new String[]{Order.Columns._ID,
+            projection = new String[]{
+                    Order.Columns._ID,
                     Order.Columns.FILE_NO,
+                    Order.Columns.DRIVER_NO,
+                    Order.Columns.PARENT_FILE_NO,
                     Order.Columns.VOYAGE_NO,
                     Order.Columns.TRIP_NO,
                     Order.Columns.PO_NO,
@@ -273,13 +217,15 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
                     Order.Columns.APPT_DATE_TIME,
                     Order.Columns.APPT_TIME,
                     Order.Columns.MOVE_TYPE,
+                    Order.Columns.CONTAINER_NO,
+                    Order.Columns.CHASSIS_NO,
+                    Order.Columns.COMMENTS,
+                    Order.Columns.LUMPER_FLAG,
+                    Order.Columns.SCALE_FLAG,
+                    Order.Columns.WEIGHT_FLAG,
                     Order.Columns.CONFIRMED_FLAG,
+                    Order.Columns.STARTED_FLAG,
                     Order.Columns.COMPLETED_FLAG};
-        } else if (loaderId == LOADER_MESSAGE_ALERTS) {
-            uri = MessageAlert.CONTENT_URI;
-            projection = new String[]{MessageAlert.Columns._ID,
-                    MessageAlert.Columns.DRIVER_NO,
-                    MessageAlert.Columns.MESSAGE_FLAG};
         }
 
         if (loaderId == LOADER_ORDERS) {
@@ -288,8 +234,6 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
         } else if (loaderId == LOADER_HISTORY_ORDERS) {
             selection = Order.Columns.COMPLETED_FLAG + " = 1";
             sortOrder = Order.Columns.APPT_DATE_TIME + " DESC";
-        } else if (loaderId == LOADER_MESSAGE_ALERTS) {
-            selection = MessageAlert.Columns.DRIVER_NO + " = " + Utils.getDriverNo(_activity);
         }
 
         return new CursorLoader(_activity, uri, projection, selection, null, sortOrder);
@@ -297,44 +241,12 @@ public class OrderListFragment extends ListFragment implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-
-        if (loader.getId() == LOADER_MESSAGE_ALERTS) {
-            if (cursor.moveToFirst()) {
-                if (cursor.getInt(cursor.getColumnIndex(MessageAlert.Columns.MESSAGE_FLAG)) == 1) {
-                    _messageButton.setBackgroundColor(_activity.getResources().getColor(R.color.red));
-                } else {
-                    int currentApiVersion = Build.VERSION.SDK_INT;
-
-                    if (currentApiVersion >= Build.VERSION_CODES.JELLY_BEAN) {
-                        Button tempButton = new Button(_activity);
-                        _messageButton.setBackground(tempButton.getBackground());
-                    } else {
-                        _messageButton.setBackgroundColor(0);
-                    }
-                }
-            }
-        } else {
-            cursor.moveToFirst();
-            _listAdapter.swapCursor(cursor);
-        }
+        cursor.moveToFirst();
+        _listAdapter.swapCursor(cursor);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        if (loader.getId() != LOADER_MESSAGE_ALERTS) {
-            _listAdapter.swapCursor(null);
-        }
-    }
-
-    public interface Callbacks {
-        public void onMessageButtonClick();
-
-        public void onTripHistoryButtonClick();
-
-        public void onReturnButtonClick();
-
-        public void onOrderListItemClick(long orderId, boolean readOnly);
-
-        public void onFormListItemClick(String formName);
+        _listAdapter.swapCursor(null);
     }
 }

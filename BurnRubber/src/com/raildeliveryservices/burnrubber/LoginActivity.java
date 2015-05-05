@@ -34,7 +34,7 @@ public class LoginActivity extends BaseFragmentActivity {
         setContentView(R.layout.login_activity);
 
         if (Utils.isUserLoggedIn(this)) {
-            startActivity(new Intent(this, OrderActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
         }
 
         _userNameEditText = (EditText) findViewById(R.id.userNameEditText);

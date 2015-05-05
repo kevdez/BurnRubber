@@ -1,6 +1,6 @@
 package com.raildeliveryservices.burnrubber;
 
-import android.content.Intent;
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,21 +8,20 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.raildeliveryservices.burnrubber.fragments.LegListFragment;
 import com.raildeliveryservices.burnrubber.fragments.LegOutboundFragment;
+import com.raildeliveryservices.burnrubber.utils.Utils;
 
-public class LegActivity extends BaseLoggedInActivity implements LegListFragment.Callbacks, LegOutboundFragment.Callbacks {
+public class LegActivity extends BaseAuthActivity implements LegListFragment.Callbacks, LegOutboundFragment.CallBacks {
 
-    private long _orderId;
     private FragmentManager _fm;
     private FragmentTransaction _ft;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.empty);
 
         Bundle bundle = getIntent().getExtras();
-        _orderId = bundle.getLong(Constants.BUNDLE_PARAM_ORDER_ID);
-
         _fm = getSupportFragmentManager();
 
         Fragment f = new LegListFragment();
@@ -31,28 +30,29 @@ public class LegActivity extends BaseLoggedInActivity implements LegListFragment
         _ft = _fm.beginTransaction();
         _ft.replace(R.id.contentFrameLayout, f);
         _ft.commit();
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Back");
     }
 
     @Override
-    public void onMessageButtonClick() {
-
-        startActivity(new Intent(OrderActivity.getOriginalMsgIntent()));
-    }
-
-    @Override
-    public void onDirectionsButtonClick() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void onLegOutboundReturnButtonClick() {
-        _fm.popBackStackImmediate();
+    public boolean onNavigateUp() {
+        if (_fm.getBackStackEntryCount() > 0) {
+            _fm.popBackStackImmediate();
+            return true;
+        } else {
+            return super.onNavigateUp();
+        }
     }
 
     @Override
     public void onOutboundFormClick(long legId, int fileNo) {
 
+        if (!Utils.isUserOnline(this)) {
+            Utils.showMessage(this, "You must be online to complete this action");
+            return;
+        }
         Fragment f = new LegOutboundFragment();
         Bundle b = new Bundle();
         b.putLong(Constants.BUNDLE_PARAM_LEG_ID, legId);
@@ -66,22 +66,7 @@ public class LegActivity extends BaseLoggedInActivity implements LegListFragment
     }
 
     @Override
-    public void onReturnButtonClick() {
-        finish();
-    }
-
-    @Override
-    public void onOrderImageButtonClick() {
-        /*
-		Fragment f = new OrderImageFragment();
-		Bundle b = new Bundle();
-		b.putLong(Constants.BUNDLE_PARAM_ORDER_ID, _orderId);
-		f.setArguments(b);
-
-		_ft = _fm.beginTransaction();
-		_ft.addToBackStack(null);
-		_ft.replace(R.id.contentFrameLayout, f);
-		_ft.commit();
-		*/
+    public void onLegOutboundSendButtonClick() {
+        _fm.popBackStackImmediate();
     }
 }

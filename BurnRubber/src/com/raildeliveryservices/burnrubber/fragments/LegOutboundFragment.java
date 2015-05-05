@@ -38,7 +38,6 @@ public class LegOutboundFragment extends Fragment implements LoaderManager.Loade
     private long _legOutboundId;
     private int _fileNo;
     private long _legId;
-    private Button _returnButton;
     private Button _sendButton;
     private EditText _piecesEditText;
     private EditText _weightEditText;
@@ -48,18 +47,14 @@ public class LegOutboundFragment extends Fragment implements LoaderManager.Loade
     private EditText _bolPagesEditText;
     private EditText _palletsEditText;
     private EditText _commodityEditText;
-    private Callbacks _callbacks;
+    private CallBacks mCallBack;
     private OnClickListener _buttonListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.returnButton:
-                    //saveRecord();
-                    _callbacks.onLegOutboundReturnButtonClick();
-                    break;
                 case R.id.sendButton:
                     saveRecord();
-                    _callbacks.onLegOutboundReturnButtonClick();
+                    mCallBack.onLegOutboundSendButtonClick();
                     break;
             }
         }
@@ -74,8 +69,6 @@ public class LegOutboundFragment extends Fragment implements LoaderManager.Loade
 
         _activity = getActivity();
 
-        _returnButton = (Button) _activity.findViewById(R.id.returnButton);
-        _returnButton.setOnClickListener(_buttonListener);
         _sendButton = (Button) _activity.findViewById(R.id.sendButton);
         _sendButton.setOnClickListener(_buttonListener);
 
@@ -88,6 +81,7 @@ public class LegOutboundFragment extends Fragment implements LoaderManager.Loade
         _palletsEditText = (EditText) _activity.findViewById(R.id.palletsEditText);
         _commodityEditText = (EditText) _activity.findViewById(R.id.commodityEditText);
 
+        mCallBack = (CallBacks) _activity;
         setFieldMaxLength(_piecesEditText, 5);
         setFieldMaxLength(_weightEditText, 10);
         setFieldMaxLength(_sealEditText, 10);
@@ -119,7 +113,6 @@ public class LegOutboundFragment extends Fragment implements LoaderManager.Loade
         super.onAttach(activity);
 
         try {
-            _callbacks = (Callbacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement Callbacks");
         }
@@ -326,7 +319,7 @@ public class LegOutboundFragment extends Fragment implements LoaderManager.Loade
     public void onLoaderReset(Loader<Cursor> loader) {
     }
 
-    public interface Callbacks {
-        public void onLegOutboundReturnButtonClick();
+    public static interface CallBacks {
+        public void onLegOutboundSendButtonClick();
     }
 }

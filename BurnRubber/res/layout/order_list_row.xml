@@ -230,7 +230,7 @@
             android:layout_alignParentLeft="true"
             android:focusable="false"
             android:text="@string/confirm_button_text"
-            android:textColor="@color/blue" />
+            android:textColor="@color/wallet_holo_blue_light" />
 
         <Button
             android:id="@+id/rejectButton"
