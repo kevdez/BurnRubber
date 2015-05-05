@@ -12,11 +12,10 @@ import android.support.v4.view.ViewPager;
 
 import com.raildeliveryservices.burnrubber.adapters.AppFragmentPagerAdapter;
 import com.raildeliveryservices.burnrubber.data.MessageAlert;
-import com.raildeliveryservices.burnrubber.fragments.OrderListFragment;
 import com.raildeliveryservices.burnrubber.utils.Services;
 import com.raildeliveryservices.burnrubber.utils.Utils;
 
-public class MainActivity extends BaseAuthActivity implements OrderListFragment.Callbacks, LoaderManager.LoaderCallbacks<Cursor>, ActionBar.TabListener, ViewPager.OnPageChangeListener {
+public class MainActivity extends BaseAuthActivity implements LoaderManager.LoaderCallbacks<Cursor>, ActionBar.TabListener, ViewPager.OnPageChangeListener {
     private final int LOADER_MESSAGE_ALERT = 1;
     private ActionBar.Tab mMsgTab;
     private ViewPager mViewPager;
@@ -77,22 +76,6 @@ public class MainActivity extends BaseAuthActivity implements OrderListFragment.
         Services.startAll(this);
     }
 
-    @Override
-    public void onOrderListItemClick(long orderId, boolean readOnly) {
-
-        Bundle bundle = new Bundle();
-        bundle.putLong(Constants.BUNDLE_PARAM_ORDER_ID, orderId);
-
-        if (!Utils.isUserOnline(this) || readOnly) {
-            bundle.putBoolean(Constants.BUNDLE_PARAM_READ_ONLY, true);
-        } else {
-            bundle.putBoolean(Constants.BUNDLE_PARAM_READ_ONLY, false);
-        }
-
-        Intent intent = new Intent(this, LegActivity.class);
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {

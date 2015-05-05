@@ -219,7 +219,7 @@ public class Utils {
         String selection = MessageAlert.Columns.DRIVER_NO + " = " + driverNo;
         int newMessageCount = -1;//There is not any record in the db.
         final Cursor cursor = context.getContentResolver().query(MessageAlert.CONTENT_URI, projection, selection, null, null);
-        if(cursor.getCount() > 0){
+        if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             newMessageCount = cursor.getInt(cursor.getColumnIndex(MessageAlert.Columns.NEW_MESSAGE_COUNT));
         }
@@ -245,7 +245,7 @@ public class Utils {
 
     public static void showMessage(Context context, String message) {
         if (message != null && !message.isEmpty()) {
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
         }
     }
 

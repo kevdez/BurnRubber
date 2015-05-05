@@ -3,10 +3,10 @@ package com.raildeliveryservices.burnrubber.data;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public final class Order {
-
+public final class Order implements Serializable {
     public static final String TABLE_NAME = "orders";
     public static final String DATABASE_CREATE_SQL =
             "create table " + TABLE_NAME +
@@ -38,6 +38,7 @@ public final class Order {
                     ");";
     public static final Uri CONTENT_URI = Uri.parse("content://" + DataContentProvider.AUTHORITY + "/orders");
     public static final HashMap<String, String> PROJECTION_MAP = new HashMap<String, String>();
+
     static {
         PROJECTION_MAP.put(Columns._ID, TABLE_NAME + "." + Columns._ID);
         PROJECTION_MAP.put(Columns.FILE_NO, TABLE_NAME + "." + Columns.FILE_NO);
@@ -66,6 +67,223 @@ public final class Order {
         PROJECTION_MAP.put(Columns.COMPLETED_FLAG, TABLE_NAME + "." + Columns.COMPLETED_FLAG);
     }
 
+    private int id;
+    private int fileNo;
+    private int driverNo;
+    private int parentFileNo;
+    private String voyageNo;
+    private String tripNo;
+    private String poNo;
+    private String pickUpNo;
+    private String railNo;
+    private String manifestNo;
+    private String bookingNo;
+    private String appointmentDate;
+    private String appointmentTime;
+    private String moveType;
+    private String containerNo;
+    private String chassisNo;
+    private String comment;
+    private int hazmatFlag;
+    private int lumperFlag;
+    private int scaleFlag;
+    private int weightFlag;
+    private int confirmFlag;
+    private int startFlag;
+    private int completedFlag;
+
+    public String getId() {
+        return String.valueOf(id);
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getFileNo() {
+        return String.valueOf(fileNo);
+    }
+
+    public void setFileNo(int fileNo) {
+        this.fileNo = fileNo;
+    }
+
+    public String getDriverNo() {
+        return String.valueOf(driverNo);
+    }
+
+    public void setDriverNo(int driverNo) {
+        this.driverNo = driverNo;
+    }
+
+    public String getParentFileNo() {
+        return String.valueOf(parentFileNo);
+    }
+
+    public void setParentFileNo(int parentFileNo) {
+        this.parentFileNo = parentFileNo;
+    }
+
+    public String getVoyageNo() {
+        return voyageNo;
+    }
+
+    public void setVoyageNo(String voyageNo) {
+        this.voyageNo = voyageNo;
+    }
+
+    public String getTripNo() {
+        return tripNo;
+    }
+
+    public void setTripNo(String tripNo) {
+        this.tripNo = tripNo;
+    }
+
+    public String getPoNo() {
+        return poNo;
+    }
+
+    public void setPoNo(String poNo) {
+        this.poNo = poNo;
+    }
+
+    public String getPickUpNo() {
+        return pickUpNo;
+    }
+
+    public void setPickUpNo(String pickUpNo) {
+        this.pickUpNo = pickUpNo;
+    }
+
+    public String getRailNo() {
+        return railNo;
+    }
+
+    public void setRailNo(String railNo) {
+        this.railNo = railNo;
+    }
+
+    public String getManifestNo() {
+        return manifestNo;
+    }
+
+    public void setManifestNo(String manifestNo) {
+        this.manifestNo = manifestNo;
+    }
+
+    public String getBookingNo() {
+        return bookingNo;
+    }
+
+    public void setBookingNo(String bookingNo) {
+        this.bookingNo = bookingNo;
+    }
+
+    public String getAppointmentDate() {
+        return appointmentDate;
+    }
+
+    public void setAppointmentDate(String appointmentDate) {
+        this.appointmentDate = appointmentDate;
+    }
+
+    public String getAppointmentTime() {
+        return appointmentTime;
+    }
+
+    public void setAppointmentTime(String appointmentTime) {
+        this.appointmentTime = appointmentTime;
+    }
+
+    public String getMoveType() {
+        return moveType;
+    }
+
+    public void setMoveType(String moveType) {
+        this.moveType = moveType;
+    }
+
+    public String getContainerNo() {
+        return containerNo;
+    }
+
+    public void setContainerNo(String containerNo) {
+        this.containerNo = containerNo;
+    }
+
+    public String getChassisNo() {
+        return chassisNo;
+    }
+
+    public void setChassisNo(String chassisNo) {
+        this.chassisNo = chassisNo;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public int getHazmatFlag() {
+        return hazmatFlag;
+    }
+
+    public void setHazmatFlag(int hazmatFlag) {
+        this.hazmatFlag = hazmatFlag;
+    }
+
+    public int getLumperFlag() {
+        return lumperFlag;
+    }
+
+    public void setLumperFlag(int lumperFlag) {
+        this.lumperFlag = lumperFlag;
+    }
+
+    public int getScaleFlag() {
+        return scaleFlag;
+    }
+
+    public void setScaleFlag(int scaleFlag) {
+        this.scaleFlag = scaleFlag;
+    }
+
+    public int getWeightFlag() {
+        return weightFlag;
+    }
+
+    public void setWeightFlag(int weightFlag) {
+        this.weightFlag = weightFlag;
+    }
+
+    public int getConfirmFlag() {
+        return confirmFlag;
+    }
+
+    public void setConfirmFlag(int confirmFlag) {
+        this.confirmFlag = confirmFlag;
+    }
+
+    public int getStartFlag() {
+        return startFlag;
+    }
+
+    public void setStartFlag(int startFlag) {
+        this.startFlag = startFlag;
+    }
+
+    public int getCompletedFlag() {
+        return completedFlag;
+    }
+
+    public void setCompletedFlag(int completedFlag) {
+        this.completedFlag = completedFlag;
+    }
+
     public static final class Columns implements BaseColumns {
         public static final String FILE_NO = "file_no";
         public static final String DRIVER_NO = "driver_no";
@@ -91,4 +309,6 @@ public final class Order {
         public static final String STARTED_FLAG = "started_flag";
         public static final String COMPLETED_FLAG = "completed_flag";
     }
+
+
 }

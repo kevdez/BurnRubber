@@ -5,6 +5,8 @@ apply plugin: 'com.android.application'
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     compile project(':google-play-services_lib')
+    compile 'com.google.http-client:google-http-client-android:1.18.0-rc'
+    compile 'com.google.http-client:google-http-client-jackson2:1.18.0-rc'
 }
 
 //Increase the version code by 1. Ex: 30 -> 31.
@@ -19,12 +21,12 @@ task increaseVersionCode << {
 }
 
 //Increase the build version name by 0.01. Ex: 3.01 -> 3.02.
-task increaseVersionName <<{
+task increaseVersionName << {
     def manifestFile = file('AndroidManifest.xml')
     def matcher = Pattern.compile('versionName=\"(\\d+)\\.(\\d+)\"').matcher(manifestFile.getText())
     matcher.find()
     def versionName = String.format("%.2f", Integer.parseInt(matcher.group(1)) + Double.parseDouble("." + matcher.group(2)) + 0.01)
-    def manifestContent = matcher.replaceAll('versionName=\"'  + versionName + '\"')
+    def manifestContent = matcher.replaceAll('versionName=\"' + versionName + '\"')
     manifestFile.write(manifestContent)
 }
 

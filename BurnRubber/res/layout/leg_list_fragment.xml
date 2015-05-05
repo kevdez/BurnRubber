@@ -12,240 +12,252 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp">
+            android:layout_marginLeft="5dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <TextView
                 android:id="@+id/order_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="File in progress..." />
+                android:text="@string/file_in_progress"
+                android:textColor="@color/green"
+                android:visibility="gone" />
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_action_reload" />
+            <!--<ImageButton-->
+            <!--android:id="@+id/reload_order"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:src="@drawable/ic_action_reload"-->
+            <!--android:visibility="gone" />-->
         </RelativeLayout>
 
 
     </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bottomButtons"
-        android:layout_below="@id/topButtons">
 
-        <TableLayout
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottomButtons"
+        android:layout_below="@id/topButtons"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:stretchColumns="*">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical"
-            android:stretchColumns="*">
-
-            <LinearLayout
+            android:orientation="vertical"> <!-- Start of order information -->
+            <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"> <!-- Start of order information -->
-                <TableRow
-                    android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <TableLayout
-                        android:layout_width="wrap_content"
+                    <TableRow
+                        android:id="@+id/fileNoLayout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TableRow
-                            android:id="@+id/fileNoLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/file_no_label_text" />
 
-                            <TextView
-                                android:layout_width="150dp"
-                                android:layout_height="wrap_content"
-                                android:text="@string/file_no_label_text" />
+                        <TextView
+                            android:id="@+id/fileNoText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textStyle="bold" />
+                    </TableRow>
 
-                            <TextView
-                                android:id="@+id/fileNoText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0123456789"
-                                android:textStyle="bold" />
-                        </TableRow>
+                    <TableRow
+                        android:id="@+id/apptDateLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/fileNoLayout"
+                        android:orientation="horizontal">
 
-                        <TableRow
-                            android:id="@+id/apptDateLayout"
+                        <TextView
+                            android:id="@+id/apptDateLabel"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/appt_date_label_text" />
+
+                        <TextView
+                            android:id="@+id/apptDateText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/fileNoLayout"
-                            android:orientation="horizontal">
+                            android:text=""
+                            android:textStyle="bold" />
+                    </TableRow>
 
-                            <TextView
-                                android:id="@+id/apptDateLabel"
-                                android:layout_width="150dp"
-                                android:layout_height="wrap_content"
-                                android:text="@string/appt_date_label_text" />
+                    <TableRow
+                        android:id="@+id/apptTimeLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                            <TextView
-                                android:id="@+id/apptDateText"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="01/01/2001"
-                                android:textStyle="bold" />
-                        </TableRow>
+                        <TextView
+                            android:id="@+id/apptTimeLabel"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/appt_time_label" />
 
-                        <TableRow
-                            android:id="@+id/apptTimeLayout"
+                        <TextView
+                            android:id="@+id/apptTimeText"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textStyle="bold" />
+                    </TableRow>
+                </TableLayout>
 
-                            <TextView
-                                android:id="@+id/apptTimeLabel"
-                                android:layout_width="150dp"
-                                android:layout_height="wrap_content"
-                                android:text="@string/appt_time_label" />
-
-                            <TextView
-                                android:id="@+id/apptTimeText"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="21:30"
-                                android:textStyle="bold" />
-                        </TableRow>
-                    </TableLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end">
-
-                        <ImageView
-                            android:id="@+id/hazmatImage"
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:src="@drawable/ic_hazmat" />
-                    </LinearLayout>
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:text="Voyage #: " />
-
-                    <TextView
-                        android:id="@+id/voyageNoText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:text="123456" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:text="Move type:" />
-
-                    <TextView
-                        android:id="@+id/moveTypeText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Move type" />
-                </TableRow>
-
-                <!-- This is comment layout-->
-                <TableRow
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:gravity="end">
 
-                    <TextView
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:text="Comment:" />
+                    <ImageView
+                        android:id="@+id/hazmatImage"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:src="@drawable/ic_hazmat" />
+                </LinearLayout>
+            </TableRow>
 
-                    <TextView
-                        android:id="@+id/commentsText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/chassisNoLayout"
-                        android:text="This is a comment. This is a comment. This is a comment. This is a comment. This is a comment. This is a comment. This is a comment. This is a comment. " />
-                </TableRow>
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Voyage #: " />
 
-                <TableRow
-                    android:id="@+id/containerNoLayout"
+                <TextView
+                    android:id="@+id/voyageNoText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Move type:" />
+
+                <TextView
+                    android:id="@+id/moveTypeText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:text="Move type" />
+            </TableRow>
 
-                    <TextView
-                        android:id="@+id/containerNoLabel"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/container_no_label_text" />
+            <!-- This is comment layout-->
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Comment:" />
+
+                <TextView
+                    android:id="@+id/commentsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="" />
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/containerNoLabel"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/container_no_label_text" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <EditText
                         android:id="@+id/containerNoEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top"
+                        android:layout_toLeftOf="@+id/update_container_no"
                         android:inputType="textVisiblePassword" />
 
-                </TableRow>
+                    <Button
+                        android:id="@+id/update_container_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="Update"
+                        android:visibility="gone" />
+                </RelativeLayout>
 
-                <TableRow
-                    android:id="@+id/chassisNoLayout"
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chassis_no_label_text" />
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/chassis_no_label_text" />
 
                     <EditText
                         android:id="@+id/chassisNoEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/update_chassis_no"
                         android:inputType="textVisiblePassword" />
-                </TableRow>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center">
 
                     <Button
-                        android:id="@+id/startFileButton"
+                        android:id="@+id/update_chassis_no"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/start_file_button_text"
-                        android:textColor="@color/wallet_holo_blue_light" />
-                </LinearLayout>
-            </LinearLayout>
+                        android:layout_alignParentRight="true"
+                        android:text="Update"
+                        android:visibility="gone" />
+                </RelativeLayout>
+            </TableRow>
+        </LinearLayout>
 
-            <!-- End of order information -->
-            <ExpandableListView
-                android:id="@+id/legList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp" />
-        </TableLayout>
-    </ScrollView>
+        <!-- End of order information -->
+        <ExpandableListView
+            android:id="@+id/legList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp" />
+    </TableLayout>
 
     <LinearLayout
         android:id="@+id/bottomButtons"
@@ -256,17 +268,28 @@
         android:weightSum="1">
 
         <Button
+            android:id="@+id/accept_order"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="Cancel"
-            android:textColor="@color/red"></Button>
+            android:text="@string/accept"
+            android:textColor="@color/wallet_holo_blue_light" />
 
         <Button
+            android:id="@+id/reject_order"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="Confirm"
-            android:textColor="@color/wallet_holo_blue_light" />
+            android:text="@string/reject"
+            android:textColor="@color/red" />
+
+        <Button
+            android:id="@+id/startFileButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/start_file_button_text"
+            android:textColor="@color/wallet_holo_blue_light"
+            android:textStyle="bold"
+            android:visibility="gone" />
     </LinearLayout>
 </RelativeLayout>

@@ -65,7 +65,7 @@ public class OrderListCursorAdapter extends SimpleCursorAdapter {
         final TextView apptDateText = (TextView) view.findViewById(R.id.apptDateText);
         final TextView apptTimeText = (TextView) view.findViewById(R.id.apptTimeText);
         final TextView moveTypeText = (TextView) view.findViewById(R.id.moveTypeText);
-        final Button confirmButton = (Button) view.findViewById(R.id.confirmButton);
+        final Button acceptButton = (Button) view.findViewById(R.id.confirmButton);
         final Button rejectButton = (Button) view.findViewById(R.id.rejectButton);
         final boolean confirmedFlag = cursor.getInt(cursor.getColumnIndex(Order.Columns.CONFIRMED_FLAG)) == 1 ? true : false;
         final boolean hazmatFlag = cursor.getInt(cursor.getColumnIndex(Order.Columns.HAZMAT_FLAG)) == 1 ? true : false;
@@ -89,22 +89,20 @@ public class OrderListCursorAdapter extends SimpleCursorAdapter {
         apptTimeText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.APPT_TIME)));
         moveTypeText.setText(cursor.getString(cursor.getColumnIndex(Order.Columns.MOVE_TYPE)));
 
-        confirmButton.setTag(orderId);
-        rejectButton.setTag(orderId);
 
         if (confirmedFlag || _readOnly) {
-            confirmButton.setVisibility(View.GONE);
+            acceptButton.setVisibility(View.GONE);
             rejectButton.setVisibility(View.GONE);
         } else {
-            confirmButton.setVisibility(View.VISIBLE);
+            acceptButton.setVisibility(View.VISIBLE);
             rejectButton.setVisibility(View.VISIBLE);
 
-            confirmButton.setOnClickListener(new OnClickListener() {
+            acceptButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ContentValues values = new ContentValues();
                     values.put(Order.Columns.CONFIRMED_FLAG, 1);
-                    _context.getContentResolver().update(Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(v.getTag())), values, null, null);
+                    _context.getContentResolver().update(Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(orderId)), values, null, null);
 
                     JSONObject requestJson = new JSONObject();
                     try {
@@ -135,8 +133,8 @@ public class OrderListCursorAdapter extends SimpleCursorAdapter {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             _context.getContentResolver().delete(
-                                    Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(v.getTag())), null, null);
-                            deleteAssociateLegs(String.valueOf(v.getTag()));
+                                    Uri.withAppendedPath(Order.CONTENT_URI, String.valueOf(orderId)), null, null);
+                            deleteAssociateLegs(String.valueOf(orderId));
                             dialog.dismiss();
 
                             JSONObject requestJson = new JSONObject();

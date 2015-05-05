@@ -180,6 +180,9 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        if (!getUserVisibleHint()) {
+            return false;
+        }
 
         Cursor cursor = _listAdapter.getCursor();
         final long messageId = cursor.getLong(cursor.getColumnIndex(Message.Columns._ID));

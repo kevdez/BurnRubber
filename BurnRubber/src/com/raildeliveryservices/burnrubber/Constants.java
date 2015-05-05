@@ -23,7 +23,6 @@ public class Constants {
     public static final String SETTINGS_SEND_GPS_WHEN_OFFLINE = "sendGpsWhenOffline";
 
 
-
     public static final int DEFAULT_DOWNLOAD_ORDERS_SERVICE_INTERVAL = 60000;  //1 minute
     public static final int DEFAULT_DOWNLOAD_MESSAGES_SERVICE_INTERVAL = 60000; //1 minute
     public static final int DEFAULT_UPLOAD_SERVICE_INTERVAL = 60000; //1 minute
@@ -34,15 +33,15 @@ public class Constants {
     public static final int DEFAULT_SYNC_TIME_IN_SECONDS = 180;
 
 
-    public static final String BUNDLE_PARAM_ORDER_ID = "orderId";
     public static final String BUNDLE_PARAM_LEG_ID = "legId";
     public static final String BUNDLE_PARAM_FILE_NO = "fileNo";
-    public static final String BUNDLE_PARAM_READ_ONLY = "readOnly";
     public static final String BUNDLE_PARAM_TRIP_HISTORY = "tripHistory";
-    public static final String BUNDLE_PARAM_FORM_NAME = "formName";
+    public static final String BUNDLE_PARAM_SELECTED_ORDER = "order";
 
+    public static final String BUNDLE_PARAM_FORM_NAME = "formName";
     public static final int NOTIFICATION_MESSAGES = 0;
     public static final String SETTING_SYNC_TIME_IN_SECONDS = "syncTimeInSeconds";
+    public static final String BUNDLE_PARAM_ORDER_ID = "orderId";
 
     public static SimpleDateFormat ServerDateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss.s", Locale.US);
     public static SimpleDateFormat SQLiteDateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss.s", Locale.US);
