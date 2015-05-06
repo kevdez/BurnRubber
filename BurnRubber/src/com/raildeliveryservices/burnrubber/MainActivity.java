@@ -30,7 +30,7 @@ public class MainActivity extends BaseAuthActivity implements LoaderManager.Load
 
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(true);
         setupViewPager();
 
 

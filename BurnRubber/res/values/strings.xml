@@ -52,7 +52,7 @@
     <string name="canned_message_button_text">Canned</string>
     <string name="purge_message_button_text">Delete</string>
     <string name="cancel_message_button_text">Back</string>
-    <string name="message_edittext_hint">Type message</string>
+    <string name="message_edittext_hint">Type message...</string>
     <string name="cancel_form_button_text">Cancel</string>
     <string name="send_button_text">Send</string>
     <string name="online">ONLINE</string>

@@ -391,7 +391,6 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
             }
         }
 
-        getListView().setSelectionAfterHeaderView();
         Log.d(TAG, "listAdapter.notifyDataSetChanged");
     }
 
